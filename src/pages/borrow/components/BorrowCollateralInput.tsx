@@ -32,10 +32,10 @@ const trunc = (value: number): number => {
 
 export interface BorrowCollateralInputProps
   extends UIElementProps,
-    Pick<
-      CollateralInputProps,
-      'amount' | 'collateral' | 'onCollateralChange' | 'onAmountChange'
-    > {
+  Pick<
+    CollateralInputProps,
+    'amount' | 'collateral' | 'onCollateralChange' | 'onAmountChange'
+  > {
   maxCollateralAmount?: u<CollateralAmount<Big>>;
   warningMessage?: string;
 }
@@ -77,7 +77,7 @@ const Component = (props: BorrowCollateralInputProps) => {
     <div className={className}>
       <CollateralInput
         className="collateral-input"
-        whitelist={whitelist.filter((c) => c.bridgedAddress)}
+        whitelist={whitelist}
         amount={amount}
         collateral={collateral}
         onCollateralChange={onCollateralChange}
@@ -109,7 +109,7 @@ const Component = (props: BorrowCollateralInputProps) => {
         data={[
           {
             value: Math.max(Math.min(ratio, 1), 0),
-            color: Boolean(warningMessage)
+            color: warningMessage
               ? theme.colors.negative
               : theme.colors.positive,
           },

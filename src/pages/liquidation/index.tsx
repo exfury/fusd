@@ -3,7 +3,7 @@ import { CenteredLayout } from 'components/layouts/CenteredLayout';
 import { FlexTitleContainer, PageTitle } from 'components/primitives/PageTitle';
 import { links, screen } from 'env';
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { EarnProps } from 'pages/earn';
 import { useWhitelistCollateralQuery, WhitelistCollateral } from 'queries';
@@ -13,11 +13,11 @@ import { HorizontalScrollTable } from '@libs/neumorphism-ui/components/Horizonta
 import { InfoTooltip } from '@libs/neumorphism-ui/components/InfoTooltip';
 import { IconSpan } from '@libs/neumorphism-ui/components/IconSpan';
 import { useBorrowMarketQuery } from '@anchor-protocol/app-provider';
-import big, { Big, BigSource } from 'big.js';
+import big, { BigSource } from 'big.js';
 import { microfyPrice } from 'utils/microfyPrice';
 import { useAllBidByUserByCollateralQuery } from '@anchor-protocol/app-provider/queries/liquidate/allBIdsByUser';
 import { u, UST } from '@libs/types';
-import { PossibleLpIcon, TokenIcon } from '@anchor-protocol/token-icons';
+import { PossibleLpIcon } from '@anchor-protocol/token-icons';
 import { demicrofy, formatOutput, useFormatters } from '@anchor-protocol/formatter';
 import { BorderButton } from '@libs/neumorphism-ui/components/BorderButton';
 import { useAllLiquidationStats } from './components/useLiquidationGraph';
@@ -41,9 +41,8 @@ export interface CollateralLiquidationInfo {
 
 function Component({ className }: EarnProps) {
   const {
-    ust: { formatOutput: formatUSTOutput, demicrofy: demicrofyUST },
+    ust: { formatOutput: formatUSTOutput },
   } = useFormatters();
-  const [clickedBar, setClickedBar] = useState<number | undefined>();
 
   const { data: whitelist } = useWhitelistCollateralQuery();
 
@@ -61,7 +60,6 @@ function Component({ className }: EarnProps) {
     }
 
     return whitelist
-      .filter((collateral) => collateral.bridgedAddress !== undefined)
       .map((collateral) => {
         const oracle = borrowMarket.oraclePrices.prices.find(
           ({ asset }) => collateral.collateral_token === asset,
@@ -110,6 +108,7 @@ function Component({ className }: EarnProps) {
 
 
   function collateralCells(type: string) {
+    console.log(collaterals)
     return (collaterals.filter((collateral) => collateral.type == type).map(
       ({
         collateral,
