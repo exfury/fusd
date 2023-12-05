@@ -24,7 +24,7 @@ import { MAINNET, useNetwork } from '@anchor-protocol/app-provider';
 export function TerraAppProviders({
   children,
 }: UIElementProps) {
-  const { network, rpcClient } = useNetwork();
+  const { rpcClient } = useNetwork();
 
   const signerOptions = {
     signingCosmwasm: (chain: Chain) => {

@@ -7,22 +7,17 @@ import {
   formatOutput,
   demicrofy,
 } from '@anchor-protocol/formatter';
-import { PossibleLpIcon, TokenIcon } from '@anchor-protocol/token-icons';
-import { bAsset, u, UST } from '@anchor-protocol/types';
+import { PossibleLpIcon } from '@anchor-protocol/token-icons';
 import { BorderButton } from '@libs/neumorphism-ui/components/BorderButton';
 import { HorizontalScrollTable } from '@libs/neumorphism-ui/components/HorizontalScrollTable';
 import { IconSpan } from '@libs/neumorphism-ui/components/IconSpan';
 import { InfoTooltip } from '@libs/neumorphism-ui/components/InfoTooltip';
 import { Section } from '@libs/neumorphism-ui/components/Section';
 import { UIElementProps } from '@libs/ui';
-import { Launch } from '@mui/icons-material';
-import big, { Big, BigSource } from 'big.js';
-import { BuyLink } from 'components/BuyButton';
+import big from 'big.js';
 import { useAccount } from 'contexts/account';
-import { useWhitelistCollateralQuery, WhitelistCollateral } from 'queries';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { microfyPrice } from 'utils/microfyPrice';
 import { useCollaterals } from './useCollaterals';
 import { useProvideCollateralDialog } from './useProvideCollateralDialog';
 import { useRedeemCollateralDialog } from './useRedeemCollateralDialog';
@@ -59,36 +54,34 @@ export function CollateralList(props: UIElementProps) {
   //  ?provide=${collateral_address}
 
   const query = useQuery(); // If the provide argument is there, we open the provide dialog
-  const [searchParams, setSearchParams] = useSearchParams(); 
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     // For providing collateral directly
     const collateralProvideAddress = query.get("provide");
     const collateralProvide = collaterals.find((c) => c.collateral.collateral_token == collateralProvideAddress)
-    if(collateralProvide && !provideCollateralDialogElement && borrowMarket && borrowBorrower){
+    if (collateralProvide && !provideCollateralDialogElement && borrowMarket && borrowBorrower) {
       openProvideCollateralDialog({
-          collateral: collateralProvide.collateral,
-          fallbackBorrowMarket: borrowMarket,
-          fallbackBorrowBorrower: borrowBorrower,
-        })
-        setSearchParams()
+        collateral: collateralProvide.collateral,
+        fallbackBorrowMarket: borrowMarket,
+        fallbackBorrowBorrower: borrowBorrower,
+      })
+      setSearchParams()
     }
 
     // For redeeming collateral directly
     const collateralRedeemAddress = query.get("redeem");
     const collateralRedeem = collaterals.find((c) => c.collateral.collateral_token == collateralRedeemAddress)
-    if(collateralRedeem && !provideCollateralDialogElement && borrowMarket && borrowBorrower){
+    if (collateralRedeem && !provideCollateralDialogElement && borrowMarket && borrowBorrower) {
       openRedeemCollateralDialog({
-          collateral: collateralRedeem.collateral,
-          fallbackBorrowMarket: borrowMarket,
-          fallbackBorrowBorrower: borrowBorrower,
-        })
-        setSearchParams()
+        collateral: collateralRedeem.collateral,
+        fallbackBorrowMarket: borrowMarket,
+        fallbackBorrowBorrower: borrowBorrower,
+      })
+      setSearchParams()
     }
 
-  }, [collaterals, query, borrowMarket, borrowBorrower, provideCollateralDialogElement, openProvideCollateralDialog])
-
-
+  }, [collaterals, query, borrowMarket, borrowBorrower, provideCollateralDialogElement, openProvideCollateralDialog, setSearchParams, openRedeemCollateralDialog])
 
   // ---------------------------------------------
   // presentation
@@ -138,7 +131,7 @@ export function CollateralList(props: UIElementProps) {
               <tr key={collateral.collateral_token}>
                 <td>
                   <i>
-                  <PossibleLpIcon icon={collateral.icon} />
+                    <PossibleLpIcon icon={collateral.icon} />
                   </i>
                   <div>
                     <div className="coin">
@@ -174,11 +167,11 @@ export function CollateralList(props: UIElementProps) {
                     onClick={() =>
                       borrowMarket &&
                       borrowBorrower &&
-                        openProvideCollateralDialog({
-                          collateral,
-                          fallbackBorrowMarket: borrowMarket,
-                          fallbackBorrowBorrower: borrowBorrower,
-                        })
+                      openProvideCollateralDialog({
+                        collateral,
+                        fallbackBorrowMarket: borrowMarket,
+                        fallbackBorrowBorrower: borrowBorrower,
+                      })
                     }
                   >
                     Provide
