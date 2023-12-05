@@ -1,7 +1,9 @@
 import { LSDContracts, useAnchorWebapp } from "@anchor-protocol/app-provider";
+import { LSD } from "@anchor-protocol/types";
 import { useCW20Balance, useNativeBalanceQuery } from "@libs/app-provider";
-import { CW20Addr } from "@libs/types";
+import { CW20Addr, u } from "@libs/types";
 import { useAccount } from "contexts/account";
+import { RegisteredLSDs } from "env";
 
 export function useBalance(contract_addr: string | undefined) {
   const { terraWalletAddress } = useAccount();
@@ -49,6 +51,24 @@ export function getUnderlyingToken(collateral: LSDContracts | undefined) {
 }
 
 export function useLSDBalance(collateral: LSDContracts | undefined) {
-  let asset_denom = getUnderlyingToken(collateral);
+  const asset_denom = getUnderlyingToken(collateral);
   return useBalance(asset_denom?.name);
+}
+
+
+export function useAllLSDBalances() {
+
+  const { contractAddress } = useAnchorWebapp();
+
+  const lsdBalances: Record<
+    RegisteredLSDs,
+    u<LSD<RegisteredLSDs>>
+  > = {} as Record<RegisteredLSDs, u<LSD<RegisteredLSDs>>>;
+  Object.values(RegisteredLSDs).forEach((lsd: RegisteredLSDs) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    lsdBalances[lsd] = useLSDBalance(contractAddress.lsds[lsd]) as u<
+      LSD<typeof lsd>
+    >;
+  });
+  return lsdBalances
 }

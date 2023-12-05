@@ -1,15 +1,15 @@
 import { EventTarget, Event } from "event-target-shim";
 
 export class TimerEvent extends Event {
-  static TIMER_END: string = "TIMER_END";
+  static TIMER_END = "TIMER_END";
 }
 
 export class SingleTimer extends EventTarget {
-  private _started: boolean = false;
-  private _paused: boolean = false;
+  private _started = false;
+  private _paused = false;
   private _remain: number;
-  private _intervalId: number = -1;
-  private _lastTime: number = 0;
+  private _intervalId = -1;
+  private _lastTime = 0;
 
   get remain(): number {
     return this._remain;

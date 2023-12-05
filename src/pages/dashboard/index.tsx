@@ -84,7 +84,7 @@ function DashboardBase({ className }: DashboardProps) {
       depositRate: depositApy,
       borrowRate: netAPR,
     };
-  }, [blocksPerYear, borrowRate, epochState, depositApy, netAPR]);
+  }, [borrowRate, epochState, depositApy, netAPR]);
 
   const { data: { moneyMarketEpochState } = {} } = useEarnEpochStatesQuery();
   const { data: marketUST } = useMarketUstQuery();

@@ -162,7 +162,7 @@ export function Component({
 
   const invalidSwapAmount = useMemo(
     () => connected && validateSwapAmount(swapAmount, swapTokenBalances.in as Token<string>),
-    [bank, swapAmount, connected],
+    [connected, swapAmount, swapTokenBalances.in],
   );
 
   // ---------------------------------------------
@@ -219,14 +219,7 @@ export function Component({
       }
       runtfmEstimation(nextSwapAmount, slippage);
     },
-    [
-      queryClient,
-      resolveSimulation,
-      setSwapAmount,
-      setGetAmount,
-      swapTokens.in.contract_addr,
-      swapTokens.out.contract_addr,
-    ],
+    [queryClient, runtfmEstimation],
   );
 
   const updateSlippage = useCallback(
@@ -240,7 +233,7 @@ export function Component({
   useEffect(
     () => {
       runtfmEstimation(swapAmount, slippage);
-    }, [swapAmount, updateSwapAmount, slippage, swapTokens])
+    }, [swapAmount, updateSwapAmount, slippage, swapTokens, runtfmEstimation])
 
   const init = useCallback(() => {
     setGetAmount(0);
@@ -294,21 +287,10 @@ export function Component({
       return;
     }
 
-    let msg = getTFMSwapMsg(simulation?.swap, terraWalletAddress);
+    const msg = getTFMSwapMsg(simulation?.swap, terraWalletAddress);
     estimateFee([msg]);
 
-  }, [
-    terraWalletAddress,
-    bank.tokenBalances.uaLuna,
-    swapAmount,
-    connected,
-    simulation?.swap?.value?.execute_msg,
-    contractAddress.aluna.hub,
-    contractAddress.cw20.aLuna,
-    contractAddress.terraswap.alunaLunaPair,
-    estimateFee,
-    slippage,
-  ]);
+  }, [terraWalletAddress, bank.tokenBalances.uaLuna, swapAmount, connected, simulation?.swap.value.execute_msg, contractAddress.aluna.hub, contractAddress.cw20.aLuna, contractAddress.terraswap.alunaLunaPair, estimateFee, slippage, simulation?.swap, swapTokenBalances.in]);
 
   useEffect(() => {
     if (swapAmount.length > 0) {
@@ -391,7 +373,7 @@ export function Component({
   return (
     <>
       <Box sx={{ textAlign: "right", display: "flex", alignItems: "center", justifyContent: "end", color: theme.dimTextColor }}>
-        Powered by TFM <img style={{ marginLeft: "8px" }} src="/tfm-logo.png" />
+        Powered by TFM <img style={{ marginLeft: "8px" }} src="/tfm-logo.png" alt="TFM Logo" />
       </Box>
       <div className={className} style={{
         display: "flex",

@@ -8,10 +8,7 @@ export type TextInputProps = TextFieldProps & {
   readOnly?: boolean;
 };
 
-const TextInputBase: React.FC<TextInputProps> = ({
-  disableBorder,
-  ...props
-}: TextInputProps) => {
+const TextInputBase: React.FC<TextInputProps> = (props: TextInputProps) => {
   return <TextField {...props} />;
 };
 
@@ -24,15 +21,15 @@ export const TextInput = styled(TextInputBase)`
   & {
     border-radius: 5px;
     ${({ theme, readOnly, disableBorder }) =>
-      !disableBorder &&
-      softPressed({
-        color: readOnly
-          ? theme.sectionBackgroundColor
-          : theme.textInput.backgroundColor,
-        backgroundColor: theme.sectionBackgroundColor,
-        distance: 1,
-        intensity: theme.intensity * 2,
-      })};
+    !disableBorder &&
+    softPressed({
+      color: readOnly
+        ? theme.sectionBackgroundColor
+        : theme.textInput.backgroundColor,
+      backgroundColor: theme.sectionBackgroundColor,
+      distance: 1,
+      intensity: theme.intensity * 2,
+    })};
 
     :has(.MuiInputLabel-shrink) {
       box-shadow: none;
@@ -87,4 +84,4 @@ export const TextInput = styled(TextInputBase)`
       opacity: 0.5;
     }
   }
-` as any;
+`;

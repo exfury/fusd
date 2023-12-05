@@ -2,9 +2,9 @@ import { EventTarget } from "event-target-shim";
 
 export class MultiTimer extends EventTarget {
   private remains: Map<() => void, number> = new Map();
-  private started: boolean = false;
-  private intervalId: number = -1;
-  private paused: boolean = false;
+  private started = false;
+  private intervalId = -1;
+  private paused = false;
   private lastTime: number = Date.now();
 
   constructor(private readonly interval: number = 100) {

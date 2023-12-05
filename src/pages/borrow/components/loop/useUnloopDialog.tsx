@@ -31,7 +31,7 @@ export function UnloopDialog(props: DialogProps<BorrowFormParams>) {
       onProceed={proceed}
     />
   )
-};
+}
 
 
 export function useUnloopDialog() {

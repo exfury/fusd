@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-export interface WasmQuery<Query extends {}, Response extends {}> {
+export interface WasmQuery<Query, Response> {
   query: Query;
   response: Response;
 }
@@ -19,7 +19,7 @@ export type WasmQueryData<T> = {
   [P in keyof T]: T[P] extends WasmQuery<infer Q, infer R> ? R : never;
 } & { $blockHeight?: number };
 
-export interface WasmFetchBaseParams<WasmQueries extends {}> {
+export interface WasmFetchBaseParams<WasmQueries> {
   id?: string;
   wasmQuery: WasmQueryInput<WasmQueries>;
 }

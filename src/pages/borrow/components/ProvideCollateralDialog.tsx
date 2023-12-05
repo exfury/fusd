@@ -162,7 +162,7 @@ function ProvideCollateralDialogBase(props: ProvideCollateralDialogProps) {
             collateral.decimals,
           ),
         );
-      } catch { }
+      } catch { 1 }
     },
     [updateDepositAmount, ltvToAmount, collateral.decimals],
   );

@@ -60,7 +60,7 @@ export interface BorrowRedeemCollateralFormStates
   availablePost: boolean;
 }
 
-export interface BorrowRedeemCollateralFormAsyncStates {}
+export type BorrowRedeemCollateralFormAsyncStates = Record<string, never>
 
 export const borrowRedeemCollateralForm = ({
   collateral,

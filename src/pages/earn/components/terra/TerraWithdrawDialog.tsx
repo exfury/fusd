@@ -13,7 +13,7 @@ import { Big } from 'big.js';
 import { DialogProps } from '@libs/use-dialog';
 import { EstimatedFee } from '@libs/app-provider';
 
-export function TerraWithdrawDialog(props: DialogProps<{}, void>) {
+export function TerraWithdrawDialog(props: DialogProps<unknown, void>) {
   const { connected } = useAccount();
 
   const { data } = useEarnEpochStatesQuery();

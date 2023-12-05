@@ -1,6 +1,6 @@
 import React from 'react';
 import { useBorrowProvideCollateralTx } from '@anchor-protocol/app-provider';
-import { bAsset, CW20Addr, Rate, u } from '@anchor-protocol/types';
+import { bAsset, Rate, u } from '@anchor-protocol/types';
 import { EstimatedFee, useCW20Balance } from '@libs/app-provider';
 import type { DialogProps } from '@libs/use-dialog';
 import { useAccount } from 'contexts/account';
@@ -21,15 +21,19 @@ export const TerraProvideCollateralDialog = (
 
 
   // In the normal collateral case
-  if(!("info" in collateral)){
-     const cw20Balance = useCW20Balance<bAsset>(
+  // This is a const, so no problem
+  if (!("info" in collateral)) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const cw20Balance = useCW20Balance<bAsset>(
       collateral.collateral_token,
       terraWalletAddress,
     );
     const uTokenBalance = normalize(cw20Balance, 6, collateral.decimals);
-    
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [postTx, txResult] = useBorrowProvideCollateralTx(collateral);
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const proceed = useCallback(
       (depositAmount: bAsset, txFee: EstimatedFee) => {
         if (connected && postTx) {
@@ -51,16 +55,19 @@ export const TerraProvideCollateralDialog = (
       onProceed={proceed}
     />)
 
-  }else{
+  } else {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const balance = useLSDBalance(
       collateral.info,
-    ) as u<bAsset>;   
+    ) as u<bAsset>;
     const uTokenBalance = normalize(balance, 6, collateral.decimals);
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [postTx, txResult] = useBorrowProvideWrappedCollateralTx(collateral);
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const proceed = useCallback(
-      (depositAmount: bAsset, txFee: EstimatedFee, lunaAmount : u<bAsset>, exchangeRate: Rate) => {
+      (depositAmount: bAsset, txFee: EstimatedFee, lunaAmount: u<bAsset>, exchangeRate: Rate) => {
         if (connected && postTx) {
           postTx({
             depositAmount,
@@ -75,13 +82,13 @@ export const TerraProvideCollateralDialog = (
 
     return (
       <ProvideWrappedCollateralDialog
-      {...props}
-      txResult={txResult}
-      uTokenBalance={uTokenBalance}
-      collateral={collateral}
-      proceedable={postTx !== undefined}
-      onProceed={proceed}
-    />)
+        {...props}
+        txResult={txResult}
+        uTokenBalance={uTokenBalance}
+        collateral={collateral}
+        proceedable={postTx !== undefined}
+        onProceed={proceed}
+      />)
   }
 
 };

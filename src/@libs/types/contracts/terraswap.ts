@@ -10,7 +10,7 @@ import {
   u,
   UST,
 } from "@libs/types";
-
+/* eslint  @typescript-eslint/no-namespace:0 */
 export namespace terraswap {
   export type CW20AssetInfo = { token: { contract_addr: CW20Addr } };
   export type NativeAssetInfo = { native_token: { denom: NativeDenom } };
@@ -82,7 +82,7 @@ export namespace terraswap {
     // QueryMsg
     // ---------------------------------------------
     export interface Pool {
-      pool: {};
+      pool: Record<string, never>;
     }
 
     export interface PoolResponse<A extends Token, B extends Token> {

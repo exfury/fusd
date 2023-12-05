@@ -4,8 +4,7 @@ import { max, min } from "@libs/big-math";
 import { microfy } from "@libs/formatter";
 import { FormReturn } from "@libs/use-form";
 import big, { Big } from "big.js";
-import _ from "lodash";
-import { WhitelistCollateral } from "queries";
+import * as _ from "lodash-es";
 
 export interface LiquidationDepositFormInput {
   depositAmount: UST;
@@ -30,7 +29,7 @@ export interface LiquidationDepositFormStates
   invalidNextTxFee?: string;
 }
 
-export interface LiquidationDepositFormAsyncStates {}
+export type LiquidationDepositFormAsyncStates  = Record<string, never>
 
 export const liquidationDepositForm =
   ({

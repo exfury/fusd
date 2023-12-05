@@ -1,10 +1,11 @@
-import { GasPrice } from "@cosmjs/stargate";
 import { Rate } from "@libs/types";
-import { LCDClient } from "@terra-money/feather.js";
-import { LcdQueryClient, SimulateFetchParams, SimulateFetchQuery } from "..";
+import { Coins, LCDClient } from "@terra-money/feather.js";
+import { LcdQueryClient, SimulateFetchQuery } from "..";
 import { LcdFault } from "../errors";
 import { WasmFetchBaseParams, WasmQueryData } from "../interface";
 import { defaultLcdFetcher, LcdFetcher, LcdResult } from "./fetch";
+import { GasPrice } from "@libs/app-fns";
+import { MAINNET } from "@anchor-protocol/app-provider";
 
 export interface LcdFetchParams<WasmQueries>
   extends WasmFetchBaseParams<WasmQueries> {
@@ -45,7 +46,6 @@ export async function lcdFetch<WasmQueries>({
       throw new LcdFault("Unknown error: " + String(lcdResult));
     }
 
-    //@ts-ignore
     resultObject[key] = lcdResult.data;
 
     return resultObject;
@@ -70,10 +70,10 @@ export async function lcdSimulate({
   gasInfo,
 }: LCDSimulateFetchParams): Promise<number> {
   const { auth_info } = await lcdClient.tx.create([{ address: address }], {
+    chainID: MAINNET.chainID,
     msgs,
     gasAdjustment: gasInfo.gasAdjustment,
-    //@ts-ignore
-    gasPrices: gasInfo.gasPrice,
+    gasPrices: gasInfo.gasPrice as unknown as Coins.Input,
   });
 
   return auth_info.fee.gas_limit;

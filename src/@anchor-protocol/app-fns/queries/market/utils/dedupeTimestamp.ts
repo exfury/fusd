@@ -1,7 +1,7 @@
 import { JSDateTime } from "@libs/types";
 import { format } from "date-fns";
 
-export function dedupeTimestamp<Item extends {}>(
+export function dedupeTimestamp<Item>(
   data: Item[],
   timestampKey: keyof Item
 ): Item[] {
@@ -9,8 +9,7 @@ export function dedupeTimestamp<Item extends {}>(
   const indicies: Map<string, number> = new Map();
 
   for (const item of data) {
-    //@ts-ignore
-    const timestamp: JSDateTime = item[timestampKey];
+    const timestamp: JSDateTime = item[timestampKey] as unknown as JSDateTime;
 
     if (!timestamp) {
       continue;

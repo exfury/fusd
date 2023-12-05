@@ -25,7 +25,7 @@ export interface EarnWithdrawFormStates extends EarnWithdrawFormInput {
   availablePost: boolean;
 }
 
-export interface EarnWithdrawFormAsyncStates {}
+export type EarnWithdrawFormAsyncStates = Record<string, never>
 
 export const earnWithdrawForm =
   ({

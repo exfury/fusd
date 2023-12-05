@@ -169,14 +169,7 @@ export function PlaceBidSectionBase({
         ]),
       ),
     ]);
-  }, [
-    terraWalletAddress,
-    contractAddress,
-    state.depositAmount,
-    state.premium,
-    estimateFee,
-    connected,
-  ]);
+  }, [terraWalletAddress, contractAddress, state.depositAmount, state.premium, estimateFee, connected, collateral]);
 
   const renderBroadcastBidTx = useMemo(() => {
     return (
@@ -210,14 +203,7 @@ export function PlaceBidSectionBase({
         withdrawableUnderlying,
       })
     );
-  }, [
-    terraWalletAddress,
-    contractAddress.liquidation.liquidationQueueContract,
-    collateral,
-    collateralState.withdrawLpAssets,
-    withdrawableLSD,
-    withdrawableUnderlying
-  ]);
+  }, [terraWalletAddress, contractAddress.liquidation.liquidationQueueContract, collateral, collateralState.withdrawLpAssets, withdrawableLSD, withdrawableUnderlying, estimateWithdrawalFee]);
 
   const [withdrawCollateralTx, withdrawCollateralTxResult] =
     useLiquidationWithdrawCollateralTx(collateral);
@@ -342,54 +328,49 @@ export function PlaceBidSectionBase({
             state.invalidNextTxFee,
           );
         }}
+        style={{ padding: "0px 10px" }}
       >
         <Grid container spacing={3}>
           <Grid xs={12}>
             <Typography id="input-slider" gutterBottom>
               Premium ({collateral?.collateral.symbol} discount)
             </Typography>
-            <Grid container spacing={2} alignItems="center">
-              <Grid xs={12} sm={8}>
-                <CavernSlider
-                  value={state.premium || 0}
-                  defaultValue={5}
-                  step={1}
-                  marks
-                  min={0}
-                  max={30}
-                  aria-labelledby="discrete-slider"
-                  valueLabelDisplay="auto"
-                  onChange={(
-                    { target }: Event,
-                    newValue: number | number[],
-                  ) => {
-                    handleSliderChange(newValue);
-                  }}
-                  valueLabelFormat={(value) => `${value}%`}
-                />
-              </Grid>
-              <Grid xs={12} sm={4}>
-                <TextInput
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">%</InputAdornment>
-                    ),
-                  }}
-                  fullWidth
-                  value={state.premium ?? ''}
-                  margin="dense"
-                  onChange={handleInputChange}
-                  error={!!state.invalidPremium}
-                  inputProps={{
-                    'step': 1,
-                    'min': 0,
-                    'max': 30,
-                    'type': 'number',
-                    'aria-labelledby': 'input-slider',
-                  }}
-                />
-              </Grid>
-            </Grid>
+            <CavernSlider
+              value={state.premium || 0}
+              defaultValue={5}
+              step={1}
+              marks
+              min={0}
+              max={30}
+              aria-labelledby="discrete-slider"
+              valueLabelDisplay="auto"
+              onChange={(
+                { target }: Event,
+                newValue: number | number[],
+              ) => {
+                handleSliderChange(newValue);
+              }}
+              valueLabelFormat={(value) => `${value}%`}
+            />
+            <TextInput
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">%</InputAdornment>
+                ),
+              }}
+              fullWidth
+              value={state.premium ?? ''}
+              margin="dense"
+              onChange={handleInputChange}
+              error={!!state.invalidPremium}
+              inputProps={{
+                'step': 1,
+                'min': 0,
+                'max': 30,
+                'type': 'number',
+                'aria-labelledby': 'input-slider',
+              }}
+            />
             <div
               className="premium-error"
               aria-invalid={!!state.invalidPremium}
@@ -602,7 +583,7 @@ export function PlaceBidSectionBase({
         </Grid>
       </form>
       {confirmElement}
-    </PaddingSection>
+    </PaddingSection >
   );
 }
 

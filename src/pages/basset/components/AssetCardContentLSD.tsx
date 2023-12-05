@@ -31,23 +31,23 @@ export function AssetCardContentLSD({
   const { data: { claimableReward, rewardState } = {} } =
     useBLunaClaimableRewards();
 
-  const {terraWalletAddress} = useAccount();
+  const { terraWalletAddress } = useAccount();
 
   const underlyingCW20Balance = useCW20Balance(underlyingName.includes("terra") ? underlyingName as CW20Addr : undefined, terraWalletAddress);
 
 
 
-  const baseTokenBalance = useMemo(()=> {
-    if(underlyingToken.toLowerCase() == "uluna"){
+  const baseTokenBalance = useMemo(() => {
+    if (underlyingToken.toLowerCase() == "uluna") {
       return tokenBalances.uLuna
-    }else if(underlyingCW20Balance && underlyingCW20Balance != "0"){
+    } else if (underlyingCW20Balance && underlyingCW20Balance != "0") {
       return underlyingCW20Balance
-    }else if (underlyingToken in tokenBalances.otherBalances){
+    } else if (underlyingToken in tokenBalances.otherBalances) {
       return tokenBalances.otherBalances[underlyingToken]
-    }else{
+    } else {
       return "0"
     }
-  }, [tokenBalances.uLuna, tokenBalances.otherBalances])
+  }, [underlyingToken, underlyingCW20Balance, tokenBalances.otherBalances, tokenBalances.uLuna])
 
   return (
     <table>

@@ -21,7 +21,6 @@ interface CW20BalanceWasmQuery {
 export async function getAmpLPExchangeRate(
   queryClient: QueryClient,
   lsd: LSDContracts,
-  oracle: HumanAddr
 ) {
   if (!lsd.info.amp_lp) {
     throw "Expected a amp_lp like collateral token here";
@@ -57,8 +56,8 @@ export async function getAmpLPExchangeRate(
     }),
   ]);
 
-  let wrapperSupply = parseFloat(wrapperInfoResponse.tokenInfo.total_supply);
-  let wrapperBalance = parseFloat(wrapper_lsd_balance.tokenBalance.balance);
+  const wrapperSupply = parseFloat(wrapperInfoResponse.tokenInfo.total_supply);
+  const wrapperBalance = parseFloat(wrapper_lsd_balance.tokenBalance.balance);
 
   if (wrapperSupply == 0 || wrapperBalance == 0) {
     return {
@@ -87,7 +86,7 @@ interface AmpLpStateResponse {
   total_amp_lp: string;
   exchange_rate: Rate;
 
-  pair_contract: String;
+  pair_contract: string;
   locked_assets: any[];
   user_info: any;
 }
@@ -98,7 +97,6 @@ interface AmpLpStateWasmQuery {
 export async function getAmpLPLSDExchangeRate(
   queryClient: QueryClient,
   lsd: LSDContracts,
-  oracle: HumanAddr
 ) {
   if (!lsd.info.amp_lp) {
     throw "Expected a amp_lp like collateral token here";

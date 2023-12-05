@@ -5,7 +5,7 @@ import { IconSpan } from '@libs/neumorphism-ui/components/IconSpan';
 import React from 'react';
 import styled from 'styled-components';
 
-interface NotConnectedButtonProps extends ButtonBaseProps {}
+type NotConnectedButtonProps = ButtonBaseProps
 
 export function NotConnectedButtonBase({
   children,

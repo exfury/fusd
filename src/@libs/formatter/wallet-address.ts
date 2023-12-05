@@ -1,5 +1,5 @@
 export function truncate(
-  text: string = "",
+  text = "",
   [h, t]: [number, number] = [6, 6]
 ): string {
   const head = text.slice(0, h);
@@ -7,6 +7,6 @@ export function truncate(
   return text.length > h + t ? [head, tail].join("...") : text;
 }
 
-export function truncateEvm(text: string = ""): string {
+export function truncateEvm(text = ""): string {
   return truncate(text, [10, 10]);
 }

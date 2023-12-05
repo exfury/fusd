@@ -8,7 +8,7 @@ import { getWrappedCollateralMessages } from "./provideWrappedCollateral";
 import { demicrofy, microfy } from "@libs/formatter";
 import { SwapSimulationAndSwapResponse } from "pages/swap/queries/tfmQueries";
 import { getTFMSwapMsg } from "../swap/tfm";
-import _ from "lodash";
+import _ from "lodash-es";
 
 import { MIN_SWAP_AMOUNT } from "@anchor-protocol/app-fns";
 export const SLIPPAGE = 0.03;

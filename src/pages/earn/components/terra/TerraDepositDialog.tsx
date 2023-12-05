@@ -8,8 +8,9 @@ import React, { useCallback } from 'react';
 import { useAccount } from 'contexts/account';
 import { useEarnDepositTx } from '@anchor-protocol/app-provider/tx/earn/deposit';
 import { DepositDialog } from '../DepositDialog';
-import { DialogProps } from '@libs/use-dialog';
+import { DialogProps, OpenDialog, useDialog } from '@libs/use-dialog';
 import { EstimatedFee } from '@libs/app-provider';
+import { FormParams, FormReturn } from '../types';
 
 export function TerraDepositDialog(props: DialogProps<unknown>): React.JSX.Element {
   const account = useAccount();
@@ -84,4 +85,11 @@ export function TerraDepositDialog(props: DialogProps<unknown>): React.JSX.Eleme
       </>
     </DepositDialog>
   );
+}
+
+export function useTerraDepositDialog(): [
+  OpenDialog<FormParams, FormReturn>,
+  ReactNode,
+] {
+  return useDialog<FormParams, FormReturn>(TerraDepositDialog);
 }

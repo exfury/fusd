@@ -8,7 +8,8 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Table, Modal, Box, Grid, Divider } from '@mui/material';
+import { Table, Modal, Box, Divider } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -77,11 +78,11 @@ export function MyBidsSection({ className, collateral }: MyBidsSectionProps) {
       (bidByUser?.bids ?? [])
         .map((bid) => {
           // bid is activatable when wait_end is not null
-          let waitEndNotNull =
+          const waitEndNotNull =
             bid.wait_end !== undefined && bid.wait_end != null;
-          let wait_end = bid.wait_end ?? 0;
+          const wait_end = bid.wait_end ?? 0;
           // and  wait end is lower than the current time
-          let blockTimeSufficient = wait_end <= Date.now();
+          const blockTimeSufficient = wait_end <= Date.now();
 
           return waitEndNotNull && blockTimeSufficient;
         })
@@ -97,7 +98,7 @@ export function MyBidsSection({ className, collateral }: MyBidsSectionProps) {
   const [withdrawBidTx, withdrawBidTxResult] = useWithdrawLiquidationBidTx();
 
   const [feeEstimatesCallFunc, setFeeEstimatesCallFunc] = useState<{
-    [key: string]: Function;
+    [key: string]: ((el: unknown) => void) | null
   }>({});
   const [feeEstimates, setFeeEstimates] = useState<{
     [key: string]: EstimatedFee;
@@ -122,8 +123,9 @@ export function MyBidsSection({ className, collateral }: MyBidsSectionProps) {
           },
         ),
       ];
-      if (feeEstimatesCallFunc[bid.idx]) {
-        feeEstimatesCallFunc[bid.idx](msgs);
+      const callFunc = feeEstimatesCallFunc[bid.idx];
+      if (callFunc) {
+        callFunc(msgs);
       }
     });
   }, [feeEstimatesCallFunc, bidByUser, terraWalletAddress, contractAddress]);

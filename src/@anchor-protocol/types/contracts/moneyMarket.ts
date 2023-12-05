@@ -10,6 +10,7 @@ import {
 } from "@libs/types";
 import { ANC, aToken, bAsset } from "../currencies";
 
+/* eslint  @typescript-eslint/no-namespace:0 */
 export namespace moneyMarket {
   export namespace custody {
     /**

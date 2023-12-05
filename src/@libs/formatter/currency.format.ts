@@ -67,7 +67,7 @@ export function formatUTokenWithPostfixUnits(n: u<Token<BigSource>>): string {
 
 export function formatNumeric(
   n: u<Token<BigSource>>,
-  decimals: number = 6
+  decimals = 6
 ): string {
   const formatter = formatDemimal({
     decimalPoints: decimals,

@@ -1,10 +1,9 @@
 import {
-    LSDContracts,
-    useAnchorWebapp,
-    useBidByUserByCollateralQuery,
-    useBidPoolsByCollateralQuery,
-    useMarketBAssetQuery,
-    useNetwork
+  LSDContracts,
+  useAnchorWebapp,
+  useBidByUserByCollateralQuery,
+  useBidPoolsByCollateralQuery,
+  useMarketBAssetQuery,
 } from '@anchor-protocol/app-provider';
 import { useWrappedTokenDetails } from '@anchor-protocol/app-provider/queries/basset/wrappedLSDTokenDetails';
 import { useTotalCollateralsQuery } from '@anchor-protocol/app-provider/queries/liquidate/totalLiquidations';
@@ -46,16 +45,16 @@ export const useLiquidationGraph = (contractAddress: CW20Addr | undefined) => {
 
 export type LiquidationStats = {
   ratio: number,
-  otherStats: 
-    {
-      id: string;
-      title: string;
-      value: number;
-      format_func: (v: any) => string;
-    }[]
+  otherStats:
+  {
+    id: string;
+    title: string;
+    value: number;
+    format_func: (v: any) => string;
+  }[]
 }
 
-export const useMyLiquidationStats = (tokenAddress?: CW20Addr, symbol?:string, lsd?: LSDContracts): LiquidationStats => {
+export const useMyLiquidationStats = (tokenAddress?: CW20Addr, symbol?: string, lsd?: LSDContracts): LiquidationStats => {
 
   const { data: { bidPoolsByCollateral } = {} } = useBidPoolsByCollateralQuery(
     tokenAddress,
@@ -98,17 +97,17 @@ export const useMyLiquidationStats = (tokenAddress?: CW20Addr, symbol?:string, l
   );
 
   const collateralPrice = useMemo(
-    () => oraclePrices?.prices.find((price) => price.asset == tokenAddress)?.price, 
-  [oraclePrices, tokenAddress]);
+    () => oraclePrices?.prices.find((price) => price.asset == tokenAddress)?.price,
+    [oraclePrices, tokenAddress]);
 
   // Echange rate for assets not 1-1
-  const {data: wrappedTokenDetails} = useWrappedTokenDetails(lsd);
+  const { data: wrappedTokenDetails } = useWrappedTokenDetails(lsd);
 
   return useMemo(() => {
-    let lockedCollateralUSD =
+    const lockedCollateralUSD =
       (thisLockedCollateral ?? 0) * parseFloat(collateralPrice ?? '1');
-    let ratio = lockedCollateralUSD ? (poolValue ?? 0) / lockedCollateralUSD : 0;
-    let lsdExchangeRate = wrappedTokenDetails?.hubState.exchange_rate ?? "1";
+    const ratio = lockedCollateralUSD ? (poolValue ?? 0) / lockedCollateralUSD : 0;
+    const lsdExchangeRate = wrappedTokenDetails?.hubState.exchange_rate ?? "1";
 
     return {
       ratio,
@@ -141,7 +140,7 @@ export const useMyLiquidationStats = (tokenAddress?: CW20Addr, symbol?:string, l
         {
           id: "price",
           title: `${symbol} Price`,
-          value: parseFloat(collateralPrice ?? "0")*parseFloat(lsdExchangeRate),
+          value: parseFloat(collateralPrice ?? "0") * parseFloat(lsdExchangeRate),
           format_func: (v: any) => formatUST(v.toString() as UST),
         },
       ],
@@ -156,25 +155,27 @@ export type LiquidationStatsResponse = {
   liquidationStats: LiquidationStats | undefined,
 }[]
 
-export const useAllLiquidationStats = () : LiquidationStatsResponse => {
+export const useAllLiquidationStats = (): LiquidationStatsResponse => {
 
-  const {contractAddress} = useAnchorWebapp();
+  const { contractAddress } = useAnchorWebapp();
 
   // First aLuna    
-  let aLunaStats = useMyLiquidationStats(contractAddress.cw20.aLuna, "aLuna");
+  const aLunaStats = useMyLiquidationStats(contractAddress.cw20.aLuna, "aLuna");
 
   // Then LSDs
-  let lsdStats = Object.entries(contractAddress.lsds).map(([key, contracts] ) => {
-        const liquidationStats = useMyLiquidationStats(contracts.token as CW20Addr, contracts.info.symbol);
-        return {
-          name: key as RegisteredLSDs,
-          liquidationStats,
-          info: contracts
-        }
-    })
+  // contractAddress.lsds is a constant, so we can do that !
+  const lsdStats = Object.entries(contractAddress.lsds).map(([key, contracts]) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const liquidationStats = useMyLiquidationStats(contracts.token as CW20Addr, contracts.info.symbol);
+    return {
+      name: key as RegisteredLSDs,
+      liquidationStats,
+      info: contracts
+    }
+  })
 
   return [...lsdStats, {
-    name: "aLuna", 
+    name: "aLuna",
     liquidationStats: aLunaStats,
     info: {
       token: contractAddress.cw20.aLuna

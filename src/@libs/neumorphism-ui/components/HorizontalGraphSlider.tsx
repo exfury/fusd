@@ -50,11 +50,6 @@ const HorizontalGraphSliderBase = (props: HorizontalGraphSliderProps) => {
 
   useEffect(() => {
     thumb?.addEventListener('pointerdown', onDown);
-    return () => {
-      thumb?.removeEventListener('pointerdown', onDown);
-      window.removeEventListener('pointerup', onUp);
-      window.removeEventListener('pointermove', onMove);
-    };
   });
 
   const onDown = (event: PointerEvent) => {
@@ -100,7 +95,6 @@ const HorizontalGraphSliderBase = (props: HorizontalGraphSliderProps) => {
     const sliderRatio = boundedRatio(sliderPos / props.coordinateSpace.width);
 
     const newValue = boundedValue(stepForward(valueRange() * sliderRatio));
-
     props.onChange(newValue);
     event.stopPropagation();
   };
@@ -185,9 +179,9 @@ const HorizontalGraphSliderBase = (props: HorizontalGraphSliderProps) => {
   );
 };
 
-export const HorizontalGraphSlider: any = styled(
+export const HorizontalGraphSlider = styled(
   HorizontalGraphSliderBase,
-)<CoordinateProps>`
+) <CoordinateProps>`
   position: absolute;
   cursor: pointer;
 

@@ -19,10 +19,10 @@ import { SnackbarProps } from './Snackbar';
 export interface SnackbarProviderProps {
   interval?: number;
   children:
-    | ReactNode
-    | ((props: {
-        snackbarContainerRef: RefObject<HTMLDivElement>;
-      }) => ReactNode);
+  | ReactNode
+  | ((props: {
+    snackbarContainerRef: RefObject<HTMLDivElement>;
+  }) => ReactNode);
 }
 
 export interface SnackbarControl {
@@ -35,11 +35,10 @@ export interface SnackbarState {
   addSnackbar: (element: ReactElement<SnackbarProps>) => SnackbarControl;
   removeAllSnackbars: () => void;
 }
-
-// @ts-ignore
+//@ts-expect-error : This will error because we provide no default value
 const SnackbarContext: Context<SnackbarState> = createContext<SnackbarState>();
 
-let count: number = 0;
+let count = 0;
 
 export function SnackbarProvider({
   children,
@@ -59,7 +58,7 @@ export function SnackbarProvider({
       const onClose = () => {
         setContents((prevContents) => {
           const index = prevContents.findIndex(
-            ({ props }) => props.primaryId === primaryId,
+            (el) => el.props.primaryId === primaryId,
           );
 
           if (index > -1) {
@@ -74,11 +73,12 @@ export function SnackbarProvider({
 
       const onUpdate = (
         updateElement: ReactElement<SnackbarProps>,
-        resetTimer: boolean = true,
+        resetTimer = true,
       ) => {
         setContents((prevContents) => {
+
           const index = prevContents.findIndex(
-            ({ props }) => props.primaryId === primaryId,
+            (el) => el.props.primaryId === primaryId,
           );
 
           if (index > -1) {
@@ -86,7 +86,7 @@ export function SnackbarProvider({
               resetTimer &&
               typeof updateElement.props.autoClose === 'number'
             ) {
-              timer.stop(() => {});
+              timer.stop(() => { 1 });
               timer.start(updateElement.props.autoClose, onClose);
             }
 

@@ -123,7 +123,7 @@ export async function txInfoQuery({
 
           try {
             RawLog = JSON.parse(_RawLog) ?? _RawLog;
-          } catch {}
+          } catch {1}
 
           return {
             TxHash,
@@ -206,7 +206,7 @@ export async function pollTxInfo({
   const until = Date.now() + 1000 * 60 * 60;
   const untilInterval = Date.now() + 1000 * 60;
 
-  while (true) {
+  for (;;) {
     const txInfo = await txInfoQuery({
       queryClient,
       txhash,

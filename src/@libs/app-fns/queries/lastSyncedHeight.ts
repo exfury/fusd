@@ -72,8 +72,8 @@ class BlockHeightFetcher {
   private resolvers = new Set<
     [(blockHeight: number) => void, (error: unknown) => void]
   >();
-  private fetched: boolean = false;
-  private failedCount: number = 0;
+  private fetched = false;
+  private failedCount = 0;
 
   constructor(private client: QueryClient) {}
 
@@ -104,19 +104,21 @@ class BlockHeightFetcher {
         });
     } else if ("hiveEndpoint" in this.client) {
       fetchLatestBlock = this.client
-        .hiveFetcher<{}, LastSyncedHeight>(
+        .hiveFetcher<Record<string, never>, LastSyncedHeight>(
           LAST_SYNCED_HEIGHT_QUERY,
           {},
           this.client.hiveEndpoint + "?last-synced-height"
         )
         .then(({ LastSyncedHeight }) => LastSyncedHeight);
-    } else {
+    } else if(this.client.batchFetcher){
       fetchLatestBlock = this.client
-        .batchFetcher!.tendermint.latestBlock()
+        .batchFetcher.tendermint.latestBlock()
         .then((response) => {
           console.log(response.block.header.height)
           return parseInt(response.block.header.height);
         });
+    }else{
+      throw "No querier registered"
     }
 
     fetchLatestBlock
@@ -163,9 +165,11 @@ export function lastSyncedHeightQuery(client: QueryClient): Promise<number> {
     endpoint = client.batchEndpoint ?? "batch querier endpoint";
   }
 
-  if (!fetchers.has(endpoint)) {
-    fetchers.set(endpoint, new BlockHeightFetcher(client));
+  let fetchers_endpoint = fetchers.get(endpoint);
+  if (!fetchers_endpoint) {
+    fetchers_endpoint = new BlockHeightFetcher(client);
+    fetchers.set(endpoint, fetchers_endpoint);
   }
 
-  return fetchers.get(endpoint)!.fetchBlockHeight();
+  return fetchers_endpoint.fetchBlockHeight();
 }

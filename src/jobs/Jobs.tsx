@@ -18,8 +18,13 @@ export interface Jobs {
   updateLiquidationAlert: (nextValue: LiquidationAlert) => void;
 }
 
-// @ts-ignore
-const JobsContext: Context<Jobs> = createContext<Jobs>();
+const JobsContext: Context<Jobs> = createContext<Jobs>({
+  liquidationAlert: {
+    enabled: false,
+    ratio: 0
+  },
+  updateLiquidationAlert: (_) => { 1 }
+});
 
 export function JobsProvider({ children }: JobsProviderProps) {
   const [liquidationAlert, updateLiquidationAlert] = useLocalStorage<{

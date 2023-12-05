@@ -101,7 +101,7 @@ export class StablecoinChart extends Component<StablecoinChartProps> {
             enabled: false,
 
             external: ({ chart, tooltip }) => {
-              let element = this.tooltipRef.current!;
+              const element = this.tooltipRef.current!;
 
               if (tooltip.opacity === 0) {
                 element.style.opacity = '0';
@@ -127,7 +127,7 @@ export class StablecoinChart extends Component<StablecoinChartProps> {
 
                   div1.innerHTML = `${deposits} axlUSDC <span>${date}</span>`;
                   div2.innerHTML = `${borrows} axlUSDC <span>${date}</span>`;
-                } catch {}
+                } catch { 1 }
               }
 
               if (hr) {

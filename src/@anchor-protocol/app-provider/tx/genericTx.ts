@@ -1,6 +1,5 @@
 import {
   EstimatedFee,
-  useFixedFee,
   useRefetchQueries,
 } from "@libs/app-provider";
 import { useStream } from "@rx-stream/react";
@@ -25,15 +24,14 @@ export function useGenericTx() {
 
   const refetchQueries = useRefetchQueries();
 
-  const fixedFee = useFixedFee();
-
   const stream = useCallback(
     ({ msgs, txFee }: GenericTxParams) => {
       if (
         !availablePost ||
         !connected ||
         !connectedWallet ||
-        !terraWalletAddress
+        !terraWalletAddress ||
+        !queryClient
       ) {
         throw new Error("Can not post!");
       }
@@ -43,7 +41,7 @@ export function useGenericTx() {
         // post
         network: connectedWallet.network,
         post: connectedWallet.post,
-        queryClient: queryClient!,
+        queryClient: queryClient,
         txFee: txFee.txFee,
         gasFee: txFee.gasWanted,
         gasAdjustment: constants.gasAdjustment,
@@ -55,16 +53,7 @@ export function useGenericTx() {
         },
       });
     },
-    [
-      availablePost,
-      connected,
-      connectedWallet,
-      fixedFee,
-      refetchQueries,
-      terraWalletAddress,
-      constants.gasAdjustment,
-      txErrorReporter,
-    ]
+    [availablePost, connected, connectedWallet, terraWalletAddress, queryClient, constants.gasAdjustment, txErrorReporter, refetchQueries]
   );
 
   const streamReturn = useStream(stream);

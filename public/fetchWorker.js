@@ -19,7 +19,7 @@ onmessage = function (event) {
   )
     .then((res) => res.json())
     .then(({ data, errors }) => {
-      if (!!errors) {
+      if (errors) {
         if (Array.isArray(errors)) {
           postMessage({
             error: {

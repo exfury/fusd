@@ -157,7 +157,7 @@ function RedeemCollateralDialogBase(props: RedeemCollateralDialogProps) {
             collateral.decimals,
           ),
         });
-      } catch { }
+      } catch { 1 }
     },
     [input, states.ltvToAmount, collateral.decimals],
   );

@@ -9,7 +9,7 @@ import { buttonBaseStyle } from './ActionButton';
  * @see https://material-ui.com/api/button-base/
  */
 export const EmbossButton: ExtendButtonBase<
-  ButtonBaseTypeMap<{}, 'a'>
+  ButtonBaseTypeMap<unknown, 'a'>
 > = styled(ButtonBase)`
   ${buttonBaseStyle};
 
@@ -27,12 +27,12 @@ export const EmbossButton: ExtendButtonBase<
 
   &:active {
     ${({ theme }) =>
-      pressed({
-        color: theme.selector.backgroundColor,
-        backgroundColor: theme.backgroundColor,
-        distance: 1,
-        intensity: theme.intensity,
-      })};
+    pressed({
+      color: theme.selector.backgroundColor,
+      backgroundColor: theme.backgroundColor,
+      distance: 1,
+      intensity: theme.intensity,
+    })};
   }
 
   &:disabled {

@@ -1,9 +1,10 @@
 import { CW20Addr, HumanAddr, u, UST } from "@libs/types";
 
+/* eslint  @typescript-eslint/no-namespace:0 */
 export namespace basset {
   export namespace converter {
     export interface Config {
-      config: {};
+      config: Record<string, never>;
     }
 
     export interface ConfigResponse {
@@ -16,11 +17,11 @@ export namespace basset {
     // CW20 hooks
     // ---------------------------------------------
     export interface ConvertWormholeToAnchor {
-      convert_wormhole_to_anchor: {};
+      convert_wormhole_to_anchor: Record<string, never>;
     }
 
     export interface ConvertAnchorToWormhole {
-      convert_anchor_to_wormhole: {};
+      convert_anchor_to_wormhole: Record<string, never>;
     }
   }
 

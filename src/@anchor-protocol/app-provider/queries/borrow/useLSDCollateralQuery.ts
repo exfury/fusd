@@ -25,7 +25,7 @@ export type LSDCollateralResponse = {
 export function useLSDCollateralQuery(): LSDCollateralResponse {
   const { contractAddress } = useAnchorWebapp();
 
-  let lsdHubStates: LSDCollateralResponse = useMemo(
+  const lsdHubStates: LSDCollateralResponse = useMemo(
     () =>
       Object.entries(contractAddress.lsds).map(([key, contracts]) => {
         return {
@@ -37,8 +37,11 @@ export function useLSDCollateralQuery(): LSDCollateralResponse {
     [contractAddress.lsds]
   );
 
+  // We can disable the rules of hooks because the contract Addresses don't ever change
   Object.entries(contractAddress.lsds).forEach(([key, contracts], i) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const { data: details } = useWrappedTokenDetails(contracts as LSDContracts);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const { data: exchangeRate } = useLSDToUnderlyingExchangeRate(
       contracts as LSDContracts
     );

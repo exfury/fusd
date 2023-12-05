@@ -53,7 +53,7 @@ export function useLiquidationAlert({ enabled, ratio }: LiquidationAlert) {
           }, 1000 * 10);
         }
       }
-    } catch {}
+    } catch {1}
   }, [
     address,
     create,

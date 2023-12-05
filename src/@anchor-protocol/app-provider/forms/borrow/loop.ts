@@ -139,14 +139,7 @@ export function useBorrowLoopForm() {
       },
       1000
     );
-  }, [
-    emptyAsyncStates,
-    oraclePrices,
-    lsdHubStates,
-    terraWalletAddress,
-    contractAddress,
-    contractAddress.native.usd,
-  ]);
+  }, [emptyAsyncStates, oraclePrices, lsdHubStates, terraWalletAddress, contractAddress]);
 
   return useForm(
     borrowLoopForm,

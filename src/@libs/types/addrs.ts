@@ -46,6 +46,7 @@ export type WASMContractResult = {
   Result: string;
 };
 
+/* eslint  @typescript-eslint/no-namespace:0 */
 export namespace rs {
   export type u8 = number;
   export type u16 = number;

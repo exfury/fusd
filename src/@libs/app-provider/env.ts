@@ -74,7 +74,7 @@ export const EMPTY_QUERY_RESULT: UseQueryResult<undefined> = {
   isStale: false,
   status: "success",
   errorUpdateCount: 0,
-  remove: () => {},
+  remove: () => {1},
   refetch: () => Promise.resolve(EMPTY_QUERY_RESULT),
 };
 

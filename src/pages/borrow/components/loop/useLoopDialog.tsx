@@ -4,12 +4,11 @@ import { DialogProps, useDialog } from '@libs/use-dialog';
 import { useAccount } from 'contexts/account';
 import { useCallback } from 'react';
 import { useBorrowBorrowTx } from '@anchor-protocol/app-provider';
-import { BorrowFormParams } from '../types';
 import { EstimatedFee } from '@libs/app-provider';
 import { LoopDialogComponent } from './LoopDialog';
 
 
-export function LoopDialog(props: DialogProps<{}>) {
+export function LoopDialog(props: DialogProps<unknown>) {
   const { connected } = useAccount();
 
   const [postTx, txResult] = useBorrowBorrowTx();
@@ -31,7 +30,7 @@ export function LoopDialog(props: DialogProps<{}>) {
       onProceed={proceed}
     />
   )
-};
+}
 
 
 export function useLoopDialog() {

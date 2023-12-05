@@ -56,7 +56,7 @@ const useDeploymentTarget = (): UseDeploymentTargetReturn => {
 };
 
 const safeChain = (chain?: string) => {
-  if (Boolean(DEPLOYMENT_TARGETS.find((d) => d.chain === chain))) {
+  if (DEPLOYMENT_TARGETS.find((d) => d.chain === chain)) {
     return chain;
   }
 
@@ -81,7 +81,7 @@ const DeploymentTargetProvider = (props: UIElementProps) => {
     return {
       target,
       updateTarget: (chainOrTarget: Chain | DeploymentTarget) => {
-        let found =
+        const found =
           typeof chainOrTarget === 'string'
             ? DEPLOYMENT_TARGETS.find((t) => t.chain === chainOrTarget)
             : chainOrTarget;

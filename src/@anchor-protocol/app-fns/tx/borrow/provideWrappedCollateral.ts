@@ -52,7 +52,7 @@ import { BorrowMarket } from "../../queries/borrow/market";
 import { _fetchBorrowData } from "./_fetchBorrowData";
 import big from "big.js";
 import { LSDContracts } from "@anchor-protocol/app-provider";
-import _ from "lodash";
+import _ from "lodash-es";
 import { getUnderlyingToken } from "pages/swap/queries/balanceQuery";
 import { PostResponse } from "@terra-money/wallet-kit";
 

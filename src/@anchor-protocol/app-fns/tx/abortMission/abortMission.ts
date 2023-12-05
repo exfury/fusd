@@ -44,7 +44,7 @@ import big, { BigSource } from "big.js";
 import { CollateralInfo } from "pages/borrow/components/useCollaterals";
 import { Observable } from "rxjs";
 import { getLiquidationWithdrawCollateralMsg } from "../liquidate/collateral";
-import _ from "lodash";
+import _ from "lodash-es";
 import { Big } from "big.js";
 import { WithdrawableBids } from "pages/liquidation/components/useWithdrawDefaultedCollateral";
 import { PostResponse } from "@terra-money/wallet-kit";

@@ -42,6 +42,8 @@ export const HorizontalGraphSliderThumb = forwardRef<
   );
 });
 
+HorizontalGraphSliderThumb.displayName = "HorizontalGraphSliderThumb";
+
 // export const HorizontalGraphSliderThumb = forwardRef((
 //   props: HorizontalGraphSliderThumbProps, ref)
 //  => ({

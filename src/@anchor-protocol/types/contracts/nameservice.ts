@@ -1,3 +1,4 @@
+/* eslint  @typescript-eslint/no-namespace:0 */
 export namespace nameservice {
   export namespace nameserviceContract {
     export interface OwnerOf {

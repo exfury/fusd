@@ -1,13 +1,13 @@
 import { HiveFetchError } from "../errors";
 
-export type HiveFetcher = <Variables extends {}, Data>(
+export type HiveFetcher = <Variables, Data>(
   query: string,
   variables: Variables,
   endpoint: string,
   requestInit?: Omit<RequestInit, "method" | "body">
 ) => Promise<Data>;
 
-export const defaultHiveFetcher: HiveFetcher = <Variables extends {}, Data>(
+export const defaultHiveFetcher: HiveFetcher = <Variables, Data>(
   query: string,
   variables: Variables,
   endpoint: string,
@@ -28,7 +28,7 @@ export const defaultHiveFetcher: HiveFetcher = <Variables extends {}, Data>(
   })
     .then((res) => res.json())
     .then(({ data, errors }) => {
-      if (!!errors) {
+      if (errors) {
         if (Array.isArray(errors)) {
           throw new HiveFetchError(errors);
         } else {
@@ -41,7 +41,7 @@ export const defaultHiveFetcher: HiveFetcher = <Variables extends {}, Data>(
 
 const workerPool: Worker[] = [];
 
-export const webworkerHiveFetcher: HiveFetcher = <Variables extends {}, Data>(
+export const webworkerHiveFetcher: HiveFetcher = <Variables, Data>(
   query: string,
   variables: Variables,
   endpoint: string,
@@ -52,8 +52,8 @@ export const webworkerHiveFetcher: HiveFetcher = <Variables extends {}, Data>(
   }
 
   return new Promise<Data>((resolve, reject) => {
-    let aborted: boolean = false;
-    let init = requestInit?.signal
+    let aborted = false;
+    const init = requestInit?.signal
       ? { ...requestInit, signal: undefined }
       : requestInit;
 

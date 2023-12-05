@@ -40,7 +40,7 @@ export interface SendFormStates<T extends Token> extends SendFormInput<T> {
   availableTx: boolean;
 }
 
-export interface SendFormAsyncStates {}
+export type SendFormAsyncStates = Record<string, never>
 
 export type SendForm<T extends Token> = FormFunction<
   SendFormInput<T>,

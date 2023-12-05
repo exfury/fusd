@@ -19,33 +19,33 @@ describe("types/currencies", () => {
       1
     );
 
-    function fn1(amount: string) {}
+    function fn1(amount: string) {1}
 
-    function fn2(amount: u<Luna>) {}
+    function fn2(amount: u<Luna>) {1}
 
-    function fn3(amount: u<Luna<BigSource>>) {}
+    function fn3(amount: u<Luna<BigSource>>) {1}
 
-    function fn4(amount: u<Luna<Big>>) {}
+    function fn4(amount: u<Luna<Big>>) {1}
 
-    function fn5(amount: Luna & NoMicro) {}
+    function fn5(amount: Luna & NoMicro) {1}
 
     fn1(currency);
     fn2(currency);
     fn3(currency);
-    // @ts-expect-error
+    // @ts-expect-error : Currency is not assignable to u<Luna<Big>>
     fn4(currency);
-    // @ts-expect-error
+    // @ts-expect-error : Currency is not assignable to the Luna & NoMicro type, it's micro
     fn5(currency);
 
     const source: u<Luna<BigSource>> = "100" as u<Luna<BigSource>>;
 
-    // @ts-expect-error
-    const str2: string = source;
+    // @ts-expect-error : source is not castable to string 
+    const str2: string = source; 
 
-    // @ts-expect-error
-    const uLunaString2: uLuna = source;
+    // @ts-expect-error : source is not castable to uLuna because its associated type is string
+    const uLunaString2: u<Luna> = source;
 
-    // @ts-expect-error
+    // @ts-expect-error : source is micro
     const lunaBigSource2: Luna<BigSource> & NoMicro = source;
 
     expect(new Set([source, str2, uLunaString2, lunaBigSource2]).size).toBe(1);

@@ -20,7 +20,7 @@ export function useRestrictedInput(
 ): RestrictedInputReturn {
   const test: (character: string) => boolean = useMemo(() => {
     if (typeof availableCharacters === "string") {
-      const pattern: RegExp = new RegExp(`[${availableCharacters}]`);
+      const pattern = new RegExp(`[${availableCharacters}]`);
       return (character: string) => pattern.test(character);
     } else if (typeof availableCharacters === "function") {
       return availableCharacters;

@@ -21,11 +21,10 @@ export interface LiquidationWithdrawFormStates
   invalidNextTxFee?: string;
 }
 
-export interface LiquidationWithdrawFormAsyncStates {}
+export type LiquidationWithdrawFormAsyncStates  = Record<string, never>
 
 export const liquidationWithdrawForm =
   ({
-    userUUSTBalance,
     userULunaBalance,
     isConnected,
   }: LiquidationWithdrawFormDependency) =>

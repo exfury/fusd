@@ -27,7 +27,7 @@ export interface HistoryProps {
 let hashFragment = '';
 let observer: MutationObserver | null = null;
 let asyncTimerId: number | null = null;
-let scrollFunction: Function | null = null;
+let scrollFunction: ((el: unknown) => void) | null = null;
 
 
 function Component({ className }: HistoryProps) {

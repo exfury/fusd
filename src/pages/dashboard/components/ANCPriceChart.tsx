@@ -135,7 +135,7 @@ export class ANCPriceChart extends Component<ANCPriceChartProps> {
             enabled: false,
 
             external: ({ chart, tooltip }) => {
-              let element = this.tooltipRef.current!;
+              const element = this.tooltipRef.current!;
 
               if (tooltip.opacity === 0) {
                 element.style.opacity = '0';
@@ -153,7 +153,7 @@ export class ANCPriceChart extends Component<ANCPriceChartProps> {
                   const price = formatUSTWithPostfixUnits(item.anc_price);
                   const date = isLast ? 'Now' : mediumDay(item.timestamp);
                   div1.innerHTML = `${price} axlUSDC <span>${date}</span>`;
-                } catch {}
+                } catch { 1 }
               }
 
               if (hr) {

@@ -10,6 +10,7 @@ import React, {
   useState,
 } from 'react';
 import type { DefaultTheme } from 'styled-components';
+import { darkTheme } from 'themes/terra';
 
 type ThemeColor = 'light' | 'dark';
 
@@ -27,8 +28,14 @@ export interface ThemeState {
   updateTheme: (themeColor: ThemeColor) => void;
 }
 
-// @ts-ignore
-const ThemeContext: Context<ThemeState> = createContext<ThemeState>();
+const ThemeContext: Context<ThemeState> = createContext<ThemeState>({
+  themeColor: 'light',
+  theme: darkTheme,
+  switchable: false,
+  updateTheme: function (themeColor: ThemeColor): void {
+    throw new Error('Function not implemented.');
+  }
+});
 
 const storageKey = '__anchor_theme__';
 

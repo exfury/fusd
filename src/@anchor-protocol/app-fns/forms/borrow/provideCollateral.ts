@@ -59,12 +59,11 @@ export interface BorrowProvideCollateralFormStates
   availablePost: boolean;
 }
 
-export interface BorrowProvideCollateralFormAsyncStates {}
+export type BorrowProvideCollateralFormAsyncStates = Record<string, never>
 
 export const borrowProvideCollateralForm = ({
   collateral,
   fixedFee,
-  userUSTBalance,
   userLunaBalance,
   userBAssetBalance,
   bAssetLtvs,

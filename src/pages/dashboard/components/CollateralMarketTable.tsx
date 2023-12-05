@@ -37,10 +37,10 @@ export const CollateralMarketTable = (props: CollateralMarketTableProps) => {
       );
 
       // We exchange the token values with the one in memory for LSD
-      if(additionalInfo?.info?.info?.symbol){
+      if (additionalInfo?.info?.info?.symbol) {
         collateral.collateral.symbol = additionalInfo?.info?.info?.symbol;
       }
-      if(additionalInfo?.info?.info?.name){
+      if (additionalInfo?.info?.info?.name) {
         collateral.collateral.name = additionalInfo?.info?.info?.name;
       }
       const type = additionalInfo?.info?.type ?? "aLuna";
@@ -63,9 +63,9 @@ export const CollateralMarketTable = (props: CollateralMarketTableProps) => {
     return array.sort((a, b) => {
       return Big(b.tvl).minus(Big(a.tvl)).toNumber();
     });
-  }, [queriedCollaterals]);
+  }, [additionalLSDInfo, queriedCollaterals]);
 
-  function printCollaterals(type: string){
+  function printCollaterals(type: string) {
     return collaterals.filter((collateral) => collateral.type == type).map((collateral) => {
       return (
         <tr key={collateral.collateral.symbol}>

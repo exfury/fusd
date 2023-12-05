@@ -48,7 +48,7 @@ export const Basic = ({ color, close, width, height }: StoryProps) => (
   <Modal open>
     <Dialog
       color={color}
-      onClose={close ? () => {} : undefined}
+      onClose={close ? () => { 1 } : undefined}
       style={{ width, height }}
     >
       <h1 style={{ textAlign: 'center', fontWeight: 300 }}>Title</h1>

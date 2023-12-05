@@ -26,8 +26,8 @@ function getColumns(width: number, minWidth: number, gap: number): number {
     return 0;
   }
 
-  let i: number = 0;
-  const max: number = 4;
+  let i = 0;
+  const max = 4;
   while (++i < max) {
     if (width < minWidth * (i + 1) + gap * i) {
       return i;

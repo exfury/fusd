@@ -4,23 +4,14 @@ import { useAnchorWebapp } from "../../contexts/context";
 import { ANCHOR_QUERY_KEY } from "../../env";
 
 import {
-  cw20,
-  CW20Addr,
   HumanAddr,
-  NativeDenom,
   Rate,
-  Token,
-  u,
-  UST,
 } from "@libs/types";
 import {
   QueryClient,
-  wasmFetch,
-  WasmQuery,
   WasmQueryData,
 } from "@libs/query-client";
 import { LSDContracts } from "@anchor-protocol/app-provider";
-import { moneyMarket } from "@anchor-protocol/types";
 import {
   getSteakExchangeRate,
   UnderlyingHubStateWasmQuery,
@@ -46,7 +37,7 @@ export async function underlyingHubStateQuery(
   } else if (lsd.info.spectrum_lp) {
     return getSpectrumExchangeRate(queryClient, lsd, oracle);
   } else if (lsd.info.amp_lp) {
-    return getAmpLPExchangeRate(queryClient, lsd, oracle);
+    return getAmpLPExchangeRate(queryClient, lsd);
   } else {
     return {
       hubState: {

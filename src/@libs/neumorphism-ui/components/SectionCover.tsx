@@ -7,7 +7,7 @@ export interface SectionCoverProps
   height: number;
 }
 
-function SectionCoverBase({ height, ...divProps }: SectionCoverProps) {
+function SectionCoverBase(divProps: SectionCoverProps) {
   return <div {...divProps} />;
 }
 

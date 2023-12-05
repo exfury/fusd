@@ -10,7 +10,7 @@ import React, { ReactNode } from 'react';
 import { useTheme } from 'styled-components';
 import { ActionButton } from './ActionButton';
 export function useConfirm(): [OpenDialog<ConfirmParams, boolean>, ReactNode] {
-  return useDialog(Component as any);
+  return useDialog(Component);
 }
 
 export interface ConfirmParams {
@@ -56,7 +56,6 @@ export function Component({
           {disagree}
         </ActionButton>
         <ActionButton
-          autoFocus
           style={{ width: 150 }}
           onClick={() => closeDialog(true)}
         >

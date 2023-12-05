@@ -62,7 +62,7 @@ export interface BorrowProvideWrappedCollateralFormStates
   availablePost: boolean;
 }
 
-export interface BorrowProvideWrappedCollateralFormAsyncStates {}
+export type BorrowProvideWrappedCollateralFormAsyncStates = Record<string, never>
 
 export const borrowProvideWrappedCollateralForm = ({
   collateral,

@@ -33,10 +33,10 @@ export type FormReturn<States, AsyncStates> = [
 ];
 
 export type FormFunction<
-  Input extends {},
-  Dependency extends {},
-  States extends {},
-  AsyncStates extends {}
+  Input,
+  Dependency,
+  States,
+  AsyncStates
 > = (
   dependency: Dependency,
   prevDependency: Dependency | undefined
@@ -46,10 +46,10 @@ export type FormFunction<
 ) => FormReturn<States, AsyncStates>;
 
 export function useForm<
-  Input extends {},
-  Dependency extends {},
-  States extends {},
-  AsyncStates extends {}
+  Input,
+  Dependency,
+  States,
+  AsyncStates
 >(
   form: FormFunction<Input, Dependency, States, AsyncStates>,
   dependency: Dependency,
@@ -170,7 +170,7 @@ export function useForm<
 }
 
 export class Resolver<T> {
-  latestId: number = -1;
+  latestId = -1;
   subscriptions: Set<(value: T) => void> = new Set();
 
   subscribe = (subscription: (value: T) => void): (() => void) => {

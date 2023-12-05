@@ -21,7 +21,7 @@ export interface LiquidationProps {
 function Component({ className }: EarnProps) {
   const [clickedBar, setClickedBar] = useState<number | undefined>();
 
-  let { tokenSymbol } = useParams();
+  const { tokenSymbol } = useParams();
 
   const collaterals = useCollaterals();
 

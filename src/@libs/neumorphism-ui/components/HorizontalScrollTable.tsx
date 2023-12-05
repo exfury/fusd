@@ -33,9 +33,9 @@ export interface HorizontalScrollTableProps
   endPadding?: number;
 }
 
-const defaultRulerWidth: number = 5;
-const defaultStartPadding: number = 0;
-const defaultEndPadding: number = 0;
+const defaultRulerWidth = 5;
+const defaultStartPadding = 0;
+const defaultEndPadding = 0;
 
 function HorizontalScrollTableBase({
   className,
@@ -117,7 +117,7 @@ function HorizontalScrollTableBase({
   );
 }
 
-const contentPadding: number = 15;
+const contentPadding = 15;
 
 export const HorizontalScrollTable = styled(HorizontalScrollTableBase)`
   position: relative;

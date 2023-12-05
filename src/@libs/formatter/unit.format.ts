@@ -17,7 +17,7 @@ export const formatDemimal =
     decimalPoints: number;
     delimiter: boolean;
   }) =>
-  (n: BigSource, fallbackValue: string = ""): string => {
+  (n: BigSource, fallbackValue = ""): string => {
     const num = big(
       big(n)
         .mul(10 ** decimalPoints)

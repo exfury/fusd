@@ -5,7 +5,7 @@ import {
   useConvertToAUst,
 } from "@anchor-protocol/app-fns";
 import { useAnchorWebapp } from "@anchor-protocol/app-provider/contexts/context";
-import { u, UST } from "@anchor-protocol/types";
+import {  UST } from "@anchor-protocol/types";
 import { createHookMsg } from "@libs/app-fns/tx/internal";
 import { useFeeEstimationFor } from "@libs/app-provider";
 import { formatTokenInput } from "@libs/formatter";
@@ -76,13 +76,7 @@ export function useEarnWithdrawForm(): EarnWithdrawFormReturn {
         ]);
       }
     },
-    [
-      input,
-      estimateFee,
-      terraWalletAddress,
-      contractAddress.cw20.aUST,
-      contractAddress.moneyMarket.market,
-    ]
+    [input, terraWalletAddress, estimateFee, contractAddress.cw20.aUST, contractAddress.moneyMarket.market, convertToAUst]
   );
 
   return {

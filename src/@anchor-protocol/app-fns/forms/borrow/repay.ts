@@ -65,7 +65,7 @@ export interface BorrowRepayFormStates extends BorrowRepayFormInput {
   availablePost: boolean;
 }
 
-export interface BorrowRepayFormAsyncStates {}
+export type BorrowRepayFormAsyncStates = Record<string, never>
 
 export const borrowRepayForm = ({
   target,

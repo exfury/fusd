@@ -46,9 +46,6 @@ function SelectAndTextInputContainerBase({
   rightHelperText,
   error,
   children,
-  gridColumns,
-  gridRows,
-  disableColumnDivider,
   ...divProps
 }: SelectAndTextInputContainerProps) {
   return (
@@ -109,7 +106,7 @@ export const SelectAndTextInputContainer = styled(
     display: grid;
 
     grid-template-columns: ${({ gridColumns }) =>
-      parseGridTemplate(gridColumns)};
+    parseGridTemplate(gridColumns)};
     grid-template-rows: ${({ gridRows = [60] }) => parseGridTemplate(gridRows)};
 
     color: ${({ theme }) => theme.textInput.textColor};
@@ -126,48 +123,48 @@ export const SelectAndTextInputContainer = styled(
 
     > * {
       padding-left: ${({ gutters = 'large' }) =>
-        gutters === 'large' ? '20' : gutters === 'small' ? '5' : '0'}px;
+    gutters === 'large' ? '20' : gutters === 'small' ? '5' : '0'}px;
       padding-right: ${({ gutters = 'large' }) =>
-        gutters === 'large' ? '20' : gutters === 'small' ? '5' : '0'}px;
+    gutters === 'large' ? '20' : gutters === 'small' ? '5' : '0'}px;
     }
 
     > ${({ gridColumns }) => notFirstRow(gridColumns.length)} {
       border-top: 1px solid
         ${({ theme }) =>
-          rulerLightColor({
-            color: theme.textInput.backgroundColor,
-            intensity: theme.intensity,
-          })};
+    rulerLightColor({
+      color: theme.textInput.backgroundColor,
+      intensity: theme.intensity,
+    })};
     }
 
     > ${({ gridColumns, gridRows = [60] }) =>
-        notLastRow(gridColumns.length, gridRows.length)} {
+    notLastRow(gridColumns.length, gridRows.length)} {
       border-bottom: 1px solid
         ${({ theme }) =>
-          rulerShadowColor({
-            color: theme.textInput.backgroundColor,
-            intensity: theme.intensity,
-          })};
+    rulerShadowColor({
+      color: theme.textInput.backgroundColor,
+      intensity: theme.intensity,
+    })};
     }
 
     > ${({ gridColumns, disableColumnDivider }) =>
-        !disableColumnDivider && notLastColumn(gridColumns.length)} {
+    !disableColumnDivider && notLastColumn(gridColumns.length)} {
       border-right: 1px solid
         ${({ theme }) =>
-          rulerShadowColor({
-            color: theme.textInput.backgroundColor,
-            intensity: theme.intensity,
-          })};
+    rulerShadowColor({
+      color: theme.textInput.backgroundColor,
+      intensity: theme.intensity,
+    })};
     }
 
     > ${({ gridColumns, disableColumnDivider }) =>
-        !disableColumnDivider && notFirstColumn(gridColumns.length)} {
+    !disableColumnDivider && notFirstColumn(gridColumns.length)} {
       border-left: 1px solid
         ${({ theme }) =>
-          rulerLightColor({
-            color: theme.textInput.backgroundColor,
-            intensity: theme.intensity,
-          })};
+    rulerLightColor({
+      color: theme.textInput.backgroundColor,
+      intensity: theme.intensity,
+    })};
     }
 
     .MuiInput-underline:before,

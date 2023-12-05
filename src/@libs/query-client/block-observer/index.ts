@@ -14,8 +14,8 @@ interface NewBlockData {
 
 class BlockObserverImpl implements BlockObserver {
   private ws: WebSocket | null = null;
-  private blockHeight: number = -1;
-  private opened: boolean = false;
+  private blockHeight = -1;
+  private opened = false;
 
   constructor(private endpoint: string, private chainID: string) {}
 
@@ -48,7 +48,9 @@ class BlockObserverImpl implements BlockObserver {
       try {
         const data: NewBlockData = JSON.parse(evt.data);
         this.blockHeight = +data.block.header.height;
-      } catch {}
+      } catch {
+        1 // For empty catch block
+      }
     };
 
     ws.onclose = () => {

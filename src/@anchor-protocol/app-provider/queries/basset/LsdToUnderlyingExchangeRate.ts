@@ -30,9 +30,9 @@ export async function lSDToUnderlyingExchangeRateQuery(
     const state = await getCoinExchangeRate(queryClient, lsd, oracle);
     return state.hubState.exchange_rate;
   } else if (lsd.info.spectrum_lp) {
-    return getSpectrumLSDExchangeRate(queryClient, lsd, oracle);
+    return getSpectrumLSDExchangeRate(queryClient, lsd);
   } else if (lsd.info.amp_lp) {
-    return getAmpLPLSDExchangeRate(queryClient, lsd, oracle);
+    return getAmpLPLSDExchangeRate(queryClient, lsd);
   } else {
     return "1" as Rate<string>;
   }

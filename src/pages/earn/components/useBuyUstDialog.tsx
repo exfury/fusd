@@ -63,7 +63,7 @@ export function KadoDialog(props: KadoDialogProps) {
   return (
     <MaterialUIDialog onClose={handleClose} open={open}>
       <DialogTitle>Buy axlUSDC on Kado OnRamp</DialogTitle>
-      <iframe src="https://app.kado.money/?onPayCurrency=USD&onRevCurrency=USDC&network=TERRA" width="480" height="620" style={{ border: "0px" }}></iframe>
+      <iframe title="buy-kado-money" src="https://app.kado.money/?onPayCurrency=USD&onRevCurrency=USDC&network=TERRA" width="480" height="620" style={{ border: "0px" }}></iframe>
     </MaterialUIDialog>
   );
 }

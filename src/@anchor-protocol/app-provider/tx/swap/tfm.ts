@@ -59,18 +59,7 @@ export function useTFMSwapTx() {
         },
       });
     },
-    [
-      availablePost,
-      connected,
-      connectedWallet,
-      contractAddress.cw20.aLuna,
-      contractAddress.terraswap.alunaLunaPair,
-      terraWalletAddress,
-      constants.gasAdjustment,
-      queryClient,
-      txErrorReporter,
-      refetchQueries,
-    ]
+    [availablePost, connected, connectedWallet, terraWalletAddress, constants.gasAdjustment, queryClient, txErrorReporter, refetchQueries]
   );
 
   const streamReturn = useStream(stream);

@@ -9,6 +9,7 @@ import {
 } from "@libs/types";
 import { aLuna } from "../currencies";
 
+/* eslint  @typescript-eslint/no-namespace:0 */
 export namespace liquidation {
   export namespace liquidationContract {
     /**
@@ -155,7 +156,7 @@ export namespace liquidation {
      */
     export interface BidPool {
       bid_pool: {
-        collateral_token: String;
+        collateral_token: string;
         bid_slot: number;
       };
     }

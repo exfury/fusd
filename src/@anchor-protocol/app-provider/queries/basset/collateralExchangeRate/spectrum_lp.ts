@@ -57,8 +57,8 @@ export async function getSpectrumExchangeRate(
     }),
   ]);
 
-  let wrapperSupply = parseFloat(wrapperInfoResponse.tokenInfo.total_supply);
-  let wrapperBalance = parseFloat(wrapper_lsd_balance.tokenBalance.balance);
+  const wrapperSupply = parseFloat(wrapperInfoResponse.tokenInfo.total_supply);
+  const wrapperBalance = parseFloat(wrapper_lsd_balance.tokenBalance.balance);
 
   if (wrapperSupply == 0 || wrapperBalance == 0) {
     return {
@@ -78,7 +78,7 @@ export async function getSpectrumExchangeRate(
 }
 
 interface CTokenState {
-  state: {};
+  state: Record<string, never>
 }
 interface CTokenStateResponse {
   total_bond_share: string;
@@ -107,7 +107,6 @@ interface UserInfoWasmQuery {
 export async function getSpectrumLSDExchangeRate(
   queryClient: QueryClient,
   lsd: LSDContracts,
-  oracle: HumanAddr
 ) {
   if (!lsd.info.spectrum_lp) {
     throw "Expected a spectrum like collateral token here";
@@ -144,8 +143,8 @@ export async function getSpectrumLSDExchangeRate(
     }),
   ]);
 
-  let share = parseFloat(cStateResponse.state.total_bond_share);
-  let amount = parseFloat(userInfoResponse.user_info.bond_amount);
+  const share = parseFloat(cStateResponse.state.total_bond_share);
+  const amount = parseFloat(userInfoResponse.user_info.bond_amount);
 
   if (share == 0 || amount == 0) {
     return "1" as Rate<string>;

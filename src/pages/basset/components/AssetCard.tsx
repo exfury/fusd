@@ -29,7 +29,7 @@ function Component({
   return (
     <li className={className}>
       {to.includes("http") &&
-        <a href={to} target={"_blank"}>
+        <a href={to} target={"_blank"} rel="noreferrer">
           <h3>
             <i>
               {originAssetIcon}

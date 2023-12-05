@@ -58,7 +58,7 @@ describe("wasm query test", () => {
   });
 
   test("should get wasm json result from hive client", async () => {
-    const result = await hiveFetch<TestQuery>({
+    const result = await hiveFetch<TestQuery, unknown, unknown>({
       wasmQuery: testQuery,
       hiveEndpoint: "https://pisco-mantle.terra.dev",
       variables: {},

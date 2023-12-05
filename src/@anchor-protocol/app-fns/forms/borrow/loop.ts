@@ -79,17 +79,9 @@ export interface BorrowLoopFormAsyncStates {
 
 export const borrowLoopForm = ({
   oraclePrices,
-  lsdHubStates,
-
   connected,
-  terraWalletAddress,
-
-  contractAddress,
-
   borrowRate,
-  stableDenom,
   blocksPerYear,
-
   getLoopsAndMessages,
 }: BorrowLoopFormDependency) => {
   const apr = computeBorrowAPR(borrowRate, blocksPerYear);
@@ -164,8 +156,7 @@ export const borrowLoopForm = ({
     const collateralBalance = maxCollateralAmount ?? "0";
 
     let invalidCollateralAmount = undefined;
-    if (!collateralAmount || collateralAmount.length === 0) {
-    } else if (microfy(collateralAmount).gt(collateralBalance)) {
+    if (collateralAmount && collateralAmount.length !== 0 && microfy(collateralAmount).gt(collateralBalance)) {
       invalidCollateralAmount = `Not enough assets`;
     }
 

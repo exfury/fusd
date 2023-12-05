@@ -153,14 +153,7 @@ function RedeemWrappedCollateralDialogBase(props: RedeemCollateralDialogProps) {
           },
         }),
     ]);
-  }, [
-    terraWalletAddress,
-    contractAddress.moneyMarket.overseer,
-    props.collateral,
-    estimateFee,
-    connected,
-    states.redeemWrappedAmount,
-  ]);
+  }, [terraWalletAddress, contractAddress.moneyMarket.overseer, props.collateral, estimateFee, connected, states.redeemWrappedAmount, collateral.info.token]);
 
   const onLtvChange = useCallback(
     (nextLtv: Rate<Big>) => {
@@ -173,7 +166,7 @@ function RedeemWrappedCollateralDialogBase(props: RedeemCollateralDialogProps) {
             collateral.decimals,
           ),
         });
-      } catch { }
+      } catch { 1 }
     },
     [input, states.ltvToAmount, collateral.decimals],
   );

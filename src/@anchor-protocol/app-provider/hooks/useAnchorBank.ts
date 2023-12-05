@@ -20,8 +20,7 @@ import {
 import { useMemo } from "react";
 import { useAccount } from "contexts/account";
 import { useAnchorWebapp } from "../contexts/context";
-import { RegisteredLSDs } from "env";
-import { useLSDBalance } from "pages/swap/queries/balanceQuery";
+import { useAllLSDBalances } from "pages/swap/queries/balanceQuery";
 
 export interface AnchorBank {
   tax: AnchorTax;
@@ -63,15 +62,7 @@ export function useAnchorBank(): AnchorBank {
     terraWalletAddress
   );
 
-  let lsdBalances: Record<
-    RegisteredLSDs,
-    u<LSD<RegisteredLSDs>>
-  > = {} as Record<RegisteredLSDs, u<LSD<RegisteredLSDs>>>;
-  Object.values(RegisteredLSDs).forEach((lsd: RegisteredLSDs) => {
-    lsdBalances[lsd] = useLSDBalance(contractAddress.lsds[lsd]) as u<
-      LSD<typeof lsd>
-    >;
-  });
+  const lsdBalances = useAllLSDBalances();
 
   return useMemo(() => {
     return {

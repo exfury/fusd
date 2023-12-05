@@ -11,7 +11,6 @@ export interface ThemeProviderProps {
 
 export function ThemeProvider({
   children,
-  injectFirst = true,
   theme,
 }: ThemeProviderProps) {
   return (

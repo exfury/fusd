@@ -1,5 +1,6 @@
 import { HumanAddr, Token, u } from "@libs/types";
 
+/* eslint  @typescript-eslint/no-namespace:0 */
 export namespace cw20 {
   // ---------------------------------------------
   // HandleMsg
@@ -8,7 +9,7 @@ export namespace cw20 {
     increase_allowance: {
       spender: HumanAddr;
       amount: u<Token>;
-      expires?: { at_height: number } | { at_time: number } | { never: {} };
+      expires?: { at_height: number } | { at_time: number } | { never: Record<string, never> };
     };
   }
 
@@ -34,7 +35,7 @@ export namespace cw20 {
   }
 
   export interface TokenInfo {
-    token_info: {};
+    token_info: Record<string, never>;
   }
 
   export interface TokenInfoResponse<T extends Token> {
@@ -45,7 +46,7 @@ export namespace cw20 {
   }
 
   export interface Minter {
-    minter: {};
+    minter: Record<string, never>;
   }
 
   export interface MinterResponse {

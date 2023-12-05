@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 export class Resolver<T> {
-  latestId: number = -1;
+  latestId = -1;
   subscriptions: Set<(value: T) => void> = new Set();
 
   subscribe = (subscription: (value: T) => void): (() => void) => {
@@ -54,7 +54,7 @@ export function useResolveLast<T>(
     return () => {
       resolver.destroy();
     };
-  }, [resolver]);
+  }, [onResolve, resolver]);
 
   return [resolve, state];
 }

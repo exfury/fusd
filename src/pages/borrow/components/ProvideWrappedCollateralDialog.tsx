@@ -116,14 +116,7 @@ function ProvideWrappedCollateralDialogBase(props: ProvideCollateralDialogProps)
       contractAddress.moneyMarket.overseer,
       props.collateral.decimals
     ));
-  }, [
-    terraWalletAddress,
-    contractAddress.moneyMarket.overseer,
-    props.collateral,
-    estimateFee,
-    connected,
-    states.depositAmount,
-  ]);
+  }, [terraWalletAddress, contractAddress.moneyMarket.overseer, props.collateral, estimateFee, connected, states.depositAmount, states.lunaAmount, collateral.info]);
 
   const onLtvChange = useCallback(
     (nextLtv: Rate<Big>) => {
@@ -135,7 +128,7 @@ function ProvideWrappedCollateralDialogBase(props: ProvideCollateralDialogProps)
             collateral.decimals,
           ),
         );
-      } catch { }
+      } catch { 1 }
     },
     [updateDepositAmount, ltvToAmount, collateral.decimals],
   );

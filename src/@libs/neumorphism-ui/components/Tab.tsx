@@ -39,10 +39,10 @@ export interface TabProps<T> extends TabBaseProps<T> {
   style?: CSSProperties;
 }
 
-const defaultHeight: number = 60;
-const buttonPadding: number = 4; // top + bottom
-const defaultFontSize: number = 14;
-const defualtBorderRadius: number = 25;
+const defaultHeight = 60;
+const buttonPadding = 4; // top + bottom
+const defaultFontSize = 14;
+const defualtBorderRadius = 25;
 
 function TabBase<T>({
   className,

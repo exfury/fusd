@@ -1,4 +1,3 @@
-import { GasPrice } from "@cosmjs/stargate";
 import { Rate } from "@libs/types";
 import { LCDClient } from "@terra-money/feather.js";
 import { hiveFetch } from "./hive/client";
@@ -8,6 +7,7 @@ import { batchFetch, batchSimulate } from "./lcd/batchclient";
 import { BatchQuery } from "./lcd/batchfetch";
 import { lcdFetch, lcdSimulate } from "./lcd/client";
 import { LcdFetcher } from "./lcd/fetch";
+import { GasPrice } from "@libs/app-fns";
 
 export class BatchQueryClient {
   batchEndpoint: string | undefined;
@@ -38,7 +38,7 @@ export async function wasmFetch<WasmQueries>(
   if ("lcdEndpoint" in params) {
     return lcdFetch<WasmQueries>(params);
   } else if ("hiveEndpoint" in params) {
-    return hiveFetch<WasmQueries>({ ...params, variables: {} });
+    return hiveFetch<WasmQueries, unknown, unknown>({ ...params, variables: {} });
   } else {
     return batchFetch<WasmQueries>(params);
   }

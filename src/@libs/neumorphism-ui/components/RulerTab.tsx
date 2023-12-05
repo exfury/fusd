@@ -17,9 +17,9 @@ export interface RulerTabProps<T> extends TabBaseProps<T> {
   style?: CSSProperties;
 }
 
-const defaultRulerWidth: number = 5;
-const defaultItemWidth: number = 112;
-const defaultHeight: number = 50;
+const defaultRulerWidth = 5;
+const defaultItemWidth = 112;
+const defaultHeight = 50;
 
 function RulerTabBase<T>({
   className,

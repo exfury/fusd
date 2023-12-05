@@ -24,9 +24,9 @@ export interface Rect {
   height: number;
 }
 
-const padding: number = 2;
-const defaultBarHeight: number = 14;
-const defaultBoxRadius: number = 7;
+const padding = 2;
+const defaultBarHeight = 14;
+const defaultBoxRadius = 7;
 
 export interface HorizontalGraphBarProps<T>
   extends Omit<

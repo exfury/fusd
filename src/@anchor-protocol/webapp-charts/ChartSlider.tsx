@@ -34,10 +34,10 @@ function getPosition(props: ChartSliderProps) {
 }
 
 export class ChartSlider extends Component<ChartSliderProps, ChartSliderState> {
-  private active: boolean = false;
-  private cursorStart: number = 0;
-  private thumbStart: number = 0;
-  private thumbMin: number = 0;
+  private active = false;
+  private cursorStart = 0;
+  private thumbStart = 0;
+  private thumbMin = 0;
   private thumbMax: number = Number.MAX_SAFE_INTEGER;
 
   private thumb!: SVGGElement;

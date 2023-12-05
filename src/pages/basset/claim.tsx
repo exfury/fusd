@@ -87,7 +87,7 @@ function Component({ className }: BAssetClaimProps) {
 
   const invalidTxFee = useMemo(
     () => !!connectedWallet && !!estimatedFee && validateTxFee(tokenBalances.uLuna, estimatedFee.txFee),
-    [connectedWallet, tokenBalances.uUST, estimatedFee?.txFee],
+    [connectedWallet, estimatedFee, tokenBalances.uLuna],
   );
 
   // ---------------------------------------------

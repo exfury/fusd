@@ -26,7 +26,7 @@ function PaginationBase({
     const totalPages = Math.ceil(totalItems / viewItems);
 
     let startPage = Math.max(0, Math.ceil(pageIndex - viewPages / 2));
-    let endPage = Math.min(totalPages, startPage + viewPages);
+    const endPage = Math.min(totalPages, startPage + viewPages);
 
     if (endPage === totalPages) {
       startPage = Math.max(0, endPage - viewPages);

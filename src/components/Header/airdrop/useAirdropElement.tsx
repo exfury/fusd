@@ -3,7 +3,7 @@ import { useMatch } from 'react-router-dom';
 import { useAirdropCheckQuery } from '@anchor-protocol/app-provider';
 import { AirdropContent } from './AirdropContent';
 
-let _airdropClosed: boolean = false;
+let _airdropClosed = false;
 
 export function useAirdropElement(open: boolean, isMobileLayout: boolean) {
   const { data: airdrop, isLoading: airdropIsLoading } = useAirdropCheckQuery();

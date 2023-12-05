@@ -11,7 +11,7 @@ import React from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import styled from 'styled-components';
 
-export interface DiscloseSlippageSelectorProps extends SlippageSelectorProps { }
+export type DiscloseSlippageSelectorProps = SlippageSelectorProps
 
 function Component({
   className,

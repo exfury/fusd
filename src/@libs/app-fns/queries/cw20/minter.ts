@@ -16,7 +16,7 @@ export type CW20Minter = WasmQueryData<CW20MinterWasmQuery>;
 export async function cw20MinterQuery(
   tokenAddr: CW20Addr,
   queryClient: QueryClient,
-  ignoreCache: boolean = false
+  ignoreCache = false
 ): Promise<CW20Minter> {
   if (!ignoreCache && cw20MinterCache.has(tokenAddr)) {
     return {

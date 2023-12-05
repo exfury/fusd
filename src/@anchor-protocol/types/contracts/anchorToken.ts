@@ -9,13 +9,14 @@ import {
 import { ANC, AncUstLP } from "../currencies";
 import { moneyMarket } from "./moneyMarket";
 
+/* eslint  @typescript-eslint/no-namespace:0 */
 export namespace anchorToken {
   export namespace collector {
     /**
      * @see https://anchor-protocol.gitbook.io/anchor-2/smart-contracts/anchor-token/collector#config-1
      */
     export interface Config {
-      config: {};
+      config: Record<string, never>;
     }
 
     /**
@@ -35,7 +36,7 @@ export namespace anchorToken {
      * @see https://anchor-protocol.gitbook.io/anchor-2/smart-contracts/anchor-token/community#config-1
      */
     export interface Config {
-      config: {};
+      config: Record<string, never>;
     }
 
     /**
@@ -63,7 +64,7 @@ export namespace anchorToken {
      * @see https://anchor-protocol.gitbook.io/anchor-2/smart-contracts/anchor-token/dripper#config-1
      */
     export interface Config {
-      config: {};
+      config: Record<string, never>;
     }
 
     /**
@@ -82,7 +83,7 @@ export namespace anchorToken {
      * @see https://anchor-protocol.gitbook.io/anchor-2/smart-contracts/anchor-token/gov#config-1
      */
     export interface Config {
-      config: {};
+      config: Record<string, never>;
     }
 
     /**
@@ -201,7 +202,7 @@ export namespace anchorToken {
      * @see https://anchor-protocol.gitbook.io/anchor-2/smart-contracts/anchor-token/gov#state
      */
     export interface State {
-      state: {};
+      state: Record<string, never>;
     }
 
     /**
@@ -244,7 +245,7 @@ export namespace anchorToken {
      * @see https://anchor-protocol.gitbook.io/anchor-2/smart-contracts/anchor-token/staking#config-1
      */
     export interface Config {
-      config: {};
+      config: Record<string, never>;
     }
 
     /**

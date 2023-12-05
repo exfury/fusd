@@ -8,7 +8,7 @@ import { defaultHiveFetcher, HiveFetcher } from "./fetch";
 import { createDocumentNode, findSelectionSet } from "./gql";
 import { parseWasmQueryRawData, wasmQueryToFields } from "./wasm";
 
-export interface HiveFetchParams<WasmQueries, QueryVariables extends {} = {}>
+export interface HiveFetchParams<WasmQueries, QueryVariables>
   extends WasmFetchBaseParams<WasmQueries> {
   query?: string;
   variables: QueryVariables;
@@ -19,8 +19,8 @@ export interface HiveFetchParams<WasmQueries, QueryVariables extends {} = {}>
 
 export async function hiveFetch<
   WasmQueries,
-  GraphqlQueryVariables extends {} = {},
-  GraphqlQueryResult extends {} = {}
+  GraphqlQueryVariables,
+  GraphqlQueryResult
 >({
   id,
   query,

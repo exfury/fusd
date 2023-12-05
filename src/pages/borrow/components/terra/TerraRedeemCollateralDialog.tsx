@@ -25,11 +25,13 @@ export const TerraRedeemCollateralDialog = (
 
   const uTokenBalance = normalize(cw20Balance, 6, collateral.decimals);
 
-  if(!("info" in collateral))
-  {
+  /// We can add no warnings here, because collateral is a constant
+  if (!("info" in collateral)) {
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [postTx, txResult] = useBorrowRedeemCollateralTx(collateral);
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const proceed = useCallback(
       (redeemAmount: bAsset, txFee: EstimatedFee) => {
         if (connected && postTx) {
@@ -39,7 +41,7 @@ export const TerraRedeemCollateralDialog = (
       [connected, postTx],
     );
 
-    return  (
+    return (
       <RedeemCollateralDialog
         {...props}
         txResult={txResult}
@@ -49,10 +51,12 @@ export const TerraRedeemCollateralDialog = (
         onProceed={proceed}
       />)
 
-  }else{
+  } else {
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [postTx, txResult] = useBorrowRedeemWrappedCollateralTx(collateral);
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const proceed = useCallback(
       (redeemWrappedAmount: u<bAsset>, txFee: EstimatedFee, exchangeRate: Rate) => {
         if (connected && postTx) {
@@ -61,7 +65,7 @@ export const TerraRedeemCollateralDialog = (
       },
       [connected, postTx],
     );
-    return ( <RedeemWrappedCollateralDialog
+    return (<RedeemWrappedCollateralDialog
       {...props}
       txResult={txResult}
       collateral={collateral}

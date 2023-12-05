@@ -19,7 +19,7 @@ const errorMap = {
 
 function mapEstimateFeeError(error: Error): string {
   const stringError = error.toString()
-  for (let [key, value] of Object.entries(errorMap)) {
+  for (const [key, value] of Object.entries(errorMap)) {
     if (stringError.includes(key)) {
       return value
     }
@@ -53,7 +53,7 @@ export function useEstimateFee(
 
   return useCallback(
     async (msgs: Msg[]) => {
-      if (!walletAddress) {
+      if (!walletAddress || !queryClient) {
         return undefined;
       }
 
@@ -65,7 +65,6 @@ export function useEstimateFee(
         lcdClient,
         gasInfo: {
           gasAdjustment: constants.gasAdjustment,
-          //@ts-ignore
           gasPrice: gasPrice,
         }
       })
@@ -130,7 +129,6 @@ export function useFeeEstimationFor(
             setEstimatedFee(undefined);
             setIsEstimatingFee(false);
           })
-          .then((ui) => { });
       }, 500);
     }, [estimateFee, setEstimatedFeeError, setEstimatedFee]),
     isEstimatingFee

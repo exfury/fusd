@@ -13,7 +13,7 @@ import {
 import React, { ReactNode, useRef } from 'react';
 import styled from 'styled-components';
 
-let count: number = 0;
+let count = 0;
 
 export default {
   title: 'core/Snackbar',

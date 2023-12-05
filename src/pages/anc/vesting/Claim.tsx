@@ -77,7 +77,7 @@ function ClaimBase(props: UIElementProps) {
     const onExit =
       vestingClaimResult.status === StreamStatus.DONE
         ? () => navigate('/mypage')
-        : () => { };
+        : () => { 1 };
 
     return (
       <CenteredLayout className={className} maxWidth={800}>

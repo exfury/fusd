@@ -74,7 +74,7 @@ export async function borrowAPYQuery(
     });
 
   // State is updated around every 3 hrs
-  let rewardsAPY = big(marketState.prev_borrower_incentives)
+  const rewardsAPY = big(marketState.prev_borrower_incentives)
     .mul(8 * 365)
     .div(marketState.total_liabilities);
 

@@ -29,7 +29,7 @@ export interface EarnDepositFormStates extends EarnDepositFormInput {
   invalidNextTxFee?: string;
 }
 
-export interface EarnDepositFormAsyncStates {}
+export type EarnDepositFormAsyncStates = Record<string, never>
 
 export const earnDepositForm =
   ({

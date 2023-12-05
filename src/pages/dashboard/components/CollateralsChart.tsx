@@ -93,7 +93,7 @@ export class CollateralsChart extends Component<CollateralsChartProps> {
             enabled: false,
 
             external: ({ chart, tooltip }) => {
-              let element = this.tooltipRef.current!;
+              const element = this.tooltipRef.current!;
 
               if (tooltip.opacity === 0) {
                 element.style.opacity = '0';

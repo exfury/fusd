@@ -4,9 +4,7 @@ import {
 } from '@anchor-protocol/app-fns';
 import {
   useAnchorBank,
-  useAnchorWebapp,
   useBorrowMarketQuery,
-  useLSDCollateralQuery,
 } from '@anchor-protocol/app-provider';
 import {
   formatLuna,
@@ -51,7 +49,7 @@ import { CavernSlider } from 'pages/liquidation/components/PlaceBidSection';
 import { SelectAndTextInputContainerLabel } from '@libs/neumorphism-ui/components/SelectAndTextInputContainer';
 import { TokenIcon } from '@anchor-protocol/token-icons';
 import { ArrowDropDown } from '@mui/icons-material';
-import { useBalance, useLSDBalance } from 'pages/swap/queries/balanceQuery';
+import { useLSDBalance } from 'pages/swap/queries/balanceQuery';
 import { formatOutput } from '@anchor-protocol/formatter';
 import { useGenericTx } from '@anchor-protocol/app-provider/tx/genericTx';
 import { ViewAddressWarning } from 'components/ViewAddressWarning';
@@ -195,7 +193,7 @@ function BorrowDialogBase(props: BorrowDialogProps) {
       }
       proceedGenericTx({ msgs, txFee: estimatedFee });
     },
-    [onProceed, connected, estimatedFee, openConfirm, availablePost],
+    [connected, onProceed, estimatedFee, availablePost, proceedGenericTx, openConfirm],
   );
 
   const {
@@ -230,7 +228,7 @@ function BorrowDialogBase(props: BorrowDialogProps) {
       onCollateralChanged(token);
     }
     setCollaterallAnchorEl(null);
-  }, [setLoopToken, setCollaterallAnchorEl]);
+  }, [setLoopToken, setCollaterallAnchorEl, onCollateralChanged]);
 
   useEffect(() => {
     if (!states.executeMsgs) {
@@ -258,7 +256,7 @@ function BorrowDialogBase(props: BorrowDialogProps) {
         ? "Not enough transaction fees"
         : undefined;
     })();
-  }, [estimatedFee?.txFee, uLuna])
+  }, [connected, estimatedFee?.txFee, uLuna])
 
 
   // ---------------------------------------------

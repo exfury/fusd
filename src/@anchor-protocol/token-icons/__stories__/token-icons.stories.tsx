@@ -18,6 +18,7 @@ export const Token_Icons = () => {
               <Tooltip
                 title={`<TokenIcon token="${token}" variant="${variant}"/>`}
                 placement="right"
+                key={variant + size}
               >
                 <div key={token + variant}>
                   <TokenIcon token={token} variant={variant} />
@@ -44,7 +45,7 @@ const Grid = styled(
   ({ children, className }: { children: ReactNode[]; className?: string }) => (
     <section className={className}>{children}</section>
   ),
-)<{ size: number }>`
+) <{ size: number }>`
   display: grid;
   grid-template-columns: repeat(${variants.length}, ${({ size }) => size}px);
   grid-template-rows: repeat(${tokens.length}, ${({ size }) => size}px);

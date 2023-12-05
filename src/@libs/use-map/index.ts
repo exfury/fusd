@@ -12,11 +12,11 @@ export const shallowEqual =
     return true;
   };
 
-type FieldsValues<R extends {}> = {
+type FieldsValues<R> = {
   [K in keyof R]: R[K] | undefined;
 };
 
-export type Mapped<T extends {}, R extends {}> = FieldsValues<R> & {
+export type Mapped<T, R> = FieldsValues<R> & {
   __data: T | undefined;
 };
 
@@ -24,13 +24,13 @@ export type Map<T, R> = {
   [K in keyof R]: (existing: Mapped<T, R>, incoming: T) => R[K] | undefined;
 };
 
-export function createMap<T extends {}, R extends {}>(
+export function createMap<T, R>(
   map: Map<T, R>
 ): Map<T, R> {
   return map;
 }
 
-export function useMap<T extends {}, R extends {}>(
+export function useMap<T, R>(
   data: T | null | undefined,
   map: Map<T, R>,
   { ignoreNullData = true }: { ignoreNullData?: boolean } = {}
@@ -76,7 +76,7 @@ export function useMap<T extends {}, R extends {}>(
   }, [data, ignoreNullData]);
 }
 
-export function map<T extends {}, R extends {}>(
+export function map<T, R>(
   data: T,
   map: Map<T, R>
 ): Mapped<T, R> {

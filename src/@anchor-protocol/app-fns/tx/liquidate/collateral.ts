@@ -34,7 +34,7 @@ import {
 } from "@terra-money/feather.js";
 import { NetworkInfo } from "utils/consts";
 import { Observable } from "rxjs";
-import _ from "lodash";
+import _ from "lodash-es";
 import { CollateralInfo } from "pages/borrow/components/useCollaterals";
 import Big from "big.js";
 import { PostResponse } from "@terra-money/wallet-kit";

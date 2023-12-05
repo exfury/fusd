@@ -128,7 +128,7 @@ describe("pipe", () => {
     const fn = pipe(
       (n: number) =>
         new Observable<number | string>((subscriber) => {
-          let i: number = 0;
+          let i = 0;
 
           function run() {
             setTimeout(() => {
@@ -176,7 +176,7 @@ describe("pipe", () => {
     const fn = pipe(
       (n: number) =>
         new Observable<number | string>((subscriber) => {
-          let i: number = 0;
+          let i = 0;
 
           function run() {
             setTimeout(() => {
@@ -228,7 +228,7 @@ describe("pipe", () => {
     const fn = pipe(
       (n: number) =>
         new Observable<number | string>((subscriber) => {
-          let i: number = 0;
+          let i = 0;
 
           function run() {
             if (i % 2 === 0) {

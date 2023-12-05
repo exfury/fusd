@@ -66,12 +66,11 @@ export interface BorrowBorrowFormStates extends BorrowBorrowFormInput {
   availablePost: boolean;
 }
 
-export interface BorrowBorrowFormAsyncStates {}
+export type BorrowBorrowFormAsyncStates  = Record<string, never>
 
 export const borrowBorrowForm = ({
   target,
   fixedFee,
-  userUSTBalance,
   userLunaBalance,
   marketBorrowerInfo,
   overseerCollaterals,

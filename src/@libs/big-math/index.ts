@@ -4,7 +4,7 @@ import big, { Big, BigSource } from "big.js";
 export function min(...numbers: BigSource[]): Big {
   let minimum: Big = big(numbers[0]);
 
-  let i: number = 0;
+  let i = 0;
   const max: number = numbers.length;
   while (++i < max) {
     if (minimum.gt(numbers[i])) {
@@ -18,7 +18,7 @@ export function min(...numbers: BigSource[]): Big {
 export function max(...numbers: BigSource[]): Big {
   let maximum: Big = big(numbers[0]);
 
-  let i: number = 0;
+  let i = 0;
   const max: number = numbers.length;
   while (++i < max) {
     if (maximum.lt(numbers[i])) {

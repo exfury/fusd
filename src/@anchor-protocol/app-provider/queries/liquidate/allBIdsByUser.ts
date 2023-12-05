@@ -1,13 +1,9 @@
-import { BidByUser, bidsByUserQuery } from "@anchor-protocol/app-fns";
+import { BidByUser } from "@anchor-protocol/app-fns";
 import { LSDContracts } from "@anchor-protocol/app-provider";
-import { createQueryFn } from "@libs/react-query-utils";
-import { CW20Addr, HumanAddr } from "@libs/types";
+import { CW20Addr } from "@libs/types";
 import { DeepPartial } from "chart.js/types/utils";
-import { useAccount } from "contexts/account";
 import { RegisteredLSDs } from "env";
-import { useQuery, UseQueryResult } from "react-query";
 import { useAnchorWebapp } from "../../contexts/context";
-import { ANCHOR_QUERY_KEY } from "../../env";
 import { useBidByUserByCollateralQuery } from "./bidByUser";
 
 export type LSDLiquidationBidsResponse = {
@@ -17,15 +13,17 @@ export type LSDLiquidationBidsResponse = {
 }[];
 
 export function useAllBidByUserByCollateralQuery(): LSDLiquidationBidsResponse {
-  const { queryClient, queryErrorReporter, contractAddress } =
+  const { contractAddress } =
     useAnchorWebapp();
 
-  let { data: aLunaLiquidationBids } = useBidByUserByCollateralQuery(
+  const { data: aLunaLiquidationBids } = useBidByUserByCollateralQuery(
     contractAddress.cw20.aLuna
   );
 
-  let allLiquidationBids = Object.entries(contractAddress.lsds).map(
-    ([key, contracts]) => {
+  const allLiquidationBids = Object.entries(contractAddress.lsds).map(
+    ([key, contracts]) => {  
+      // ContractAddress array is constant, it's allowed to do that
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       const { data: bids } = useBidByUserByCollateralQuery(
         contracts.token as CW20Addr
       );

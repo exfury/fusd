@@ -214,7 +214,7 @@ function BorrowDialogBase(props: BorrowDialogProps) {
         input({
           borrowAmount: formatUSTInput(demicrofy(nextAmount)),
         });
-      } catch { }
+      } catch { 1 }
     },
     [input, states.borrowLimit, states.borrowedAmount],
   );

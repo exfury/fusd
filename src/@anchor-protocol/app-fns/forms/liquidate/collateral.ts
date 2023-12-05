@@ -21,7 +21,7 @@ export interface LiquidationWithdrawCollateralFormStates
   invalidNextTxFee?: string;
 }
 
-export interface LiquidationWithdrawCollateralFormAsyncStates {}
+export type LiquidationWithdrawCollateralFormAsyncStates = Record<string, never>
 
 export const liquidationWithdrawCollateralForm =
   ({

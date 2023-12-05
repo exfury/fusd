@@ -16,7 +16,8 @@ import { useBorrowOverviewData } from 'pages/borrow/logics/useBorrowOverviewData
 import { sum, } from '@libs/big-math';
 import { Token, u, UST } from '@libs/types';
 import { bAsset } from '@anchor-protocol/types';
-import { Divider, Grid } from '@mui/material';
+import { Divider } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { useAllBidByUserByCollateralQuery } from '@anchor-protocol/app-provider/queries/liquidate/allBIdsByUser';
 import { useAbortMissionDialog } from './AbortMissionDialog';
 import { useCollaterals } from 'pages/borrow/components/useCollaterals';
@@ -108,7 +109,7 @@ function AbortMissionBase({ className }: AbortMissionProps) {
       collateralsWithdrawAmount: collateralsWithdrawAmount.filter(({ amount }) => amount && amount.gt(MIN_FOR_ABORT))
     }
     );
-  }, [openAbortMissionDialog, overseerCollaterals, allLiquidationBids, borrowedValue, uaUST, totalDeposit]);
+  }, [allLiquidationBids, overseerCollaterals?.collaterals, collaterals, openAbortMissionDialog, totalDeposit, uaUST, liquidationQueueValue, borrowedValue, allWithdrawableDefaultedCollaterals]);
 
   const theme = useTheme();
 

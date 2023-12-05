@@ -1,4 +1,3 @@
-import reactRefresh from '@vitejs/plugin-react-refresh';
 import { viteCommonjs } from '@originjs/vite-plugin-commonjs';
 import * as path from 'path';
 import { defineConfig } from 'vite';
@@ -15,7 +14,7 @@ export default defineConfig({
       'readable-stream': 'vite-compatible-readable-stream/readable-browser.js',
     },
   },
-  plugins: [viteCommonjs(), reactRefresh(), tsconfigPaths(), svgr()],
+  plugins: [viteCommonjs(), tsconfigPaths(), svgr()],
   build: {
     sourcemap: true,
     outDir: 'build',

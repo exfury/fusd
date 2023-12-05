@@ -1,6 +1,7 @@
 import { CW20Addr, HumanAddr } from "../addrs";
 import { Astro, Token, u, LP, rs } from "@libs/types";
 
+/* eslint  @typescript-eslint/no-namespace:0 */
 export namespace astroport {
   export namespace QueryMsg {
     export interface Deposit {
@@ -28,7 +29,7 @@ export namespace astroport {
     }
 
     export interface Pool {
-      pool: {};
+      pool: Record<string, never>;
     }
 
     interface PoolAsset {

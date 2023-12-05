@@ -78,7 +78,6 @@ const Component = (props: CollateralInputProps) => {
       <NumberInput
         label="COLLATERAL AMOUNT"
         placeholder={placeholder}
-        disableBorder={true}
         disabled={collateral === undefined}
         value={amount ? demicrofy(amount, collateral?.decimals ?? 6) : ''}
         onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
@@ -87,8 +86,8 @@ const Component = (props: CollateralInputProps) => {
               target.value?.length === 0
                 ? undefined
                 : (Big(
-                    microfy(Big(target.value), collateral.decimals ?? 6),
-                  ) as u<CollateralAmount<Big>>);
+                  microfy(Big(target.value), collateral.decimals ?? 6),
+                ) as u<CollateralAmount<Big>>);
 
             onAmountChange(amount);
           }

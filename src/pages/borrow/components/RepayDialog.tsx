@@ -117,7 +117,7 @@ function RepayDialogBase(props: RepayDialogProps) {
         input({
           repayAmount: formatUSTInput(demicrofy(nextAmount)),
         });
-      } catch { }
+      } catch { 1 }
     },
     [input, states.ltvToAmount],
   );

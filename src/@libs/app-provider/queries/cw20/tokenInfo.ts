@@ -7,7 +7,7 @@ import { TERRA_QUERY_KEY } from "../../env";
 
 export function useCW20TokenInfoQuery<T extends Token>(
   tokenAddr: CW20Addr,
-  ignoreCache: boolean = false
+  ignoreCache = false
 ): UseQueryResult<CW20TokenInfo<T> | undefined> {
   const { queryClient, queryErrorReporter } = useApp();
 

@@ -1,6 +1,7 @@
 import { DateTime, HumanAddr, Luna, Num, Rate, Token, u } from "@libs/types";
 import { aLuna } from "../currencies";
 
+/* eslint  @typescript-eslint/no-namespace:0 */
 export namespace aluna {
   export namespace airdropRegistry {
     /**
@@ -45,7 +46,7 @@ export namespace aluna {
      * @see https://anchor-protocol.gitbook.io/anchor-2/smart-contracts/aluna/airdrop-registry#config-1
      */
     export interface Config {
-      config: {};
+      config: Record<string, never>;
     }
 
     /**
@@ -88,7 +89,7 @@ export namespace aluna {
      * @see https://anchor-protocol.gitbook.io/anchor-2/smart-contracts/aluna/hub-1#config-1
      */
     export interface Config {
-      config: {};
+      config: Record<string, never>;
     }
 
     /**
@@ -105,7 +106,7 @@ export namespace aluna {
      * @see https://anchor-protocol.gitbook.io/anchor-2/smart-contracts/aluna/hub-1#currentbatch
      */
     export interface CurrentBatch {
-      current_batch: {};
+      current_batch: Record<string, never>;
     }
 
     /**
@@ -120,7 +121,7 @@ export namespace aluna {
      * @see https://anchor-protocol.gitbook.io/anchor-2/smart-contracts/aluna/hub-1#parameters-1
      */
     export interface Parameters {
-      parameters: {};
+      parameters: Record<string, never>;
     }
 
     /**
@@ -139,7 +140,7 @@ export namespace aluna {
      * @see https://anchor-protocol.gitbook.io/anchor-2/smart-contracts/aluna/hub-1#state
      */
     export interface State {
-      state: {};
+      state: Record<string, never>;
     }
 
     /**
@@ -176,7 +177,7 @@ export namespace aluna {
      * @see https://anchor-protocol.gitbook.io/anchor-2/smart-contracts/aluna/hub-1#whitelistedvalidators
      */
     export interface WhitelistedValidators {
-      whitelisted_validators: {};
+      whitelisted_validators: Record<string, never>;
     }
 
     /**
@@ -225,7 +226,7 @@ export namespace aluna {
      * @see https://anchor-protocol.gitbook.io/anchor-2/smart-contracts/aluna/reward#config-1
      */
     export interface Config {
-      config: {};
+      config: Record<string, never>;
     }
 
     /**
@@ -276,7 +277,7 @@ export namespace aluna {
      * @see https://anchor-protocol.gitbook.io/anchor-2/smart-contracts/aluna/reward#state
      */
     export interface State {
-      state: {};
+      state: Record<string, never>;
     }
 
     /**

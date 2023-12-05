@@ -10,7 +10,7 @@ import React, { ReactNode } from 'react';
 import { ActionButton } from './ActionButton';
 import { useTheme } from 'styled-components';
 
-type FormReturn = void;
+type FormReturn = boolean;
 
 export interface AlertParams {
   title?: ReactNode;
@@ -19,7 +19,7 @@ export interface AlertParams {
 }
 
 export function useAlert(): [OpenDialog<AlertParams, boolean>, ReactNode] {
-  return useDialog(Component as any);
+  return useDialog(Component);
 }
 
 export function Component({
@@ -39,7 +39,7 @@ export function Component({
           padding: 10,
         },
       }}
-      onClose={() => closeDialog()}
+      onClose={() => closeDialog(true)}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       style={{ padding: 100 }}
@@ -54,9 +54,8 @@ export function Component({
 
       <DialogActions>
         <ActionButton
-          autoFocus
           style={{ width: '100%' }}
-          onClick={() => closeDialog()}
+          onClick={() => closeDialog(true)}
         >
           {agree}
         </ActionButton>

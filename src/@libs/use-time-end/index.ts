@@ -42,5 +42,5 @@ export function useTimeEnd(endTime: Date): string {
 
 export function TimeEnd({ endTime }: { endTime: Date }) {
   const remainTime = useTimeEnd(endTime);
-  return createElement(Fragment, { children: remainTime });
+  return createElement(Fragment, {}, remainTime);
 }

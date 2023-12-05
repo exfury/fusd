@@ -10,11 +10,10 @@ export default {
 export const Icons = () => {
   return (
     <Grid size={60}>
-      {Object.keys(icons).map((iconName) => {
-        //@ts-ignore
-        const Icon: OverridableComponent = icons[iconName];
+      {Object.keys(icons).map((iconName, index) => {
+        const Icon = (icons as unknown as Record<string, React.JSX.Element>)[iconName] as unknown as React.JSX.Element;
         return (
-          <Tooltip title={iconName} placement="right">
+          <Tooltip title={iconName} placement="right" key={index}>
             {Icon}
           </Tooltip>
         );
@@ -35,7 +34,7 @@ const Grid = styled(
       {Children.toArray(children.map((child) => <div>{child}</div>))}
     </section>
   ),
-)<{ size: number }>`
+) <{ size: number }>`
   display: grid;
   grid-template-columns: repeat(5, ${({ size }) => size}px);
   grid-template-rows: repeat(

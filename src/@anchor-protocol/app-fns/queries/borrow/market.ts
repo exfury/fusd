@@ -104,7 +104,7 @@ export async function borrowMarketQuery(
 
   const {
     borrowRate,
-    oraclePrices: _oraclePrices,
+    oraclePrices,
     overseerWhitelist,
   } = await wasmFetch<MarketWasmQuery>({
     ...queryClient,
@@ -147,10 +147,6 @@ export async function borrowMarketQuery(
   }
 
   const bAssetLtvs: BAssetLtvs = new Map();
-
-  const oraclePrices: moneyMarket.oracle.PricesResponse =
-    //@ts-ignore
-    "Ok" in _oraclePrices ? _oraclePrices.Ok : _oraclePrices;
 
   for (const price of oraclePrices.prices) {
     const max = whitelistIndex.has(price.asset)

@@ -15,11 +15,15 @@ function TermsOfServiceBase({ className }: TermsOfServiceProps) {
     <div className={className}>
       <section className="header markdown">
         <h1 className="title">Terms of Service</h1>
-        <Markdown children={tos1} components={{ em: 'u' }} />
+        <Markdown components={{ em: 'u' }} >
+          {tos1}
+        </Markdown>
       </section>
 
       <section className="markdown">
-        <Markdown children={tos2} components={{ em: 'u' }} />
+        <Markdown components={{ em: 'u' }} >
+          {tos2}
+        </Markdown>
       </section>
 
       <section>

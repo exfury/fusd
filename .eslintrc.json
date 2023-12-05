@@ -3,14 +3,25 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:storybook/recommended"
   ],
-  "plugins": ["react", "jsx-a11y", "@typescript-eslint", "react-hooks"],
-  "rules":{
-    "react-hooks/exhaustive-deps":"error",
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "@typescript-eslint",
+    "react-hooks"
+  ],
+  "rules": {
+    "react-hooks/exhaustive-deps": "error",
     "@typescript-eslint/no-unused-vars": "warn",
     "react-hooks/rules-of-hooks": "error",
-    "react/no-unescaped-entities": "off"
+    "react/no-unescaped-entities": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions":"off",
+    "jsx-a11y/no-noninteractive-element-interactions":"off",
+    "jsx-a11y/mouse-events-have-key-events":"off"
+
   },
   "env": {
     "browser": true,
@@ -20,5 +31,10 @@
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module"
-  }
+  },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    }
 }

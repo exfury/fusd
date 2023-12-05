@@ -5,7 +5,7 @@ import numeral from "numeral";
 const formatDecimal = (
   n: BigSource,
   decimals: number,
-  delimiter: boolean = true
+  delimiter = true
 ): string => {
   const num = big(
     big(n)

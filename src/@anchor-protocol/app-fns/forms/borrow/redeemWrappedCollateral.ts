@@ -22,7 +22,7 @@ import { validateTxFee } from "../../logics/common/validateTxFee";
 import { BAssetLtvs } from "../../queries/borrow/market";
 import { computebAssetLtvsAvg } from "@anchor-protocol/app-fns/logics/borrow/computebAssetLtvsAvg";
 import { microfy } from "@anchor-protocol/formatter";
-import { WhitelistCollateral, WhitelistWrappedCollateral } from "queries";
+import { WhitelistWrappedCollateral } from "queries";
 
 export interface BorrowRedeemWrappedCollateralFormInput {
   redeemAmount: bAsset;
@@ -63,12 +63,11 @@ export interface BorrowRedeemWrappedCollateralFormStates
   availablePost: boolean;
 }
 
-export interface BorrowRedeemWrappedCollateralFormAsyncStates {}
+export type BorrowRedeemWrappedCollateralFormAsyncStates = Record<string, never>
 
 export const borrowRedeemWrappedCollateralForm = ({
   collateral,
   fixedFee,
-  userUSTBalance,
   userLunaBalance,
   userBAssetBalance,
   oraclePrices,

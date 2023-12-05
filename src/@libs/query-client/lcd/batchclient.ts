@@ -38,7 +38,6 @@ export async function batchFetch<WasmQueries>({
 
   const result = wasmKeys.reduce((resultObject, key, i) => {
     const lcdResult = rawData[i];
-    //@ts-ignore
     resultObject[key] = lcdResult;
 
     return resultObject;
@@ -64,10 +63,14 @@ export async function batchSimulate({
   }
 
   const account = Account.fromProto(distantAccount);
-  let txSimulateResponse = await batchFetcher?.tx.simulate(
+  const public_key = account.getPublicKey();
+  if(!public_key){
+    throw "Account not found when simulating the transaction";
+  }
+  const txSimulateResponse = await batchFetcher?.tx.simulate(
     msgs.map((msg) => msg.packAny()),
     undefined,
-    account.getPublicKey()?.toAmino()!,
+    public_key.toAmino(),
     account.getSequenceNumber()
   );
 

@@ -1,13 +1,14 @@
+import type { Preview } from "@storybook/react";
+
 import React from 'react';
-import { darkTheme } from '../src/@libs/neumorphism-ui/themes/darkTheme';
 import {
   globalStyle,
   GlobalStyle,
 } from '../src/@libs/neumorphism-ui/themes/GlobalStyle';
-import { lightTheme } from '../src/@libs/neumorphism-ui/themes/lightTheme';
 import { ThemeProvider } from '../src/@libs/neumorphism-ui/themes/ThemeProvider';
 import { createGlobalStyle } from 'styled-components';
 import { theme } from './theme';
+import { darkTheme } from '../src/themes/terra';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -15,7 +16,7 @@ export const parameters = {
     theme,
   },
   backgrounds: {
-    default: 'light',
+    default: 'dark',
     values: [
       {
         name: 'dark',
@@ -32,11 +33,8 @@ export const parameters = {
 export const decorators = [
   (Story, { globals }) => (
     <ThemeProvider
-      theme={
-        globals?.backgrounds?.value === darkTheme.backgroundColor
-          ? darkTheme
-          : lightTheme
-      }
+      theme={darkTheme}
+
     >
       <GlobalStyle />
       <DocGlobalStyle />
@@ -47,6 +45,6 @@ export const decorators = [
 
 export const DocGlobalStyle = createGlobalStyle`
   .docs-story {
-    background-color: ${({ theme }) => theme.backgroundColor};
+    background-color: ${({ theme }) => "#1f2237"};
   }
 `;

@@ -21,7 +21,7 @@ import { useWithdrawDialog } from './useWithdrawDialog';
 import Big from 'big.js';
 import { useLenderValue } from '@anchor-protocol/app-provider/queries/earn/lenderValue';
 import { u, UST } from '@libs/types';
-import { Grid } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import { EmbossButton } from '@libs/neumorphism-ui/components/EmbossButton';
 
 import kado from 'assets/earn/kado.svg';

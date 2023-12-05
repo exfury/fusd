@@ -23,7 +23,7 @@ export interface NotificationState {
 }
 
 const NotificationContext: Context<NotificationState> =
-  // @ts-ignore
+  // @ts-expect-error : We don't provide a default context, NA
   createContext<NotificationState>();
 
 //firebase.initializeApp(firebaseOptions);

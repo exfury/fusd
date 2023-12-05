@@ -8,8 +8,8 @@ export function createTimeline(
   return new Observable<number>((subscriber) => {
     let startTime: number = Date.now();
 
-    let t: number = 0;
-    let stop: boolean = false;
+    let t = 0;
+    let stop = false;
 
     function frame() {
       if (stop) return;
@@ -19,6 +19,7 @@ export function createTimeline(
       requestAnimationFrame(frame);
 
       if (t < delay) {
+        1
       } else if (t < delay + duration) {
         subscriber.next((t - delay) / duration);
       } else {

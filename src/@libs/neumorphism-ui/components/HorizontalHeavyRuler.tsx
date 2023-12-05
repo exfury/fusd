@@ -7,7 +7,7 @@ export interface HorizontalHeavyRulerProps
   rulerWidth?: number;
 }
 
-const defaultRulerWidth: number = 5;
+const defaultRulerWidth = 5;
 
 function HorizontalHeavyRulerBase({
   rulerWidth,

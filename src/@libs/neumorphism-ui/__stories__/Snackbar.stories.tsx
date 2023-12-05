@@ -19,7 +19,7 @@ export default {
   ],
 };
 
-let count: number = 0;
+let count = 0;
 
 const autoClose = 1000 * 60;
 

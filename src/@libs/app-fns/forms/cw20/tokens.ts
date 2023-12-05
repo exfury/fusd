@@ -101,7 +101,7 @@ export const sendTokensForm = (
           tokenInfos,
         };
 
-        if (!!input.selectToken) {
+        if (input.selectToken) {
           const selectedTokenInfo = input.selectToken(tokenInfos);
           if (selectedTokenInfo) {
             asyncStates.selectedTokenInfo = selectedTokenInfo;

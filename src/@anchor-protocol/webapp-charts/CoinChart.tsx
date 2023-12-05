@@ -225,7 +225,7 @@ function CoinChartBase({
     const total = totalScale(data[index].total);
 
     return [
-      <rect
+      <rect key={"First rect element"}
         x={Math.max(stepRect.x, coordinateSpace.left)}
         y={coordinateSpace.top}
         width={

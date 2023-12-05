@@ -3,8 +3,7 @@ import React, { DetailedHTMLProps, HTMLAttributes } from 'react';
 import styled from 'styled-components';
 import { getErrorBoundary } from './configErrorBoundary';
 
-export interface SectionProps
-  extends DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement> {}
+export type SectionProps = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
 
 function SectionBase({ children, className, ...sectionProps }: SectionProps) {
   const ErrorBoundary = getErrorBoundary();
