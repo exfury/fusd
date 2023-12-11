@@ -34,7 +34,7 @@ export function DEFAULT_LCD_WASM_CLIENT(network: NetworkInfo): LcdQueryClient {
 
 export function DEFAULT_GAS_PRICE_ENDPOINTS(network: NetworkInfo): string {
   const fcd = network.lcd.replace(/lcd/, "fcd");
-  return `${fcd}/v1/txs/gas_prices`;
+  return `${fcd}v1/txs/gas_prices`;
 }
 
 const FALLBACK_GAS_PRICE_PHOENIX = {
