@@ -90,7 +90,6 @@ export function PlaceBidSectionBase({
   } = useFormatters();
 
   const { withdrawableWrapper, withdrawableLSD, withdrawableUnderlying, withdrawableText } = useWithdrawDefaultedCollateral(collateral);
-  console.log(withdrawableLSD.toString(), withdrawableUnderlying.toString())
   /*******************************
    *
    * Place Bid Submit Section

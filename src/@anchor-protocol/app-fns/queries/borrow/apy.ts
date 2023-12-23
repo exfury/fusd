@@ -31,11 +31,25 @@ interface MarketStateWasmQuery {
   >;
 }
 
+interface OverseerEpochStateWasmQuery {
+  epochState: WasmQuery<
+    moneyMarket.overseer.EpochState,
+    moneyMarket.overseer.EpochStateResponse
+  >;
+}
+interface OverseerConfigWasmQuery {
+  overseerConfig: WasmQuery<
+    moneyMarket.overseer.Config,
+    moneyMarket.overseer.ConfigResponse
+  >;
+}
+
 export async function borrowAPYQuery(
   queryClient: QueryClient,
   blocksPerYear: number,
   lastSyncedHeight: number,
-  mmMarketContract: HumanAddr
+  mmMarketContract: HumanAddr,
+  mmOverseerContract: HumanAddr
 ): Promise<BorrowAPYData> {
   // We simply need to query the chain to get the borrower rewards that were just distributed
   // And compare that to the total liabilities
@@ -44,20 +58,35 @@ export async function borrowAPYQuery(
   // Now we evolve from that and rather compute the future APY,
   // We can simply query the market contract, we added a function just for that.
 
-  const { marketState } = await wasmFetch<MarketStateWasmQuery>({
-    ...queryClient,
-    id: `borrow--market-state-current`,
-    wasmQuery: {
-      marketState: {
-        contractAddress: mmMarketContract,
-        query: {
-          state: {},
+  const [
+    {epochState},
+    {overseerConfig}
+    ]  = await Promise.all([
+      wasmFetch<OverseerEpochStateWasmQuery>({...queryClient,
+      id: `borrow--market-epoch-state-current`,
+      wasmQuery: {
+        epochState: {
+          contractAddress: mmOverseerContract,
+          query: {
+            epoch_state: {},
+          },
         },
       },
-    },
-  });
+    }),
+      wasmFetch<OverseerConfigWasmQuery>({...queryClient,
+      id: `borrow--market-config-current`,
+      wasmQuery: {
+        overseerConfig: {
+          contractAddress: mmOverseerContract,
+          query: {
+            config: {},
+          },
+        },
+      },
+    })
+  ]);
 
-  const { marketState: marketStateNewEpoch } =
+  const { marketState } =
     await wasmFetch<MarketStateWasmQuery>({
       ...queryClient,
       id: `borrow--market-state-current`,
@@ -66,13 +95,15 @@ export async function borrowAPYQuery(
           contractAddress: mmMarketContract,
           query: {
             state: {
-              blockHeight: lastSyncedHeight + 10 * 60 * 3,
+              block_height:epochState.last_executed_height + overseerConfig.epoch_period,   
             },
           },
         },
       },
     });
 
+
+    console.log(marketState.prev_borrower_incentives, epochState.last_executed_height,overseerConfig.epoch_period);
   // State is updated around every 3 hrs
   const rewardsAPY = big(marketState.prev_borrower_incentives)
     .mul(8 * 365)

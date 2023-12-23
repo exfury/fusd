@@ -38,20 +38,17 @@ export function getLoopAmountsAndMessages(
   executeMsgs: MsgExecuteContract[];
   error: string | undefined;
 }> {
-  console.log("getting loop amounts and messages");
   let thisDepositAmount = microfy(collateralAmount); //The actual number of tokens the user wants to deposit
 
   const axlUSDCNeeded = [];
   const collateralTotal = [thisDepositAmount.toString()];
   const collateralPrice = wrappedCollateralPrice * collateralExchangeRate;
-  console.log("collateral price", collateralPrice);
 
   const expectedAmount =
     swapQuote.swap.value.execute_msg.execute_swap_operations.expect_amount;
   const offerAmount =
     swapQuote.swap.value.execute_msg.execute_swap_operations.offer_amount;
   const priceImpact = swapQuote.quote.price_impact;
-  console.log(priceImpact);
 
   if (big(priceImpact).lte(0)) {
     return {

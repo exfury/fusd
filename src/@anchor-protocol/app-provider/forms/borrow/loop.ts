@@ -58,7 +58,6 @@ export function useBorrowLoopForm() {
   );
 
   const getLoopsAndMessages = useMemo(() => {
-    console.log("creating debonce ?");
     return throttle(
       async ({
         collateral,

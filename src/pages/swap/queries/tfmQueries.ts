@@ -4,11 +4,9 @@ import {
 } from "@anchor-protocol/app-provider";
 import { Token, u } from "@libs/types";
 import { Coin } from "@terra-money/feather.js";
-import debounce from "lodash.debounce";
 import { useQuery, UseQueryResult } from "react-query";
 
 export async function simpleQuery<T>(queryUrl: string): Promise<T> {
-  console.log(queryUrl);
   return fetch(queryUrl).then((res) => res.json());
 }
 

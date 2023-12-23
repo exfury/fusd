@@ -108,7 +108,6 @@ function Component({ className }: EarnProps) {
 
 
   function collateralCells(type: string) {
-    console.log(collaterals)
     return (collaterals.filter((collateral) => collateral.type == type).map(
       ({
         collateral,
