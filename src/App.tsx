@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { DeploymentSwitch } from 'components/layouts/DeploymentSwitch';
 import { TerraApp } from 'apps/TerraApp';
 import { DeploymentTargetProvider } from '@anchor-protocol/app-provider/contexts/target';
@@ -8,20 +8,36 @@ import { useReadonlyWalletDialog } from 'components/dialogs/useReadonlyWalletDia
 import { CLASSIC, MAINNET, TESTNET } from '@anchor-protocol/app-provider';
 import { ThemeProvider } from 'contexts/theme';
 import { lightTheme, darkTheme } from 'themes/terra';
+import LocalWallet from 'wallets/local';
 
-export function App({ viewer_wallet }: { viewer_wallet: AddressViewerWallet }): React.JSX.Element {
+export function App({ viewer_wallet, local_wallet }: { viewer_wallet: AddressViewerWallet, local_wallet: LocalWallet }): React.JSX.Element {
 
-  // We can do something about the viewer_wallet
-  const [openDialog, dialog] = useReadonlyWalletDialog();
+  // We register the viewer_wallet_dialog
+  const [openReadonlyDialog, readonlyDialog] = useReadonlyWalletDialog();
 
   viewer_wallet.addListener(EventTypes.Connect, () => {
-    openDialog({
+    openReadonlyDialog({
       networks: [MAINNET, TESTNET, CLASSIC]
     }).then((result) => {
       if (result) {
         viewer_wallet.close(result.address)
       } else {
         viewer_wallet.close(undefined)
+      }
+    })
+  })
+
+  // We register the local_wallet
+  const [openLocalWalletDialog, localWalletDialog] = useReadonlyWalletDialog();
+
+  viewer_wallet.addListener(EventTypes.Connect, () => {
+    openLocalWalletDialog({
+      networks: [MAINNET, TESTNET, CLASSIC]
+    }).then((result) => {
+      if (result) {
+        local_wallet.close(result.address)
+      } else {
+        local_wallet.close(undefined)
       }
     })
   })
@@ -37,7 +53,8 @@ export function App({ viewer_wallet }: { viewer_wallet: AddressViewerWallet }): 
         <DeploymentSwitch
           terra={<TerraApp />}
         />
-        {dialog}
+        {readonlyDialog}
+        {localWalletDialog}
       </ThemeProvider>
     </DeploymentTargetProvider>
   );
