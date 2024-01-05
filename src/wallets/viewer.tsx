@@ -40,7 +40,6 @@ export default class AddressViewerWallet implements Wallet {
             localStorage.setItem(LOCAL_STORAGE_KEY, address)
         }
         this._triggerListener(EventTypes.Connected, { address });
-        console.log("Closing", address)
     }
 
     async connect() {
@@ -115,7 +114,6 @@ export default class AddressViewerWallet implements Wallet {
     }
 
     private _triggerListener(event: EventTypes, data: any) {
-        console.log(this._listeners)
         this._listeners[event]?.forEach((cb) => cb(data))
     }
 

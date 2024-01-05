@@ -32,7 +32,6 @@ export function useReadonlyWalletDialog(): [
 
 const validationSchema = yup.object({
   address: yup.string().required('You have to provide an address to impersonate').test("test-is-address", "Please enter a valid Terra Address", (address) => {
-    console.log(address)
     return AccAddress.validate(address)
   }),
 })

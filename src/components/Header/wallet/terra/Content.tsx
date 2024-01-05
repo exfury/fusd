@@ -42,7 +42,6 @@ const ContentBase = (props: ContentProps) => {
     }
     window.open(getAccountUrl(network.chainID, terraWalletAddress), '_blank');
   }, [network.chainID, terraWalletAddress]);
-  console.log("wallet connected", connection)
 
   return (
     <WalletContent

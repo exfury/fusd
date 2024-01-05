@@ -36,7 +36,6 @@ export function TerraAppProviders({
       }
     }
   }
-  console.log(rpcClient);
   const endpointOptions = {
     endpoints: {
       [MAINNET.chainName]: {

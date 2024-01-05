@@ -16,7 +16,6 @@ export function TerraMobileHeader() {
   const [openSendDialog, sendDialogElement] = useSendDialog();
   const [openBuyUstDialog, buyUstDialogElement] = useBuyUstDialog();
 
-  console.log(availableWallets)
   const toggleWallet = useCallback(() => {
     if (status === WalletStatus.Connected) {
       openWalletDialog({

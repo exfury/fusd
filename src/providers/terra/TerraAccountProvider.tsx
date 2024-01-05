@@ -114,10 +114,6 @@ const TerraAccountProvider = ({ children }: UIElementProps): React.JSX.Element =
         // We need to map all the messages to Encode Objects from @cosmkjs
         const cosmosMsgs = convert_terra_msg_to_cosmos(tx);
 
-
-        console.log(cosmosMsgs)
-        console.log(tx.msgs)
-
         const executeContractMsg: MsgExecuteContractEncodeObject = {
           typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
           value: MsgExecuteContract.fromPartial({
@@ -128,12 +124,7 @@ const TerraAccountProvider = ({ children }: UIElementProps): React.JSX.Element =
           }),
         };
 
-
-
-
-        console.log("brodcasting cosmos");
         const response = await cosmosKitContext.signAndBroadcast(cosmosMsgs, undefined, "Transaction executed on Cavern Protocol", "cosmwasm")
-        console.log(response)
         return {
           height: response.height,
           raw_log: JSON.stringify(response.events),

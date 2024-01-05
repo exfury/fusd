@@ -22,6 +22,7 @@ import { tfmEstimation } from "pages/swap/queries/tfmQueries";
 import { useMemo } from "react";
 import { microfy } from "@libs/formatter";
 import Big from "big.js";
+import { te } from "date-fns/locale";
 
 export interface LoopsAndMessageQueryArgs {
   collateral: WhitelistWrappedCollateral | undefined;
@@ -29,6 +30,7 @@ export interface LoopsAndMessageQueryArgs {
   targetLeverage: Rate;
   actualMaximumLTV: number;
   numberOfLoops: number;
+  slippage: Rate
 }
 
 export function useBorrowLoopForm() {
@@ -58,7 +60,6 @@ export function useBorrowLoopForm() {
   );
 
   const getLoopsAndMessages = useMemo(() => {
-    console.log("creating debonce ?");
     return throttle(
       async ({
         collateral,
@@ -66,20 +67,33 @@ export function useBorrowLoopForm() {
         targetLeverage,
         actualMaximumLTV,
         numberOfLoops,
+        slippage
       }: LoopsAndMessageQueryArgs) => {
         if (!collateralAmount || collateralAmount.length == 0) {
           return emptyAsyncStates;
         }
 
-        //TODO adapt for native tokens
         if (
           !oraclePrices ||
-          !collateral?.info?.info.cw20 ||
+          !collateral?.info?.info ||
           !lsdHubStates ||
           !terraWalletAddress
         ) {
           return emptyAsyncStates;
         }
+
+        if (!("cw20" in collateral.info.info || "coin"in collateral.info.info)){
+          return emptyAsyncStates
+        } 
+
+
+        let token_denom = "";
+        if("cw20" in collateral.info.info && collateral.info.info.cw20){
+          token_denom = collateral.info.info.cw20.tokenAddress;
+        }else if("coin" in collateral.info.info && collateral.info.info.coin){
+          token_denom = collateral.info.info.coin.denom
+        }
+
         const rawCollateralPrice = parseFloat(
           oraclePrices.prices.find(
             (price) => price.asset == collateral.collateral_token
@@ -107,9 +121,9 @@ export function useBorrowLoopForm() {
         //TODO adapt for native tokens
         const estimation = await tfmEstimation({
           tokenIn: contractAddress.native.usd,
-          tokenOut: collateral.info.info.cw20.tokenAddress,
+          tokenOut: token_denom,
           amount: totalBorrowAmount.toString() as u<Token>,
-          slippage: SLIPPAGE,
+          slippage: parseFloat(slippage),
           useSplit: false,
         });
         // We get the loop amounts and messages

@@ -190,6 +190,7 @@ export const borrowLoopForm = ({
       targetLeverage,
       actualMaximumLTV,
       numberOfLoops,
+      slippage
     });
 
     return [

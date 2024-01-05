@@ -23,6 +23,7 @@ export function useBorrowAPYQuery(): UseQueryResult<BorrowAPYData | undefined> {
       blocksPerYear,
       lastSyncedHeight!,
       moneyMarket?.market,
+      moneyMarket?.overseer,
     ],
     createQueryFn(borrowAPYQuery, queryClient!),
     {

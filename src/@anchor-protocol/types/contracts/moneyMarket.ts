@@ -245,6 +245,7 @@ export namespace moneyMarket {
       aterra_supply: Num;
       reserves_rate_used_for_borrowers: Num;
       prev_borrower_incentives: Num;
+      last_interest_updated: number;
     }
 
     /**
@@ -252,7 +253,7 @@ export namespace moneyMarket {
      */
     export interface State {
       state: {
-        blockHeight?: number;
+        block_height?: number;
       };
     }
 

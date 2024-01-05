@@ -38,38 +38,39 @@ export function getLoopAmountsAndMessages(
   executeMsgs: MsgExecuteContract[];
   error: string | undefined;
 }> {
-  console.log("getting loop amounts and messages");
   let thisDepositAmount = microfy(collateralAmount); //The actual number of tokens the user wants to deposit
 
   const axlUSDCNeeded = [];
   const collateralTotal = [thisDepositAmount.toString()];
   const collateralPrice = wrappedCollateralPrice * collateralExchangeRate;
-  console.log("collateral price", collateralPrice);
 
   const expectedAmount =
-    swapQuote.swap.value.execute_msg.execute_swap_operations.expect_amount;
+    swapQuote.swap.value.execute_msg.execute_swap_operations.minimum_receive;
   const offerAmount =
     swapQuote.swap.value.execute_msg.execute_swap_operations.offer_amount;
   const priceImpact = swapQuote.quote.price_impact;
-  console.log(priceImpact);
 
-  if (big(priceImpact).lte(0)) {
-    return {
-      error:
-        "Initial collateral deposit is too low (TFM slippage is not positive)",
-    };
+
+  let priceImpactMatters = false;
+  let swapPoolY = big(expectedAmount)
+  let swapPoolX = big(offerAmount);
+  if (big(priceImpact).gt(0)) {
+    priceImpactMatters = true;
+    swapPoolY = big(expectedAmount).div(priceImpact);
+    swapPoolX = big(offerAmount).mul(
+      big(1)
+        .div(
+          big(priceImpact) // Account for a negative price impact
+        )
+        .minus(1)
+    );
   }
 
-  let swapPoolY = big(expectedAmount).div(priceImpact);
-  let swapPoolX = big(offerAmount).mul(
-    big(1)
-      .div(
-        big(priceImpact) // Account for a negative price impact
-      )
-      .minus(1)
-  );
+  
 
   let messages: MsgExecuteContract[] = [];
+
+
   // First we start by looping and getting a general quote for the total amount of axlUSDC needed
   for (let i = 0; i < loopNumber; i++) {
     // 1. Provide the collaterals that we have in the wallet to Cavern
@@ -131,25 +132,26 @@ export function getLoopAmountsAndMessages(
     // 3. Swap back to the collateral token
     // For that we use the swap quote result
     const toSwap = big(axlUSDCBorrowed);
-    const expectedAmount = toSwap.mul(swapPoolY).div(swapPoolX.plus(toSwap));
-    const minimumAmount = expectedAmount.mul(1 - SLIPPAGE);
+    let expectedAmount = toSwap.mul(swapPoolY).div(swapPoolX);
+    if(priceImpactMatters){
+      expectedAmount = toSwap.mul(swapPoolY).div(swapPoolX.plus(toSwap));
+      swapPoolY = swapPoolY.minus(expectedAmount);
+      swapPoolX = swapPoolX.plus(toSwap);
+    }
 
-    swapPoolY = swapPoolY.minus(expectedAmount);
-    swapPoolX = swapPoolX.plus(toSwap);
 
     // b1 is the collateral that is left in the wallet at this stage
-    collateralTotal.push(minimumAmount.round().toString());
-    thisDepositAmount = minimumAmount as u<CollateralAmount<Big>>;
+    collateralTotal.push(expectedAmount.round().toString());
+    thisDepositAmount = expectedAmount as u<CollateralAmount<Big>>;
     // We modify the original swapQuote to fit the amounts
     const thisSwapMessage = _.cloneDeep(swapQuote.swap);
     thisSwapMessage.value.coins[0] = new Coin(
       thisSwapMessage.value.coins[0].denom,
       axlUSDCBorrowed.round().toString()
     );
-    thisSwapMessage.value.execute_msg.execute_swap_operations.expect_amount =
-      expectedAmount.round().toString();
+    
     thisSwapMessage.value.execute_msg.execute_swap_operations.minimum_receive =
-      minimumAmount.round().toString();
+    expectedAmount.round().toString();
     thisSwapMessage.value.execute_msg.execute_swap_operations.offer_amount =
       axlUSDCBorrowed.round().toString();
     thisSwapMessage.value.execute_msg.execute_swap_operations.routes[0].offer_amount =

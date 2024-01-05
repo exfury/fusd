@@ -342,18 +342,20 @@ function BorrowDialogBase(props: BorrowDialogProps) {
                       'aria-labelledby': 'basic-button',
                     }}
                   >
-                    {allLSDCollaterals.map(collateral => {
-                      return (
-                        <MenuItem key={`${collateral.name}`} onClick={() => handleClose(collateral)}>
-                          <ListItemIcon>
-                            <TokenIcon token={collateral.info.info.symbol} />
-                          </ListItemIcon>
-                          <ListItemText>
-                            {collateral.info.info.symbol}
-                          </ListItemText>
-                        </MenuItem>
-                      )
-                    })}
+                    {allLSDCollaterals
+                      .filter(collateral => "cw20" in collateral.info.info || "coin" in collateral.info.info)
+                      .map(collateral => {
+                        return (
+                          <MenuItem key={`${collateral.name}`} onClick={() => handleClose(collateral)}>
+                            <ListItemIcon>
+                              <TokenIcon token={collateral.info.info.symbol} />
+                            </ListItemIcon>
+                            <ListItemText>
+                              {collateral.info.info.symbol}
+                            </ListItemText>
+                          </MenuItem>
+                        )
+                      })}
                   </Menu>
                 </SelectAndTextInputContainerLabel>
               </InputAdornment>
@@ -528,7 +530,7 @@ function BorrowDialogBase(props: BorrowDialogProps) {
                 </span>
                 {' '}
                 <span>
-                  {formatRate((states.swapSimulation.quote.price_impact) as Rate<number>)} %
+                  {states.swapSimulation.quote.price_impact < 0 ? formatRate(0.001 as Rate<number>) : formatRate((states.swapSimulation.quote.price_impact) as Rate<number>)} %
                 </span>
               </div>
             }
