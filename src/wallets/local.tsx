@@ -15,7 +15,7 @@ export enum EventTypes {
 }
 
 const LOCAL_STORAGE_KEY = "CAVERN_LOCAL_WALLET";
-export const ADDRESS_VIEWER_ID = "cavern-local-wallet";
+export const LOCAL_WALLET_ID = "cavern-local-wallet";
 
 export default class LocalWallet implements Wallet {
     private _address: string | undefined = undefined
@@ -121,10 +121,10 @@ export default class LocalWallet implements Wallet {
 
     isInstalled = true
 
-    id = ADDRESS_VIEWER_ID
+    id = LOCAL_WALLET_ID
 
     details = {
-        name: "Address Viewer",
+        name: "Create an Account",
         icon: "https://cavernprotocol.com/logo.png",
         website: "https://cavernprotocol.com",
     }

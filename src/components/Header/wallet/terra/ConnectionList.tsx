@@ -11,6 +11,8 @@ import { Button } from '@mui/material';
 import { useChain } from '@cosmos-kit/react';
 import { useNetwork } from '@anchor-protocol/app-provider';
 import { ADDRESS_VIEWER_ID } from 'wallets/viewer';
+import { LOCAL_WALLET_ID } from 'wallets/local';
+import { title } from 'process';
 
 
 interface FooterProps {
@@ -71,11 +73,42 @@ const ConnectionList = (props: ConnectionListProps): React.JSX.Element => {
         // )}
         />
       }
+      header={{
+        title: "Sign in/Sign up",
+        node:
+          availableWallets.filter(({ id }) => {
+            return LOCAL_WALLET_ID == id
+          })
+            .map(({ id, icon, name }) => (
+              <FlatButton
+                key={'connection' + id}
+                className="connect"
+                onClick={() => {
+                  connect(id);
+                  setOpen(false);
+                }}
+              >
+                <IconSpan>
+                  {name}
+                  <img
+                    src={
+                      icon ===
+                        'https://assets.terra.dev/icon/station-extension/icon.png'
+                        ? 'https://assets.terra.dev/icon/wallet-provider/station.svg'
+                        : icon
+                    }
+                    alt={name}
+                  />
+                </IconSpan>
+              </FlatButton>
+            ))
+
+      }}
     >
       {availableWallets
         .filter(({ isInstalled }) => isInstalled)
         .filter(({ id }) => {
-          return id != ADDRESS_VIEWER_ID
+          return ![ADDRESS_VIEWER_ID, LOCAL_WALLET_ID].includes(id)
         })
         .map(({ id, icon, name }) => (
           <FlatButton

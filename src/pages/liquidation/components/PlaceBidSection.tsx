@@ -504,6 +504,7 @@ export function PlaceBidSectionBase({
                 !!state.invalidPremium ||
                 !!state.invalidDepositAmount
               }
+
               className="place-bid-button"
             >
               Place My Bid

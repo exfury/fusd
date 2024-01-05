@@ -3,14 +3,29 @@ import { Grid, Modal, styled } from "@mui/material";
 import { Dialog } from '@libs/neumorphism-ui/components/Dialog';
 import { ActionButton } from "@libs/neumorphism-ui/components/ActionButton";
 
-export function ComponentBase({ closeDialog, children }: { closeDialog: () => void } & { children: ReactNode[] }): React.JSX.Element {
+
+export interface DialogWithButtonProps {
+    closeDialog?: () => void,
+    children: ReactNode[],
+    spacing?: number
+}
+
+export function ComponentBase({ closeDialog, children, spacing }: DialogWithButtonProps): React.JSX.Element {
 
     return (
-        <Modal open onClose={() => closeDialog()}>
-            <Dialog onClose={() => closeDialog()}>
+        <Modal open onClose={() => {
+            if (closeDialog) {
+                closeDialog()
+            }
+        }}>
+            <Dialog onClose={() => {
+                if (closeDialog) {
+                    closeDialog()
+                }
+            }}>
                 <Title>Deposit</Title>
 
-                <Grid container spacing={3}>
+                <Grid container gap={spacing ?? 3}>
                     {children}
                 </Grid>
             </Dialog>
@@ -28,7 +43,7 @@ const Title = styled("h1")`
   margin-top: 50px;
 `
 
-export const DepositDialogWithButtons = styled(ComponentBase) <{ closeDialog: () => void } & { children: ReactNode[] }>`
+export const DepositDialogWithButtons = styled(ComponentBase) <DialogWithButtonProps>`
 width: 720px;
 `
 

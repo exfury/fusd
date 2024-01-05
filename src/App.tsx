@@ -9,6 +9,7 @@ import { CLASSIC, MAINNET, TESTNET } from '@anchor-protocol/app-provider';
 import { ThemeProvider } from 'contexts/theme';
 import { lightTheme, darkTheme } from 'themes/terra';
 import LocalWallet from 'wallets/local';
+import { useLocalWalletDialog } from 'components/dialogs/useLocalWalletDialog';
 
 export function App({ viewer_wallet, local_wallet }: { viewer_wallet: AddressViewerWallet, local_wallet: LocalWallet }): React.JSX.Element {
 
@@ -28,9 +29,9 @@ export function App({ viewer_wallet, local_wallet }: { viewer_wallet: AddressVie
   })
 
   // We register the local_wallet
-  const [openLocalWalletDialog, localWalletDialog] = useReadonlyWalletDialog();
+  const [openLocalWalletDialog, localWalletDialog] = useLocalWalletDialog();
 
-  viewer_wallet.addListener(EventTypes.Connect, () => {
+  local_wallet.addListener(EventTypes.Connect, () => {
     openLocalWalletDialog({
       networks: [MAINNET, TESTNET, CLASSIC]
     }).then((result) => {
