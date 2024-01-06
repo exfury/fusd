@@ -52,6 +52,10 @@ export default class LocalWallet implements Wallet {
         this._triggerListener(EventTypes.Connected, { address: this.getAddress() });
     }
 
+    connectionError(error?: string) {
+        this._triggerListener(EventTypes.Connected, { error });
+    }
+
     async connect() {
         const cachedAddress = this.getAddress();
         if (cachedAddress) {
@@ -68,9 +72,9 @@ export default class LocalWallet implements Wallet {
 
         // This returns once they are done
         return new Promise<ConnectResponse & { id?: string }>((resolve, reject) => {
-            this.addListener(EventTypes.Connected, (data: { address: string | null }) => {
+            this.addListener(EventTypes.Connected, (data: { address: string | null, error: string | null }) => {
                 if (!data.address) {
-                    resolve({ addresses: {} })
+                    reject(data.error)
                 } else {
                     resolve({
                         addresses: {

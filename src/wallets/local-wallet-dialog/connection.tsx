@@ -173,6 +173,34 @@ export function LocalWalletConnectionDialog({ closeDialog }: DialogProps<void, F
             })
         },
     })
+    const deleteForm = useFormik({
+        initialValues: {
+            password: '',
+        },
+        validationSchema: validationSchema,
+        onSubmit: async (values) => {
+
+            const confirmed = await openConfirm({
+                title:
+                    <Typography variant="h4" component="h2" sx={{
+                        color: (theme) => theme.palette.error.light
+                    }}>
+                        Local account destruction
+                    </Typography>,
+                description:
+                    <Box>
+                        If you agree here, your local account will be deleted forever, you won't be able to retrieve it
+                    </Box>,
+                agree: 'Delete forever',
+                disagree: 'Cancel',
+            });
+            if (confirmed) {
+                closeDialog({
+                    removeMnemonic: true
+                })
+            }
+        },
+    })
 
     const [openConfirm, confirmElement] = useConfirm();
 
@@ -190,36 +218,9 @@ export function LocalWalletConnectionDialog({ closeDialog }: DialogProps<void, F
             <Divider />
             {passwordForm(retrieveForm, "Retrieve Mnemonic", "warning")}
             <Divider />
-            <Button
-                variant="contained"
-                type="button"
-                color="error"
-                sx={{ maxWidth: "400px" }}
 
-                onClick={async () => {
-                    const confirmed = await openConfirm({
-                        title:
-                            <Typography variant="h4" component="h2" sx={{
-                                color: (theme) => theme.palette.error.light
-                            }}>
-                                Local account destruction
-                            </Typography>,
-                        description:
-                            <Box>
-                                If you agree here, your local account will be deleted forever, you won't be able to retrieve it
-                            </Box>,
-                        agree: 'Delete forever',
-                        disagree: 'Cancel',
-                    });
-                    if (confirmed) {
-                        closeDialog({
-                            removeMnemonic: true
-                        })
-                    }
-                }}
-            >
-                Delete Local Account
-            </Button>
+            {passwordForm(deleteForm, "Delete Local Account", "error")}
+
             {confirmElement}
             {alertElement}
         </DepositDialogWithButtons>

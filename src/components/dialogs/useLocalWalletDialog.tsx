@@ -10,8 +10,9 @@ import { ConditionsForm } from 'wallets/local-wallet-dialog/conditionsForm';
 import { VerifyConditionsDialog } from 'wallets/local-wallet-dialog/verify-conditions';
 import { VerifyMnemonicDialog } from 'wallets/local-wallet-dialog/verify-mnemonic';
 import { FinalLocalWalletCreationDialog } from 'wallets/local-wallet-dialog/final-dialog';
-import { getMnemonic, hasMnemonic } from 'wallets/logic/storage';
+import { deleteMnemonic, getMnemonic, hasMnemonic } from 'wallets/logic/storage';
 import { LocalWalletConnectionDialog } from 'wallets/local-wallet-dialog/connection';
+import { useAccount } from 'contexts/account';
 
 
 export type LocalWalletResult = {
@@ -25,7 +26,7 @@ export type LocalWalletResult = {
     mnemonic: string[]
   },
   create?: never
-}
+};
 
 
 export function useLocalWalletDialog(): [
@@ -70,6 +71,10 @@ export function useLocalWalletDialog(): [
             mnemonic
           }
         }
+      } else if (connection.removeMnemonic) {
+        // We delete the mnemonic and return
+        deleteMnemonic()
+        throw "Local Account deleted"
       }
     }
 
