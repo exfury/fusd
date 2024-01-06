@@ -48,7 +48,7 @@ const Component: React.FC<StatsDoughnutCardProps> = (
       <Doughnut data={data} options={options} />
       <div className="text-inside-doughnut">
         {props.title}
-        <Divider className="stats-figure-card-divider" />
+        {props.title && <Divider className="stats-figure-card-divider" />}
         <ValueContainer className="doughnut-value">
           {props.value.toLocaleString(undefined, {
             style: 'percent',

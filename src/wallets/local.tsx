@@ -3,8 +3,10 @@ import {
     ConnectResponse,
     Wallet,
 } from "@terra-money/wallet-interface"
-import { CreateTxOptions } from "@terra-money/feather.js"
+import { CreateTxOptions, MnemonicKey } from "@terra-money/feather.js"
 import { MAINNET } from "@anchor-protocol/app-provider"
+import { hasMnemonic, saveMnemonic } from "wallets/logic/storage";
+import { getKey, getWallet } from "./logic/mnemonic-crypto";
 
 export enum EventTypes {
     NetworkChange = "networkChange",
@@ -14,11 +16,10 @@ export enum EventTypes {
     Connected = "connected"
 }
 
-const LOCAL_STORAGE_KEY = "CAVERN_LOCAL_WALLET";
 export const LOCAL_WALLET_ID = "cavern-local-wallet";
 
 export default class LocalWallet implements Wallet {
-    private _address: string | undefined = undefined
+    private _key: MnemonicKey | undefined = undefined
     private _connector: Connector | null = null
     private _connected = false;
     private _listener: Record<string, () => void[]> = {};
@@ -34,35 +35,29 @@ export default class LocalWallet implements Wallet {
             [MAINNET.chainID]: MAINNET
         }
     }
-    close(address: string | undefined) {
-        this._address = address;
-        if (address) {
-            localStorage.setItem(LOCAL_STORAGE_KEY, address)
+    closeCreateAccount(password: string, mnemonic: string[]) {
+        this._key = new MnemonicKey({
+            mnemonic: mnemonic.join(" ")
+        });
+        if (mnemonic) {
+            saveMnemonic(mnemonic, password);
         }
-        this._triggerListener(EventTypes.Connected, { address });
-        console.log("Closing", address)
+        this._triggerListener(EventTypes.Connected, { address: this.getAddress() });
+    }
+
+    closeConnectAccount(mnemonic: string[]) {
+        this._key = new MnemonicKey({
+            mnemonic: mnemonic.join(" ")
+        });
+        this._triggerListener(EventTypes.Connected, { address: this.getAddress() });
     }
 
     async connect() {
-        // if (this._justCreated) {
-        //     this._justCreated = false;
-        //     return {
-        //         addresses: {},
-        //     }
-        // }
-        if (this._address) {
+        const cachedAddress = this.getAddress();
+        if (cachedAddress) {
             return {
                 addresses: {
-                    [MAINNET.chainID]: this._address,
-                },
-                id: this.id
-            }
-        }
-        const localAddress = localStorage.getItem(LOCAL_STORAGE_KEY);
-        if (localAddress) {
-            return {
-                addresses: {
-                    [MAINNET.chainID]: localAddress,
+                    [MAINNET.chainID]: cachedAddress
                 },
                 id: this.id
             }
@@ -89,8 +84,7 @@ export default class LocalWallet implements Wallet {
     }
 
     async disconnect() {
-        this._address = undefined
-        localStorage.removeItem(LOCAL_STORAGE_KEY)
+        this._key = undefined
     }
 
     async post(tx: CreateTxOptions) {
@@ -119,12 +113,16 @@ export default class LocalWallet implements Wallet {
         this._listeners[event]?.forEach((cb) => cb(data))
     }
 
+    getAddress(): string | undefined {
+        return this._key?.accAddress(MAINNET.prefix);
+    }
+
     isInstalled = true
 
     id = LOCAL_WALLET_ID
 
     details = {
-        name: "Create an Account",
+        name: hasMnemonic() ? "Log in" : "Create an Account",
         icon: "https://cavernprotocol.com/logo.png",
         website: "https://cavernprotocol.com",
     }

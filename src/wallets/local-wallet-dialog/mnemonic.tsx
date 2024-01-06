@@ -1,25 +1,36 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { DepositDialogWithButtons } from "@libs/neumorphism-ui/components/DialogWithButtons";
-import { Button, Divider, Grid } from "@mui/material";
+import { Box, Button, Divider, Grid } from "@mui/material";
 import { TextInput } from "@libs/neumorphism-ui/components/TextInput";
-import { FormComponent } from "./formLayout";
-import { DialogProps, OpenDialog } from "@libs/use-dialog";
+import { DialogProps } from "@libs/use-dialog";
+import { CircularProgressWithLabel } from "components/primitives/circular-progress";
 
 
-interface FormParams<P, T> {
+export interface FormParams<P, T> {
     words: string[],
-    formDialog: [Promise<T>, React.ReactNode],
+    title: ReactNode,
+    formDialog: (_: DialogProps<P, T | null>) => React.JSX.Element,
+    formDialogProps: P,
 }
 
-export function MnemonicDialog<P, T>({ words, formDialog, closeDialog }: DialogProps<FormParams<P, T>, T>) {
+export function copyWords(words: string[]) {
+    navigator.clipboard.writeText(words.join(' '))
+}
 
-    formDialog[0].then((value) => closeDialog(value));
-
-    function copyWords() {
-        navigator.clipboard.writeText(words.join(' '))
-    }
+export function AccountCreationTitle({ progress }: { progress: number }) {
     return (
-        <DepositDialogWithButtons spacing={3}>
+        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
+            Account Creation <CircularProgressWithLabel value={progress} />
+        </Box>
+    )
+}
+
+export function MnemonicDialog<P, T>({ words, formDialog, formDialogProps, closeDialog, title }: DialogProps<FormParams<P, T>, T | null>) {
+
+    return (
+        <DepositDialogWithButtons title={title} spacing={3} closeDialog={() => {
+            closeDialog(null)
+        }}>
             <Grid item xs={12}>
                 <strong>
                     Those {words.length} words (also named <i>mnemonic</i>)
@@ -31,7 +42,7 @@ export function MnemonicDialog<P, T>({ words, formDialog, closeDialog }: DialogP
                     recover your account
                 </strong>
             </Grid>
-            <Grid item sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "30px" }}>
+            <Grid item sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "30px" }}>
                 <Grid container spacing={2} sx={{ padding: 1 }}>
                     {words.map(function (word, i) {
                         return (
@@ -57,7 +68,7 @@ export function MnemonicDialog<P, T>({ words, formDialog, closeDialog }: DialogP
                     type="button"
                     color="primary"
                     sx={{ maxWidth: "400px" }}
-                    onClick={copyWords}
+                    onClick={() => copyWords(words)}
                 >
                     Copy all words
                 </Button>
@@ -65,7 +76,7 @@ export function MnemonicDialog<P, T>({ words, formDialog, closeDialog }: DialogP
             <Divider flexItem sx={{ width: "100%", borderColor: "white" }} />
 
             <Grid item sx={{ width: "100%", margin: "auto" }}>
-                {formDialog[1]}
+                {formDialog({ ...formDialogProps, closeDialog })}
             </Grid>
         </DepositDialogWithButtons >
     );

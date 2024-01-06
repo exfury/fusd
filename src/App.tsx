@@ -30,15 +30,16 @@ export function App({ viewer_wallet, local_wallet }: { viewer_wallet: AddressVie
 
   // We register the local_wallet
   const [openLocalWalletDialog, localWalletDialog] = useLocalWalletDialog();
+  console.log("test")
 
   local_wallet.addListener(EventTypes.Connect, () => {
-    openLocalWalletDialog({
-      networks: [MAINNET, TESTNET, CLASSIC]
-    }).then((result) => {
-      if (result) {
-        local_wallet.close(result.address)
+    openLocalWalletDialog().then((result) => {
+      if (result.connect) {
+        local_wallet.closeConnectAccount(result.connect.mnemonic)
+      } else if (result.create) {
+        local_wallet.closeCreateAccount(result.create?.password, result.create?.mnemonic)
       } else {
-        local_wallet.close(undefined)
+        throw "Couldn't connect local wallet"
       }
     })
   })

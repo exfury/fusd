@@ -20,9 +20,7 @@ const validationSchema = yup.object({
 
 // interface FormParams { }
 
-type FormReturn = {
-    password: string
-} | null;
+type FormReturn = string;
 
 export function PasswordForm({ closeDialog }: DialogProps<void, FormReturn>) {
 
@@ -33,13 +31,13 @@ export function PasswordForm({ closeDialog }: DialogProps<void, FormReturn>) {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            closeDialog({ password: values.password })
+            closeDialog(values.password)
         },
     })
 
     return (
         <form onSubmit={formik.handleSubmit} className="form-element">
-            <Grid container gap={2} sx={{ justifyContent: "center" }}>
+            <Grid container gap={2} sx={{ justifyContent: "center", alignItems: "center" }}>
                 <Grid item xs={12} sm={5}>
                     <TextInput
                         label={
@@ -90,7 +88,7 @@ export function PasswordForm({ closeDialog }: DialogProps<void, FormReturn>) {
                 <Grid item>
                     <Button
                         variant="contained"
-                        type="button"
+                        type="submit"
                         color="primary"
                         sx={{ maxWidth: "400px" }}
                     >

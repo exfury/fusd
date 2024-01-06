@@ -98,6 +98,15 @@ export const defaultDarkTheme = {
           },
         },
       },
+      MuiDivider:{
+        styleOverrides:{
+          root:{
+            borderBottomWidth: "2px", 
+            borderColor: "white" ,
+            width: "100%"
+          }
+        }
+      },
       MuiDialog: {
         styleOverrides: {
           paper: {

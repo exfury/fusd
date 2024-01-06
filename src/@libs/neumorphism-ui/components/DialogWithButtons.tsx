@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Grid, Modal, styled } from "@mui/material";
+import { Grid, Modal, SxProps, Theme, styled } from "@mui/material";
 import { Dialog } from '@libs/neumorphism-ui/components/Dialog';
 import { ActionButton } from "@libs/neumorphism-ui/components/ActionButton";
 
@@ -8,9 +8,11 @@ export interface DialogWithButtonProps {
     closeDialog?: () => void,
     children: ReactNode[],
     spacing?: number
+    title?: ReactNode
+    gridSx?: SxProps<Theme>
 }
 
-export function ComponentBase({ closeDialog, children, spacing }: DialogWithButtonProps): React.JSX.Element {
+export function ComponentBase({ closeDialog, children, spacing, title, gridSx }: DialogWithButtonProps): React.JSX.Element {
 
     return (
         <Modal open onClose={() => {
@@ -23,9 +25,9 @@ export function ComponentBase({ closeDialog, children, spacing }: DialogWithButt
                     closeDialog()
                 }
             }}>
-                <Title>Deposit</Title>
+                <Title>{title ?? "Deposit"}</Title>
 
-                <Grid container gap={spacing ?? 3}>
+                <Grid container gap={spacing ?? 3} sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "30px", ...gridSx }}>
                     {children}
                 </Grid>
             </Dialog>

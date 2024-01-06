@@ -34,7 +34,7 @@ export const MAINNET: CavernNetworkInfo = {
   chainName: "terra2",
 };
 
-const LCDClients: Record<string, LCDClient> = {
+export const AllLCDClients: Record<string, LCDClient> = {
   testnet: new LCDClient({
     testnet: TESTNET,
   }),
@@ -66,7 +66,7 @@ const useNetwork = (): UseNetworkReturn => {
   }
   return {
     network: context,
-    lcdClient: LCDClients[context.name ?? 'mainnet'],
+    lcdClient: AllLCDClients[context.name ?? 'mainnet'],
     rpcClient: RPCClients[context.name ?? 'mainnet'],
   };
 };

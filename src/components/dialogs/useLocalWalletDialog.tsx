@@ -1,93 +1,142 @@
-import { DialogProps, OpenDialog, useDialog } from '@libs/use-dialog';
-import { MnemonicKey } from '@terra-money/feather.js';
+import { useDialog } from '@libs/use-dialog';
 import React, {
   ReactNode, useMemo,
 } from 'react';
-import styled from 'styled-components';
-import { CavernNetworkInfo } from '@anchor-protocol/app-provider';
-import { MnemonicDialog } from 'pages/earn/components/deposit-dialog/mnemonic';
-import { PasswordForm } from 'pages/earn/components/deposit-dialog/passwordForm';
+import { AccountCreationTitle, MnemonicDialog } from 'wallets/local-wallet-dialog/mnemonic';
+import { PasswordForm } from 'wallets/local-wallet-dialog/passwordForm';
+import { Wallet, utils } from 'ethers';
+import { FormParams as MnemonicFormParams } from "wallets/local-wallet-dialog/mnemonic"
+import { ConditionsForm } from 'wallets/local-wallet-dialog/conditionsForm';
+import { VerifyConditionsDialog } from 'wallets/local-wallet-dialog/verify-conditions';
+import { VerifyMnemonicDialog } from 'wallets/local-wallet-dialog/verify-mnemonic';
+import { FinalLocalWalletCreationDialog } from 'wallets/local-wallet-dialog/final-dialog';
+import { getMnemonic, hasMnemonic } from 'wallets/logic/storage';
+import { LocalWalletConnectionDialog } from 'wallets/local-wallet-dialog/connection';
 
-interface FormParams {
-  className?: string;
-  networks: CavernNetworkInfo[]
+
+export type LocalWalletResult = {
+  create: {
+    password: string,
+    mnemonic: string[]
+  };
+  connect?: never
+} | {
+  connect?: {
+    mnemonic: string[]
+  },
+  create?: never
 }
 
-type FormReturn = {
-  address: string,
-  chainID: string
-} | null;
 
 export function useLocalWalletDialog(): [
-  OpenDialog<FormParams, FormReturn>,
+  () => Promise<LocalWalletResult>,
   ReactNode,
 ] {
-  return useDialog(Component);
-}
-
-function ComponentBase({
-  className,
-  networks,
-  closeDialog,
-}: DialogProps<FormParams, FormReturn>) {
-
-  // First we display the mnemonic with the password
-  // Then we display the mnemonix with the conditions
-  // Then we make the user set the mnoemonic again
-  // Finally we display the last conditions
-  // And a final screen saying the wallet is created and connected alright !
 
   const words = useMemo(() => {
-    const { mnemonic } = new MnemonicKey()
+
+    const wallet = Wallet.fromMnemonic(
+      utils.entropyToMnemonic(utils.randomBytes(32))
+    )
+
+    const mnemonic = wallet.mnemonic.phrase;
     return mnemonic.split(' ')
   }, []) // must be memoized and stay the same across renders
 
-  const [openPasswordForm, passwordForm] = useDialog(PasswordForm);
-  const [openMnemonicDialog, mnemonicDialog] = useDialog(MnemonicDialog);
+  const [openMnemonicDialog, mnemonicDialog] = useDialog<MnemonicFormParams<null, string>, string | null>(MnemonicDialog);
+  const [openVerifyMnemonicDialog, verifyMnemonicDialog] = useDialog(VerifyMnemonicDialog);
+  const [openVerifyConditionsDialog, verifyConditionsDialog] = useDialog(VerifyConditionsDialog);
+  const [openFinalDialog, finalDialog] = useDialog(FinalLocalWalletCreationDialog);
+  const [openConnectionDialog, connectionDialog] = useDialog(LocalWalletConnectionDialog);
 
-  const passwordFormPromise = openPasswordForm();
 
-  openMnemonicDialog({
-    words,
-    formDialog: [passwordFormPromise, passwordForm]
-  }).then((v) => console.log(v));
+  const openLocalWallet = async () => {
 
-  return <>{mnemonicDialog}</>
 
-}
+    // If a mnemonic already exists, we ask for the password and return it
+    if (hasMnemonic()) {
 
-const Component = styled(ComponentBase)`
-  width: 720px;
-
-  h1 {
-    font-size: 27px;
-    text-align: center;
-    font-weight: 300;
-    margin-bottom: 50px;
-  }
-
-  .address-description,
-  .network-description {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12px;
-    color: ${({ theme }) => theme.textColor};
-
-    > :last-child {
-      font-size: 12px;
+      const connection = await openConnectionDialog();
+      if (!connection) {
+        throw "Cancelled login"
+      }
+      if (connection.password) {
+        const mnemonic = getMnemonic(connection.password);
+        if (!mnemonic) {
+          throw "Wrong password"
+        }
+        return {
+          connect: {
+            mnemonic
+          }
+        }
+      }
     }
 
-    margin-bottom: 12px;
-  }
+    // If not, we create a wallet
+    const password = await openMnemonicDialog({
+      words,
+      formDialog: PasswordForm,
+      formDialogProps: null,
+      title: <AccountCreationTitle progress={0} />
+    });
 
-  .address-description {
-    margin-top: 24px;
-  }
+    if (!password) {
+      throw "Cancelled wallet creation"
+    }
 
-  .connect {
-    margin-top: 40px;
-    width: 100%;
-    height: 60px;
-  }
-`;
+    const conditions = await openMnemonicDialog({
+      words,
+      formDialog: ConditionsForm,
+      formDialogProps: null,
+      title: <AccountCreationTitle progress={25} />
+    });
+
+    if (!conditions) {
+      throw "Mnemonic Conditions not accepted"
+    }
+
+    const verifiedMnemonics = await openVerifyMnemonicDialog({ words });
+
+    if (!verifiedMnemonics) {
+      throw "Mnemonic not correcly verified"
+    }
+
+    const verifiedConditions = await openVerifyConditionsDialog();
+
+    if (!verifiedConditions) {
+      throw "Conditions not correcly verified"
+    }
+
+    // We save everything inside the browser
+
+    openFinalDialog();
+
+    return {
+      create: {
+        password,
+        mnemonic: words
+      }
+    }
+  };
+
+
+
+  return [openLocalWallet, (
+    <>
+      {mnemonicDialog}
+      {verifyMnemonicDialog}
+      {verifyConditionsDialog}
+      {finalDialog}
+      {connectionDialog}
+    </>
+
+  )]
+}
+
+// First we display the mnemonic with the password
+// Then we display the mnemonic with the conditions
+// Then we make the user set the mnoemonic again
+// Finally we display the last conditions
+// And a final screen saying the wallet is created and connected alright !
+
