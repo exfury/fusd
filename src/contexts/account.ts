@@ -1,6 +1,7 @@
 import { HumanAddr } from "@libs/types";
 import { CreateTxOptions } from "@terra-money/feather.js";
 import {
+  ConnectResponse,
   PostResponse,
   WalletResponse,
 } from "@terra-money/wallet-kit";
@@ -23,7 +24,8 @@ interface AccountCommon {
       name: string;
       icon: string;
       website?: string | undefined;
-  }[]
+  }[],
+  pubkey?:ConnectResponse["pubkey"] | undefined
 }
 
 interface AccountConnected extends AccountCommon {

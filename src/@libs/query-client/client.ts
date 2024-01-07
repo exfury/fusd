@@ -8,6 +8,7 @@ import { BatchQuery } from "./lcd/batchfetch";
 import { lcdFetch, lcdSimulate } from "./lcd/client";
 import { LcdFetcher } from "./lcd/fetch";
 import { GasPrice } from "@libs/app-fns";
+import { ConnectResponse } from "@terra-money/wallet-kit";
 
 export class BatchQueryClient {
   batchEndpoint: string | undefined;
@@ -47,6 +48,7 @@ export async function wasmFetch<WasmQueries>(
 export type SimulateFetchQuery = {
   msgs: any[];
   address: string;
+  pubkey: ConnectResponse["pubkey"] | undefined
 };
 
 export type GasInfoParams = {

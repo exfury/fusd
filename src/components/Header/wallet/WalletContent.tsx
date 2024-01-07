@@ -6,11 +6,15 @@ import useClipboard from 'react-use-clipboard';
 import styled from 'styled-components';
 import { UIElementProps } from '@libs/ui';
 import { ConnectionIcons } from './ConnectionIcons';
+import { Button } from '@mui/material';
+import { useManageWalletDialog } from 'components/dialogs/useManagerWalletDialog';
+import { LOCAL_WALLET_ID } from 'wallets/local';
 
 interface WalletContentProps extends UIElementProps {
   walletAddress: string;
   connectionName: string;
   connectionIcon: string;
+  connectionId: string;
   readonly: boolean;
   onDisconnectWallet: () => void;
 }
@@ -22,6 +26,7 @@ export function WalletContentBase(props: WalletContentProps) {
     walletAddress,
     connectionName,
     connectionIcon,
+    connectionId,
     readonly,
     onDisconnectWallet,
   } = props;
@@ -29,6 +34,7 @@ export function WalletContentBase(props: WalletContentProps) {
   const [isCopied, setCopied] = useClipboard(walletAddress, {
     successDuration: 1000 * 5,
   });
+  const [openManageWalletDialog, manageWalletDialog] = useManageWalletDialog();
 
   return (
     <div className={className}>
@@ -43,6 +49,18 @@ export function WalletContentBase(props: WalletContentProps) {
         <button className="copy-wallet-address" onClick={setCopied}>
           <IconSpan>COPY ADDRESS {isCopied && <Check />}</IconSpan>
         </button>
+        <br />
+        <br />
+
+        {connectionId == LOCAL_WALLET_ID && <Button
+          type="button"
+          variant="contained"
+          onClick={
+            () => openManageWalletDialog()
+          }>
+          Manage Account
+        </Button>}
+
       </section>
       <section className="children">{children}</section>
       <button className="disconnect" type="button" onClick={(event) => {
@@ -51,6 +69,7 @@ export function WalletContentBase(props: WalletContentProps) {
       }}>
         Disconnect
       </button>
+      {manageWalletDialog}
     </div>
   );
 }

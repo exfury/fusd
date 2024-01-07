@@ -137,7 +137,7 @@ const StyledComponent = styled(Component)`
 
     .total-deposit-buttons {
       display: grid;
-      grid-template-columns: repeat(3, 160px);
+      grid-template-columns: repeat(2, 160px);
       justify-content: end;
       grid-gap: 20px;
     }

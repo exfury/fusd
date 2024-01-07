@@ -141,17 +141,7 @@ export function TotalDepositSection({ className }: TotalDepositSectionProps): Re
       </Grid>
 
       <aside className="total-deposit-buttons">
-        <EmbossButton
-          component="button"
-          onClick={() => openBuyUstDialog({})}
-        >
-          <span>
-            Buy axlUSDC{' '}
-          </span>
-          <i>
-            <img src={kado} alt="Kado Ramp" style={{ width: "32px", paddingLeft: "10px" }} />
-          </i>
-        </EmbossButton>
+
         <ActionButton
           disabled={
             !connected || !moneyMarketEpochState || Big(uUST).lte(0)

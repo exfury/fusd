@@ -31,8 +31,8 @@ export function App({ viewer_wallet, local_wallet }: { viewer_wallet: AddressVie
   // We register the local_wallet
   const [openLocalWalletDialog, localWalletDialog] = useLocalWalletDialog();
 
-  local_wallet.addListener(EventTypes.Connect, () => {
-    openLocalWalletDialog().then((result) => {
+  local_wallet.addListener(EventTypes.Connect, async () => {
+    await openLocalWalletDialog().then((result) => {
       if (result.connect) {
         local_wallet.closeConnectAccount(result.connect.mnemonic)
       } else if (result.create) {
@@ -40,8 +40,6 @@ export function App({ viewer_wallet, local_wallet }: { viewer_wallet: AddressVie
       } else {
         throw "Couldn't connect local wallet"
       }
-    }).catch((error) => {
-      local_wallet.connectionError(error)
     })
   })
 

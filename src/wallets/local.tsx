@@ -3,10 +3,10 @@ import {
     ConnectResponse,
     Wallet,
 } from "@terra-money/wallet-interface"
-import { CreateTxOptions, MnemonicKey } from "@terra-money/feather.js"
-import { MAINNET } from "@anchor-protocol/app-provider"
+import { CreateTxOptions, LCDClient, MnemonicKey, SimplePublicKey, Wallet as TerraWallet, Tx, WaitTxBroadcastResult } from "@terra-money/feather.js"
+import { AllLCDClients, MAINNET } from "@anchor-protocol/app-provider"
 import { hasMnemonic, saveMnemonic } from "wallets/logic/storage";
-import { getKey, getWallet } from "./logic/mnemonic-crypto";
+import { PostResponse } from "@terra-money/wallet-kit";
 
 export enum EventTypes {
     NetworkChange = "networkChange",
@@ -23,6 +23,7 @@ export default class LocalWallet implements Wallet {
     private _connector: Connector | null = null
     private _connected = false;
     private _listener: Record<string, () => void[]> = {};
+    private _promiseListeners: Record<string, ((data: any) => Promise<void>)[]> = {};
     private _justCreated: boolean;
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -58,27 +59,35 @@ export default class LocalWallet implements Wallet {
 
     async connect() {
         const cachedAddress = this.getAddress();
-        if (cachedAddress) {
+        const pubKey = await this.getPublicKey();
+        if (cachedAddress && pubKey) {
             return {
                 addresses: {
                     [MAINNET.chainID]: cachedAddress
+                },
+                pubkey: {
+                    330: pubKey
                 },
                 id: this.id
             }
         }
 
         // We notify the listeners that an connect event has triggered
-        this._triggerListener(EventTypes.Connect, {});
+        await this._triggerListener(EventTypes.Connect, {})
 
         // This returns once they are done
         return new Promise<ConnectResponse & { id?: string }>((resolve, reject) => {
-            this.addListener(EventTypes.Connected, (data: { address: string | null, error: string | null }) => {
-                if (!data.address) {
+            this.addListener(EventTypes.Connected, async (data: { address: string | null, error: string | null }) => {
+                const pubkey = await this.getPublicKey();
+                if (!data.address || !pubkey) {
                     reject(data.error)
                 } else {
                     resolve({
                         addresses: {
                             [MAINNET.chainID]: data.address,
+                        },
+                        pubkey: {
+                            330: pubkey
                         },
                         id: this.id
                     })
@@ -87,19 +96,65 @@ export default class LocalWallet implements Wallet {
         })
     }
 
+    async getPublicKey(): Promise<string | null> {
+        if (!this._key?.publicKey) {
+            return null
+        }
+        const pubkey = this._key.publicKey as SimplePublicKey;
+        return pubkey.key
+    }
+
+    getChainID(): string {
+        return MAINNET.chainID
+    }
+
+    getLCD(): LCDClient {
+        return AllLCDClients[this.getChainID()]
+    }
+
+    getWallet(): TerraWallet {
+        if (!this._key) {
+            throw "Local Wallet was not connected. Please contact support, something wrong happened"
+        }
+
+        return new TerraWallet(this.getLCD(), this._key);
+    }
+
+    async getPubkey(): Promise<ConnectResponse> {
+        if (this._key && this._key.publicKey) {
+            return {
+                addresses: {
+                    [MAINNET.chainID]: this.getAddress()!,
+                },
+                pubkey: {
+                    330: this._key.publicKey.toJSON()
+                }
+            }
+        }
+        throw "Account is not connected"
+    }
+
+
     async disconnect() {
         this._key = undefined
     }
 
-    async post(tx: CreateTxOptions) {
+    async post(tx: CreateTxOptions): Promise<PostResponse> {
+        const signedTx = await this.sign(tx);
+        const broadcastResult = await this.getLCD().tx.broadcast(signedTx, this.getChainID()) as WaitTxBroadcastResult & { code: number };
 
-        throw "You can't submit a transaction using the Address viewer"
-        return {} as any
+        if (broadcastResult.code != 0) {
+            throw `Transaction failed : ${broadcastResult.raw_log}`
+        }
+        return broadcastResult
     }
 
-    async sign(_: CreateTxOptions) {
-        throw "You can't submit a transaction using the Address viewer"
-        return {} as any
+    async sign(tx: CreateTxOptions): Promise<Tx> {
+
+        const wallet = this.getWallet();
+
+        const response = await wallet.createAndSignTx(tx)
+        return response
     }
 
     private _listeners: Record<string, ((e: any) => void)[]> = {}
@@ -112,8 +167,7 @@ export default class LocalWallet implements Wallet {
         this._listeners[event]?.filter((callback) => cb !== callback)
     }
 
-    private _triggerListener(event: EventTypes, data: any) {
-        console.log(this._listeners)
+    private async _triggerListener(event: EventTypes, data: any) {
         this._listeners[event]?.forEach((cb) => cb(data))
     }
 

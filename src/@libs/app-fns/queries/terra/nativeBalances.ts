@@ -125,7 +125,6 @@ export async function terraNativeBalancesQuery(
   }
 
   let balancesPromise: Promise<Array<{ denom: NativeDenom; amount: u<Token> }>>;
-
   if ("lcdEndpoint" in queryClient) {
     balancesPromise = queryClient
       .lcdFetcher<LcdBankBalances>(

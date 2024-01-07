@@ -7,6 +7,7 @@ import debounce from 'lodash.debounce';
 import { simulateFetch } from '@libs/query-client';
 import React from "react";
 import { InfoTooltip } from '@libs/neumorphism-ui/components/InfoTooltip';
+import { useAccount } from 'contexts/account';
 
 const errorMap = {
   "Not enough ibc/": "Too much axlUSDC was borrowed, you can't withdraw your funds for now",
@@ -50,6 +51,7 @@ export function useEstimateFee(
   const { lcdClient } = useNetwork();
   const { gasPrice, constants } = useApp();
   const { queryClient } = useAnchorWebapp();
+  const { pubkey } = useAccount();
 
   return useCallback(
     async (msgs: Msg[]) => {
@@ -60,6 +62,7 @@ export function useEstimateFee(
       // We first try simulating the fee with the global method
       const gasWanted = await simulateFetch({
         ...queryClient,
+        pubkey,
         msgs,
         address: walletAddress,
         lcdClient,
@@ -78,7 +81,7 @@ export function useEstimateFee(
       };
 
     },
-    [constants.gasAdjustment, gasPrice, lcdClient, walletAddress, queryClient],
+    [walletAddress, queryClient, pubkey, lcdClient, constants.gasAdjustment, gasPrice],
   );
 }
 

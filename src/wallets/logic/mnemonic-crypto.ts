@@ -14,12 +14,6 @@ export function decrypt(encryptedMessage: string, pass: string) {
     return JSON.parse(decrypted)
 }
 
-
-export function getWallet(network: string, words: string[]): Wallet{
-    const key = new MnemonicKey({mnemonic: words.join(" ")});
-    const client = AllLCDClients[network];
-    return new Wallet(client,key)
-}
 export function getKey(words: string[]): MnemonicKey{
     return new MnemonicKey({mnemonic: words.join(" ")});
 }
