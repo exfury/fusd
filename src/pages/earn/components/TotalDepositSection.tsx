@@ -22,10 +22,7 @@ import Big from 'big.js';
 import { useLenderValue } from '@anchor-protocol/app-provider/queries/earn/lenderValue';
 import { u, UST } from '@libs/types';
 import Grid from '@mui/material/Grid';
-import { EmbossButton } from '@libs/neumorphism-ui/components/EmbossButton';
 
-import kado from 'assets/earn/kado.svg';
-import { useBuyUstDialog } from './useBuyUstDialog';
 
 export interface TotalDepositSectionProps {
   className?: string;
@@ -70,14 +67,12 @@ export function TotalDepositSection({ className }: TotalDepositSectionProps): Re
   const [openWithdrawDialog, withdrawDialogElement] = useWithdrawDialog();
 
   const openDeposit = useCallback(async () => {
-    await openDepositDialog();
+    await openDepositDialog({});
   }, [openDepositDialog]);
 
   const openWithdraw = useCallback(async () => {
-    await openWithdrawDialog();
+    await openWithdrawDialog({});
   }, [openWithdrawDialog]);
-
-  const [openBuyUstDialog, buyUstDialogElement] = useBuyUstDialog();
 
   // ---------------------------------------------
   // presentation
@@ -160,7 +155,6 @@ export function TotalDepositSection({ className }: TotalDepositSectionProps): Re
 
       {depositDialogElement}
       {withdrawDialogElement}
-      {buyUstDialogElement}
     </Section>
   );
 }

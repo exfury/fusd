@@ -21,7 +21,7 @@ import {
   UST_INPUT_MAXIMUM_INTEGER_POINTS,
 } from '@anchor-protocol/notation';
 import { HumanAddr, Luna, Token, u, UST } from '@anchor-protocol/types';
-import { EstimatedFee, useFeeEstimationFor } from '@libs/app-provider';
+import { EstimatedFee, useFeeEstimation } from '@libs/app-provider';
 import { demicrofy, microfy } from '@libs/formatter';
 import { ActionButton } from '@libs/neumorphism-ui/components/ActionButton';
 import { Dialog } from '@libs/neumorphism-ui/components/Dialog';
@@ -151,7 +151,7 @@ function ComponentBase({
   );
 
   const [estimatedFee, estimatedFeeError, estimateFee] =
-    useFeeEstimationFor(terraWalletAddress);
+    useFeeEstimation();
 
   // ---------------------------------------------
   // states

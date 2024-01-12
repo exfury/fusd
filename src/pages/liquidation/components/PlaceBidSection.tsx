@@ -52,7 +52,7 @@ import { useLiquidationWithdrawCollateralTx } from '@anchor-protocol/app-provide
 import {
   defaultFee,
   EstimatedFee,
-  useFeeEstimationFor,
+  useFeeEstimation,
 } from '@libs/app-provider';
 import { pressed } from '@libs/styled-neumorphism';
 import { TextInput } from '@libs/neumorphism-ui/components/TextInput';
@@ -100,7 +100,7 @@ export function PlaceBidSectionBase({
   const [openConfirm, confirmElement] = useConfirm();
   const [placeBid, placeBidTxResult] = usePlaceLiquidationBidTx(collateral?.collateral);
   const [estimatedFee, estimatedFeeError, estimateFee] =
-    useFeeEstimationFor(terraWalletAddress);
+    useFeeEstimation();
   const [isSubmittingBidTx, setIsSubmittingBidTx] = useState(false);
 
   // Proceed callback --> Submit transaction
@@ -186,7 +186,7 @@ export function PlaceBidSectionBase({
    * *****************************/
   const collateralState = useLiquidationWithdrawCollateralForm();
   const [estimatedWithdrawalFee, estimatedWithdrawalFeeError, estimateWithdrawalFee] =
-    useFeeEstimationFor(terraWalletAddress);
+    useFeeEstimation();
   useEffect(() => {
     if (!collateral || !withdrawableLSD || withdrawableLSD.eq(0) || !withdrawableUnderlying || withdrawableUnderlying.eq(0)) {
       return;

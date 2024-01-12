@@ -14,7 +14,7 @@ import {
 import { TokenIcon } from '@anchor-protocol/token-icons';
 import { aLuna } from '@anchor-protocol/types';
 import { createHookMsg } from '@libs/app-fns/tx/internal';
-import { useFeeEstimationFor } from '@libs/app-provider';
+import { useFeeEstimation } from '@libs/app-provider';
 import { floor } from '@libs/big-math';
 import { demicrofy, MICRO } from '@libs/formatter';
 import { ActionButton } from '@libs/neumorphism-ui/components/ActionButton';
@@ -68,7 +68,7 @@ export function Component({
   const { contractAddress, gasPrice, constants } = useAnchorWebapp();
 
   const [estimatedFee, estimatedFeeError, estimateFee] =
-    useFeeEstimationFor(terraWalletAddress);
+    useFeeEstimation();
 
   const [burn, burnResult] = useBondBurnTx();
 

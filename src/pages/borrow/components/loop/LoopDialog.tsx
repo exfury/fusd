@@ -41,7 +41,7 @@ import big from 'big.js';
 import { LTVGraph } from '../LTVGraph';
 import { isWrappedCollateral, useWhitelistCollateralQuery, WhitelistCollateral, WhitelistWrappedCollateral } from 'queries';
 import { useBalances } from 'contexts/balances';
-import { EstimatedFee, useFeeEstimationFor } from '@libs/app-provider';
+import { EstimatedFee, useFeeEstimation } from '@libs/app-provider';
 import { MsgExecuteContract } from '@terra-money/feather.js';
 import { CircleSpinner } from 'utils/consts';
 import { useBorrowLoopForm } from '@anchor-protocol/app-provider/forms/borrow/loop';
@@ -107,7 +107,7 @@ function BorrowDialogBase(props: BorrowDialogProps) {
   const [openConfirm, confirmElement] = useConfirm();
 
   const [estimatedFee, estimatedFeeError, estimateFee, isEstimatingFee] =
-    useFeeEstimationFor(terraWalletAddress);
+    useFeeEstimation();
 
   const updateCollateralAmount = useCallback(
     (nextCollateralAmount: string, maxCollateralAmount: string) => {

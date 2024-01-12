@@ -11,7 +11,7 @@ import { ConnectType } from 'utils/consts';
 
 export function TerraMobileHeader() {
   const [open, setOpen] = useState<boolean>(false);
-  const { status, connect, availableWallets } = useAccount();
+  const { status, connect, terraWalletAddress } = useAccount();
   const [openWalletDialog, walletDialogElement] = useWalletDialog();
   const [openSendDialog, sendDialogElement] = useSendDialog();
   const [openBuyUstDialog, buyUstDialogElement] = useBuyUstDialog();
@@ -20,12 +20,14 @@ export function TerraMobileHeader() {
     if (status === WalletStatus.Connected) {
       openWalletDialog({
         openSend: () => openSendDialog({}),
-        openBuyUst: () => openBuyUstDialog({}),
+        openBuyUst: () => openBuyUstDialog({
+          address: terraWalletAddress
+        }),
       });
     } else if (status === WalletStatus.Disconnected) {
       connect("terra-station-mobile");
     }
-  }, [connect, openBuyUstDialog, openSendDialog, openWalletDialog, status]);
+  }, [connect, openBuyUstDialog, openSendDialog, openWalletDialog, status, terraWalletAddress]);
 
   const [vestingClaimNotificationElement] = useVestingClaimNotification();
 

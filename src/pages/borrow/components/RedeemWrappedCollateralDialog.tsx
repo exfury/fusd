@@ -41,7 +41,7 @@ import {
 } from '@anchor-protocol/formatter';
 import { BroadcastTxStreamResult } from 'pages/earn/components/types';
 import big from 'big.js';
-import { EstimatedFee, useFeeEstimationFor } from '@libs/app-provider';
+import { EstimatedFee, useFeeEstimation } from '@libs/app-provider';
 import { MsgExecuteContract } from '@terra-money/feather.js';
 import { CircleSpinner } from 'utils/consts';
 import { WhitelistWrappedCollateral } from 'queries';
@@ -97,7 +97,7 @@ function RedeemWrappedCollateralDialogBase(props: RedeemCollateralDialogProps) {
   );
 
   const [estimatedFee, estimatedFeeError, estimateFee] =
-    useFeeEstimationFor(terraWalletAddress);
+    useFeeEstimation();
 
   useEffect(() => {
     if (!connected || !states.redeemWrappedAmount || !terraWalletAddress) {

@@ -39,7 +39,7 @@ import {
   microfy,
 } from '@anchor-protocol/formatter';
 import { BroadcastTxStreamResult } from 'pages/earn/components/types';
-import { EstimatedFee, useFeeEstimationFor } from '@libs/app-provider';
+import { EstimatedFee, useFeeEstimation } from '@libs/app-provider';
 import { MsgExecuteContract } from '@terra-money/feather.js';
 import { createHookMsg } from '@libs/app-fns/tx/internal';
 import { CircleSpinner } from 'utils/consts';
@@ -98,7 +98,7 @@ function ProvideCollateralDialogBase(props: ProvideCollateralDialogProps) {
   const { ltvToAmount } = states;
 
   const [estimatedFee, estimatedFeeError, estimateFee] =
-    useFeeEstimationFor(terraWalletAddress);
+    useFeeEstimation();
 
   useEffect(() => {
     if (!connected || !states.depositAmount || !terraWalletAddress) {

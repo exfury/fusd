@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Table, Modal, Box, Divider } from '@mui/material';
+import { Table, Modal, Divider } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -33,7 +33,7 @@ import { Dialog } from '@libs/neumorphism-ui/components/Dialog';
 import {
   EstimatedFee,
   useEstimateFee,
-  useFeeEstimationFor,
+  useFeeEstimation,
 } from '@libs/app-provider';
 import debounce from 'lodash.debounce';
 import { Msg, MsgExecuteContract } from '@terra-money/feather.js';
@@ -104,7 +104,7 @@ export function MyBidsSection({ className, collateral }: MyBidsSectionProps) {
     [key: string]: EstimatedFee;
   }>({});
 
-  const estimateFee = useEstimateFee(terraWalletAddress);
+  const estimateFee = useEstimateFee();
 
   const feeMutex = useRef(new Mutex());
   const feeFuncMutex = useRef(new Mutex());
@@ -209,7 +209,7 @@ export function MyBidsSection({ className, collateral }: MyBidsSectionProps) {
   const [activateBidTx, activateBidTxResult] = useActivateLiquidationBidTx();
 
   const [estimatedFeeActivation, estimatedFeeError, estimateActivationFee] =
-    useFeeEstimationFor(terraWalletAddress);
+    useFeeEstimation();
 
   useEffect(() => {
     if (estimateActivationFee)

@@ -54,11 +54,11 @@ function EarnBase({ className }: EarnProps) {
   const [openWithdrawDialog, withdrawDialogElement] = useWithdrawDialog();
 
   const openDeposit = useCallback(async () => {
-    await openDepositDialog();
+    await openDepositDialog({});
   }, [openDepositDialog]);
 
   const openWithdraw = useCallback(async () => {
-    await openWithdrawDialog();
+    await openWithdrawDialog({});
   }, [openWithdrawDialog]);
 
   if (!connected || totalDeposit.lte(0)) {

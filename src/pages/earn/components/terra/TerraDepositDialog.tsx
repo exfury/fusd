@@ -12,7 +12,7 @@ import { DialogProps, OpenDialog, useDialog } from '@libs/use-dialog';
 import { EstimatedFee } from '@libs/app-provider';
 import { FormParams, FormReturn } from '../types';
 
-export function TerraDepositDialog(props: DialogProps<unknown>): React.JSX.Element {
+export function TerraDepositDialog(props: DialogProps<unknown, void>): React.JSX.Element {
   const account = useAccount();
 
   const [openConfirm, confirmElement] = useConfirm();

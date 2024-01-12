@@ -34,7 +34,7 @@ import { EstimatedLiquidationPrice } from './EstimatedLiquidationPrice';
 import { LTVGraph } from './LTVGraph';
 import { RepayFormParams } from './types';
 import big from 'big.js';
-import { EstimatedFee, useFeeEstimationFor } from '@libs/app-provider';
+import { EstimatedFee, useFeeEstimation } from '@libs/app-provider';
 import { Coin, Coins, MsgExecuteContract } from '@terra-money/feather.js';
 import { CircleSpinner } from 'utils/consts';
 
@@ -76,7 +76,7 @@ function RepayDialogBase(props: RepayDialogProps) {
   );
 
   const [estimatedFee, estimatedFeeError, estimateFee] =
-    useFeeEstimationFor(terraWalletAddress);
+    useFeeEstimation();
 
   useEffect(() => {
     if (!connected || !states.repayAmount) {

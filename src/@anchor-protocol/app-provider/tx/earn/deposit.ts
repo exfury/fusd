@@ -13,7 +13,7 @@ export interface EarnDepositTxParams {
   onTxSucceed?: () => void;
 }
 
-export function useEarnDepositTx() {
+export function useEarnDepositTx(granter?: string) {
   const connectedWallet = useAccount();
 
   const { constants, txErrorReporter, queryClient, contractAddress } =
@@ -32,6 +32,7 @@ export function useEarnDepositTx() {
         walletAddr: connectedWallet.terraWalletAddress as HumanAddr,
         marketAddr: contractAddress.moneyMarket.market,
         depositAmount,
+        granter,
         stableDenom: contractAddress.native.usd,
         // post
         network: connectedWallet.network,
@@ -50,15 +51,7 @@ export function useEarnDepositTx() {
         },
       });
     },
-    [
-      connectedWallet,
-      contractAddress.moneyMarket.market,
-      contractAddress.native.usd,
-      constants.gasAdjustment,
-      queryClient,
-      txErrorReporter,
-      refetchQueries,
-    ]
+    [connectedWallet, queryClient, contractAddress.moneyMarket.market, contractAddress.native.usd, granter, constants.gasAdjustment, txErrorReporter, refetchQueries]
   );
 
   const streamReturn = useStream(stream);

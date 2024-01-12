@@ -34,7 +34,7 @@ const Component: React.FC<StatsDoughnutCardProps> = (
     ],
   };
 
-  const options: ChartOptions = {
+  const options: ChartOptions<"doughnut"> = {
     plugins: {
       tooltip: {
         enabled: false,

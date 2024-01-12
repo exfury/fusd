@@ -2,21 +2,20 @@ import React, { ReactNode } from 'react';
 import { DialogProps, OpenDialog, useDialog } from '@libs/use-dialog';
 import { FormParams, FormReturn } from './types';
 import { useTerraDepositDialog } from './terra';
-import { Box, Grid, Modal, styled } from "@mui/material";
-import { EmbossButton } from '@libs/neumorphism-ui/components/EmbossButton';
-import { Dialog } from '@libs/neumorphism-ui/components/Dialog';
+import { Box, Grid } from "@mui/material";
 import { DepositDialogWithButtons, PaddingActionButton } from '@libs/neumorphism-ui/components/DialogWithButtons';
 import { Terra } from '@anchor-protocol/icons';
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import { kadoIcons, squidIcons } from './terra/deposit-icons';
+import { useCreditCardDepositDialog } from './terra/CreditCardDepositDialog';
 
 function DepositDialog({ closeDialog }: DialogProps<FormParams, FormReturn>): React.JSX.Element {
 
   const [openTerraDepositDialog, terraDepositDialog] = useTerraDepositDialog();
 
-  const [openCreditCardDialog, creditCardDialog] = useTerraDepositDialog()//useCreditCardDepositDialog();
+  const [openCreditCardDialog, creditCardDialog] = useCreditCardDepositDialog();
 
-  return (<DepositDialogWithButtons closeDialog={closeDialog}>
+  return (<DepositDialogWithButtons closeDialog={() => closeDialog()}>
     <Grid item>
       <PaddingActionButton onClick={openTerraDepositDialog}>
         <Terra
@@ -27,7 +26,7 @@ function DepositDialog({ closeDialog }: DialogProps<FormParams, FormReturn>): Re
     </Grid>
     <Grid item container alignItems="center" spacing={2}>
       <Grid item>
-        <PaddingActionButton onClick={openCreditCardDialog}>
+        <PaddingActionButton onClick={() => openCreditCardDialog().then(() => closeDialog())}>
           <CreditCardIcon
             style={{ color: "currentColor", marginRight: 10 }}
           />
@@ -86,10 +85,6 @@ function DepositDialog({ closeDialog }: DialogProps<FormParams, FormReturn>): Re
   </DepositDialogWithButtons>
   );
 }
-
-const DepositGridButtons = styled(EmbossButton) <{ component: string }>`
-  padding: 10px;
-`
 
 
 export function useDepositDialog(): [

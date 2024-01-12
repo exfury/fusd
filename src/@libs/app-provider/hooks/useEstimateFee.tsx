@@ -1,5 +1,5 @@
 import { useAnchorWebapp, useNetwork } from '@anchor-protocol/app-provider';
-import { Gas, HumanAddr, Luna, u } from '@libs/types';
+import { Gas, Luna, u } from '@libs/types';
 import { Msg } from '@terra-money/feather.js';
 import { useCallback, useMemo, useState } from 'react';
 import { useApp } from '../contexts/app';
@@ -45,17 +45,15 @@ export function defaultFee(): EstimatedFee {
   };
 }
 
-export function useEstimateFee(
-  walletAddress: HumanAddr | undefined,
-): (msgs: Msg[]) => Promise<EstimatedFee | undefined> {
+export function useEstimateFee(): (msgs: Msg[]) => Promise<EstimatedFee | undefined> {
   const { lcdClient } = useNetwork();
   const { gasPrice, constants } = useApp();
   const { queryClient } = useAnchorWebapp();
-  const { pubkey } = useAccount();
+  const { pubkey, terraWalletAddress } = useAccount();
 
   return useCallback(
     async (msgs: Msg[]) => {
-      if (!walletAddress || !queryClient) {
+      if (!terraWalletAddress || !queryClient) {
         return undefined;
       }
 
@@ -64,7 +62,7 @@ export function useEstimateFee(
         ...queryClient,
         pubkey,
         msgs,
-        address: walletAddress,
+        address: terraWalletAddress,
         lcdClient,
         gasInfo: {
           gasAdjustment: constants.gasAdjustment,
@@ -81,19 +79,17 @@ export function useEstimateFee(
       };
 
     },
-    [walletAddress, queryClient, pubkey, lcdClient, constants.gasAdjustment, gasPrice],
+    [terraWalletAddress, queryClient, pubkey, lcdClient, constants.gasAdjustment, gasPrice],
   );
 }
 
-export function useFeeEstimationFor(
-  walletAddress: HumanAddr | undefined,
-): [
-    EstimatedFee | undefined,
-    string | JSX.Element | undefined,
-    (msgs: Msg[] | null) => void,
-    boolean
-  ] {
-  const estimateFee = useEstimateFee(walletAddress);
+export function useFeeEstimation(): [
+  EstimatedFee | undefined,
+  string | JSX.Element | undefined,
+  (msgs: Msg[] | null) => void,
+  boolean
+] {
+  const estimateFee = useEstimateFee();
   const [estimatedFeeError, setEstimatedFeeError] = useState<
     string | JSX.Element | undefined
   >();

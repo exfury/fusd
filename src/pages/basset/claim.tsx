@@ -1,7 +1,7 @@
 import { validateTxFee } from '@anchor-protocol/app-fns';
 import { useAnchorBank, useBAssetClaimTx } from '@anchor-protocol/app-provider';
 import { formatLuna, formatUST } from '@anchor-protocol/notation';
-import { useFeeEstimationFor } from '@libs/app-provider';
+import { useFeeEstimation } from '@libs/app-provider';
 import { demicrofy } from '@libs/formatter';
 import { ActionButton } from '@libs/neumorphism-ui/components/ActionButton';
 import { IconSpan } from '@libs/neumorphism-ui/components/IconSpan';
@@ -37,7 +37,7 @@ function Component({ className }: BAssetClaimProps) {
   const { connected, terraWalletAddress } = useAccount();
 
   const [estimatedFee, estimatedFeeError, estimateFee] =
-    useFeeEstimationFor(terraWalletAddress);
+    useFeeEstimation();
   const [noRewards, setNoRewards] = useState(false);
 
 

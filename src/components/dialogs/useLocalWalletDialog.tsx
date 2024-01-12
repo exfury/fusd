@@ -12,8 +12,6 @@ import { VerifyMnemonicDialog } from 'wallets/local-wallet-dialog/verify-mnemoni
 import { FinalLocalWalletCreationDialog } from 'wallets/local-wallet-dialog/final-dialog';
 import { deleteMnemonic, getMnemonic, hasMnemonic } from 'wallets/logic/storage';
 import { LocalWalletConnectionDialog } from 'wallets/local-wallet-dialog/connection';
-import { useAccount } from 'contexts/account';
-
 
 export type LocalWalletResult = {
   create: {

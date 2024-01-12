@@ -70,7 +70,9 @@ const TerraWalletSelector = (): React.JSX.Element => {
                     onClose();
                   }}
                   onBuyUST={() => {
-                    openBuyUstDialog({});
+                    openBuyUstDialog({
+                      address: terraWalletAddress
+                    });
                     onClose();
                   }}
                 />

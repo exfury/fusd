@@ -26,7 +26,7 @@ function ProgressBarStyled({ size, color }: { size?: number, color: string } = {
   )
 }
 
-function GuardStyled({ size, color }: { size?: number, color: string } = { size: 80, color: "#4fa94d" }) {
+export function GuardStyled({ size, color }: { size?: number, color: string } = { size: 80, color: "#4fa94d" }) {
   return (<ThreeDots
     height={size}
     width={size}

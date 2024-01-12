@@ -1,15 +1,16 @@
 import { DialogTitle, Modal } from '@mui/material';
-import { Dialog } from '@libs/neumorphism-ui/components/Dialog';
 import { Dialog as MaterialUIDialog } from '@mui/material';
-import { EmbossButton } from '@libs/neumorphism-ui/components/EmbossButton';
 import { DialogProps, OpenDialog, useDialog } from '@libs/use-dialog';
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { dialogStyle } from './useInsuranceCoverageDialog';
+import { HumanAddr } from '@libs/types';
+import { Close } from '@mui/icons-material';
 
 interface FormParams {
   className?: string;
+  address: HumanAddr | undefined
 }
 
 type FormReturn = void;
@@ -23,6 +24,7 @@ export function useBuyUstDialog(): [
 
 function ComponentBase({
   className,
+  address,
   closeDialog,
 }: DialogProps<FormParams, FormReturn>) {
 
@@ -41,6 +43,8 @@ function ComponentBase({
     <Modal open onClose={() => closeDialog()}>
       <KadoDialog
         open={openKado}
+        address={address}
+        depositAmount={"100"}
         onClose={handleClose}
       />
     </Modal>
@@ -50,6 +54,8 @@ function ComponentBase({
 
 export interface KadoDialogProps {
   open: boolean;
+  address: HumanAddr | undefined,
+  depositAmount: string | undefined,
   onClose: () => void;
 }
 
@@ -60,10 +66,20 @@ export function KadoDialog(props: KadoDialogProps) {
     onClose();
   };
 
+  //https://app.kado.money/
+  let kadoURL = "https://sandbox--kado.netlify.app/";
+  kadoURL += "?onPayCurrency=USD&theme=dark"
+  kadoURL += "&onRevCurrency=USDC&cryptoList=USDC"
+  kadoURL += "&network=TERRA&networkList=TERRA"
+  kadoURL += "&product=BUY&productList=BUY";
+  kadoURL += props.address ? `&onToAddress=${props.address}` : "";
+  kadoURL += props.depositAmount ? `&onPayAmount=${props.depositAmount}` : "";
+  kadoURL += props.address ? `&userRef=CAVERN_DIRECT_DEPOSIT_${props.address}` : ""
+
   return (
-    <MaterialUIDialog onClose={handleClose} open={open}>
-      <DialogTitle>Buy axlUSDC on Kado OnRamp</DialogTitle>
-      <iframe title="buy-kado-money" src="https://app.kado.money/?onPayCurrency=USD&onRevCurrency=USDC&network=TERRA" width="480" height="620" style={{ border: "0px" }}></iframe>
+    <MaterialUIDialog onClose={() => { null }} open={open} >
+      <DialogTitle sx={{ textAlign: "center", display: "flex", flexDirection: "row", gap: "20px", alignItems: "center", justifyContent: "space-between" }}>Deposit USDC with Credit Card <Close sx={{ cursor: "pointer" }} onClick={onClose}></Close></DialogTitle>
+      <iframe title="buy-kado-money" src={kadoURL} width="480" height="620" style={{ border: "0px" }}></iframe>
     </MaterialUIDialog>
   );
 }

@@ -10,6 +10,7 @@ import { ThemeProvider } from 'contexts/theme';
 import { lightTheme, darkTheme } from 'themes/terra';
 import LocalWallet from 'wallets/local';
 import { useLocalWalletDialog } from 'components/dialogs/useLocalWalletDialog';
+import { Toaster } from 'react-hot-toast';
 
 export function App({ viewer_wallet, local_wallet }: { viewer_wallet: AddressViewerWallet, local_wallet: LocalWallet }): React.JSX.Element {
 
@@ -57,6 +58,8 @@ export function App({ viewer_wallet, local_wallet }: { viewer_wallet: AddressVie
         {readonlyDialog}
         {localWalletDialog}
       </ThemeProvider>
+
+      <Toaster />
     </DeploymentTargetProvider>
   );
 }

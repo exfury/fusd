@@ -7,7 +7,7 @@ import {
 import { useAnchorWebapp } from "@anchor-protocol/app-provider/contexts/context";
 import {  UST } from "@anchor-protocol/types";
 import { createHookMsg } from "@libs/app-fns/tx/internal";
-import { useFeeEstimationFor } from "@libs/app-provider";
+import { useFeeEstimation } from "@libs/app-provider";
 import { formatTokenInput } from "@libs/formatter";
 import { useForm } from "@libs/use-form";
 import { MsgExecuteContract } from "@terra-money/feather.js";
@@ -30,7 +30,7 @@ export function useEarnWithdrawForm(): EarnWithdrawFormReturn {
   const { contractAddress } = useAnchorWebapp();
 
   const [estimatedFee, estimatedFeeError, estimateFee] =
-    useFeeEstimationFor(terraWalletAddress);
+    useFeeEstimation();
 
   const { totalDeposit } = useMemo(() => {
     return {

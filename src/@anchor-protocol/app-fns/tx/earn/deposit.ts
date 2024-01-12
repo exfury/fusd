@@ -48,6 +48,7 @@ import { PostResponse } from "@terra-money/wallet-kit";
 export function earnDepositTx($: {
   walletAddr: HumanAddr;
   marketAddr: HumanAddr;
+  granter?: string;
   depositAmount: UST;
   stableDenom: NativeDenom;
 
@@ -82,7 +83,7 @@ export function earnDepositTx($: {
           ])
         ),
       ],
-      fee: new Fee($.gasFee, floor($.txFee) + "uluna"),
+      fee: new Fee($.gasFee, floor($.txFee) + "uluna", undefined, $.granter),
       gasAdjustment: $.gasAdjustment,
       chainID: $.network.chainID,
     }),

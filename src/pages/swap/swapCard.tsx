@@ -47,7 +47,7 @@ import { validateSwapAmount } from './logic/validateSwapAmount';
 import { ConvertSymbols, ConvertSymbolsContainer } from './components/ConvertSymbols';
 import styled, { useTheme } from 'styled-components';
 
-import { useFeeEstimationFor } from '@libs/app-provider';
+import { useFeeEstimation } from '@libs/app-provider';
 import { useAlert } from '@libs/neumorphism-ui/components/useAlert';
 import { floor } from '@libs/big-math';
 import { CircleSpinner } from 'utils/consts';
@@ -103,7 +103,7 @@ export function Component({
   } = useAnchorWebapp();
 
   const [estimatedFee, estimatedFeeError, estimateFee] =
-    useFeeEstimationFor(terraWalletAddress);
+    useFeeEstimation();
 
   const [swap, swapResult] = useTFMSwapTx();
 

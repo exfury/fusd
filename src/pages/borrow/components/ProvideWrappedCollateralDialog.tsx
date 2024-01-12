@@ -37,7 +37,7 @@ import {
   useFormatters
 } from '@anchor-protocol/formatter';
 import { BroadcastTxStreamResult } from 'pages/earn/components/types';
-import { EstimatedFee, useFeeEstimationFor } from '@libs/app-provider';
+import { EstimatedFee, useFeeEstimation } from '@libs/app-provider';
 import { CircleSpinner } from 'utils/consts';
 import { WhitelistWrappedCollateral } from 'queries';
 import { getWrappedCollateralMessages } from '@anchor-protocol/app-fns';
@@ -98,7 +98,7 @@ function ProvideWrappedCollateralDialogBase(props: ProvideCollateralDialogProps)
   const { ltvToAmount } = states;
 
   const [estimatedFee, estimatedFeeError, estimateFee] =
-    useFeeEstimationFor(terraWalletAddress);
+    useFeeEstimation();
 
 
   useEffect(() => {
