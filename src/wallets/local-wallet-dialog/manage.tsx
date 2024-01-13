@@ -55,8 +55,8 @@ export function passwordForm(
     buttonColor: ButtonOwnProps["color"],
 ) {
     return (
-        <form onSubmit={formik.handleSubmit} className="form-element">
-            <Grid container gap={2} sx={{ justifyContent: "center", alignItems: "center" }}>
+        <form onSubmit={formik.handleSubmit} className="form-element" style={{ width: "100%" }} >
+            <Grid container gap={3} sx={{ justifyContent: "center", alignItems: "center" }}>
                 <Grid item xs={12} sm={5}
                     sx={{
                         minWidth: "300px"
@@ -84,6 +84,7 @@ export function passwordForm(
                             formik.touched.password &&
                             formik.errors.password
                         }
+                        sx={{ display: "flex", justifyContent: "center" }}
                     />
                 </Grid>
                 <Grid item>
@@ -97,7 +98,7 @@ export function passwordForm(
                     </Button>
                 </Grid>
             </Grid>
-        </form>
+        </ form>
     )
 }
 

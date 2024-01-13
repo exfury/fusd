@@ -9,10 +9,11 @@ export interface DialogWithButtonProps {
     children: ReactNode[],
     spacing?: number
     title?: ReactNode
-    gridSx?: SxProps<Theme>
+    gridSx?: SxProps<Theme>;
+    className?: string | undefined;
 }
 
-export function ComponentBase({ closeDialog, children, spacing, title, gridSx }: DialogWithButtonProps): React.JSX.Element {
+export function ComponentBase({ closeDialog, children, spacing, title, gridSx, className }: DialogWithButtonProps): React.JSX.Element {
 
     return (
         <Modal open onClose={() => {
@@ -20,10 +21,11 @@ export function ComponentBase({ closeDialog, children, spacing, title, gridSx }:
                 closeDialog()
             }
         }}>
-            <Dialog onClose={() => {
+            <Dialog className={className} onClose={() => {
                 if (closeDialog) {
                     closeDialog()
                 }
+
             }}>
                 <Title>{title ?? "Deposit"}</Title>
 

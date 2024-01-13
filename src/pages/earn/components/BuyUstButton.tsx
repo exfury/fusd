@@ -13,7 +13,8 @@ export function BuyUstButton(buttonProps: ButtonBaseProps) {
   return (
     <>
       <Button {...buttonProps} onClick={() => openBuyUst({
-        address: terraWalletAddress
+        address: terraWalletAddress,
+        depositAmount: "100"
       })}>
         <DollarCoin /> Buy axlUSDC
       </Button>

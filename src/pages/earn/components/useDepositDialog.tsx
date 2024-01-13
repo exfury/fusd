@@ -17,14 +17,14 @@ function DepositDialog({ closeDialog }: DialogProps<FormParams, FormReturn>): Re
 
   return (<DepositDialogWithButtons closeDialog={() => closeDialog()}>
     <Grid item>
-      <PaddingActionButton onClick={openTerraDepositDialog}>
+      <PaddingActionButton onClick={(e: any) => openTerraDepositDialog(e).then(() => closeDialog())}>
         <Terra
           style={{ height: "1.4em", marginRight: 10 }}
         />
         Deposit on Terra
       </PaddingActionButton>
     </Grid>
-    <Grid item container alignItems="center" spacing={2}>
+    <Grid item container alignItems="center" justifyContent="center" spacing={2}>
       <Grid item>
         <PaddingActionButton onClick={() => openCreditCardDialog().then(() => closeDialog())}>
           <CreditCardIcon
@@ -51,7 +51,7 @@ function DepositDialog({ closeDialog }: DialogProps<FormParams, FormReturn>): Re
         ))}
       </Grid>
     </Grid>
-    <Grid item container alignItems="center" spacing={2}>
+    <Grid item container alignItems="center" justifyContent="center" spacing={2}>
       <Grid item>
         <PaddingActionButton disabled>
           <img

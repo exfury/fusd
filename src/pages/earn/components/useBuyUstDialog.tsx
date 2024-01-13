@@ -1,70 +1,30 @@
-import { DialogTitle, Modal } from '@mui/material';
-import { Dialog as MaterialUIDialog } from '@mui/material';
 import { DialogProps, OpenDialog, useDialog } from '@libs/use-dialog';
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { dialogStyle } from './useInsuranceCoverageDialog';
 import { HumanAddr } from '@libs/types';
-import { Close } from '@mui/icons-material';
+import { DepositDialogWithButtons } from '@libs/neumorphism-ui/components/DialogWithButtons';
 
-interface FormParams {
-  className?: string;
-  address: HumanAddr | undefined
-}
 
 type FormReturn = void;
 
 export function useBuyUstDialog(): [
-  OpenDialog<FormParams, FormReturn>,
+  OpenDialog<KadoDialogProps, FormReturn>,
   ReactNode,
 ] {
-  return useDialog(Component);
-}
-
-function ComponentBase({
-  className,
-  address,
-  closeDialog,
-}: DialogProps<FormParams, FormReturn>) {
-
-  const [openKado, setOpenKado] = React.useState(true);
-
-  const handleClickOpen = () => {
-    setOpenKado(true);
-  };
-
-  const handleClose = () => {
-    setOpenKado(false);
-    closeDialog()
-  };
-
-  return (
-    <Modal open onClose={() => closeDialog()}>
-      <KadoDialog
-        open={openKado}
-        address={address}
-        depositAmount={"100"}
-        onClose={handleClose}
-      />
-    </Modal>
-  );
+  return useDialog(KadoDialog);
 }
 
 
 export interface KadoDialogProps {
-  open: boolean;
+  className?: string;
   address: HumanAddr | undefined,
-  depositAmount: string | undefined,
-  onClose: () => void;
+  depositAmount?: string | undefined,
 }
 
-export function KadoDialog(props: KadoDialogProps) {
-  const { onClose, open } = props;
+function KadoDialogBase(props: DialogProps<KadoDialogProps, void>) {
 
-  const handleClose = () => {
-    onClose();
-  };
 
   //https://app.kado.money/
   let kadoURL = "https://sandbox--kado.netlify.app/";
@@ -77,15 +37,15 @@ export function KadoDialog(props: KadoDialogProps) {
   kadoURL += props.address ? `&userRef=CAVERN_DIRECT_DEPOSIT_${props.address}` : ""
 
   return (
-    <MaterialUIDialog onClose={() => { null }} open={open} >
-      <DialogTitle sx={{ textAlign: "center", display: "flex", flexDirection: "row", gap: "20px", alignItems: "center", justifyContent: "space-between" }}>Deposit USDC with Credit Card <Close sx={{ cursor: "pointer" }} onClick={onClose}></Close></DialogTitle>
-      <iframe title="buy-kado-money" src={kadoURL} width="480" height="620" style={{ border: "0px" }}></iframe>
-    </MaterialUIDialog>
+    <DepositDialogWithButtons className={props.className} closeDialog={props.closeDialog} sx={{ margin: "0px !important" }} >
+      <></>
+      {/* <DialogTitle sx={{ textAlign: "center", display: "flex", flexDirection: "row", gap: "20px", alignItems: "center", justifyContent: "space-between" }}>Deposit USDC with Credit Card <Close sx={{ cursor: "pointer" }} onClick={() => props.closeDialog()}></Close></DialogTitle> */}
+      <iframe title="buy-kado-money" src={kadoURL} width="550" height="700" style={{ border: "0px" }}></iframe>
+    </DepositDialogWithButtons>
   );
 }
 
-const Component = styled(ComponentBase)`
-  width: 458px;
+export const KadoDialog = styled(KadoDialogBase)`
 
   ${dialogStyle};
 
@@ -95,5 +55,13 @@ const Component = styled(ComponentBase)`
         max-width: 32px;
       }
     }
+  }
+  .dialog-content{
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+  }
+
+  iframe {
+      max-width: 100% !important;
   }
 `;

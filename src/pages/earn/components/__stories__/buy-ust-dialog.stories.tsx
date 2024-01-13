@@ -10,6 +10,6 @@ export default {
 export const Basic = () => {
 
     return (
-        <KadoDialog depositAmount={"500"} open={true} address={"terra1neen87w9ztnze6wypztrg9nwug7kkr3k53wv3t" as HumanAddr} onClose={() => console.log("Closed dialog")} />
+        <KadoDialog depositAmount={"500"} address={"terra1neen87w9ztnze6wypztrg9nwug7kkr3k53wv3t" as HumanAddr} closeDialog={() => console.log("Closed dialog")} />
     );
 };

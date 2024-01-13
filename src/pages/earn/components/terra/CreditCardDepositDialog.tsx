@@ -88,7 +88,7 @@ export function useCreditCardDepositDialog(): [
     }) as LoadingDialogResult<OnBoardingTx[]> ?? [];
 
     // Else, or if the user returns, we try to onboard via kado
-    const kadoPromise = openKadoDialog({ address: terraWalletAddress });
+    const kadoPromise = openKadoDialog({ address: terraWalletAddress, depositAmount: "100" });
     // Parallel to the Kado Deposit Dialog, we scan regularly for Kado related transactions 
     let currentTxFetchTimeout: undefined | NodeJS.Timeout = undefined;
     const newTxsPromise: Promise<OnBoardingTx[]> = new Promise((resolve) => {
