@@ -11,8 +11,8 @@ import { demicrofy, formatOutput } from '@anchor-protocol/formatter';
 import { TxHashLink as TxHashLinkBase } from 'components/links/TxHashLink';
 import styled from 'styled-components';
 import { BorderButton } from '@libs/neumorphism-ui/components/BorderButton';
-import { Box, IconButton, Modal } from '@mui/material';
-import { Mail, Telegram, Twitter } from '@mui/icons-material';
+import { Box, Divider, Grid, IconButton, Modal, Tooltip, Table, TableBody, TableContainer, TableHead, TableRow, TableCell } from '@mui/material';
+import { HelpOutline, Mail, Telegram, Twitter } from '@mui/icons-material';
 import { useLoadingDialog } from './LoadingDialog';
 import { askForFeeGrant } from '@anchor-protocol/app-provider/queries/on-boarding/askForFeeGrant';
 import { simulateFetch } from '@libs/query-client';
@@ -27,6 +27,7 @@ import { StreamStatus } from '@rx-stream/react';
 import { Dialog } from '@libs/neumorphism-ui/components/Dialog';
 import { Gas, Luna, u } from '@libs/types';
 import { TxStreamPhase } from '@libs/app-fns';
+import { useMediaQuery } from 'react-responsive';
 
 
 export interface FormParams {
@@ -54,6 +55,8 @@ export function ActOnOnboardingDialog({ txs, beforeDeposit, closeDialog }: Dialo
     const [deposit, depositTxResult] = useEarnDepositTx(contractAddress.admin.feeAddress);
 
     const [txToDeposit, setTxToDeposit] = useState<null | OnBoardingTx>(null);
+
+    const isVerySmall = useMediaQuery({ maxWidth: 700 });
 
     const renderBroadcastTx = useMemo(() => {
 
@@ -174,113 +177,186 @@ export function ActOnOnboardingDialog({ txs, beforeDeposit, closeDialog }: Dialo
     }
 
     return (
-        <DepositDialogWithButtons title={title} closeDialog={() => closeDialog(null)}>
+        <DepositDialogWithButtons title={
+            <Box sx={{ display: "flex", gap: "6px", alignItems: "center", justifyContent: "center" }}>
+                {title}
+                <Tooltip title={text}>
+                    <HelpOutline
+                        aria-label="help"
+                        sx={{ fontSize: 15, cursor: "pointer" }}
+                    />
+                </Tooltip>
+            </Box>
+        } closeDialog={() => closeDialog(null)}>
             <Box>
-                {text}
-                <br />
-                You don't see your deposits after a while here ? Please contact us.
-                <Box sx={{ display: "inline", marginLeft: "15px" }}>
-                    < IconButton
-                        component="a"
-                        href="https://twitter.com/CavernProtocol"
-                        target="_blank"
-                        rel="noreferrer"
-                        color="primary"
-                    >
-                        <Twitter />
-                    </IconButton >
-                    <IconButton
-                        component="a"
-                        href="https://t.me/cavernprotocolofficial"
-                        target="_blank"
-                        color="primary"
-                        rel="noreferrer"
-                    >
-                        <Telegram />
-                    </IconButton>
-                    <IconButton
-                        component="a"
-                        href="mailto:cavern.protocol@gmail.com"
-                        target="_blank"
-                        color="primary"
-                        rel="noreferrer"
-                    >
-                        <Mail />
-                    </IconButton>
-                </Box >
-                <br />
                 {beforeDeposit && "Close this dialog if you want to make an additional deposit"}
-
             </Box >
-            <HorizontalScrollTable minWidth={400} >
-                <colgroup>
-                    <col style={{ width: 200 }} />
-                    <col style={{ width: 200 }} />
-                    <col style={{ width: 200 }} />
-                    <col style={{ width: 250 }} />
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th>
-                            Transaction Hash
-                        </th>
-                        <th>
-                            <IconSpan>
-                                USD Value{' '}
-                                <InfoTooltip>
-                                    USD Amount available to deposit on Cavern Protocol
-                                </InfoTooltip>
-                            </IconSpan>
-                        </th>
-                        <th>Date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {txsToDisplay.map((tx, i) => {
+            {!isVerySmall && <TableContainer style={{ maxHeight: 300, overflow: 'scroll' }}>
+                <Table
+                    sx={{ minWidth: 550, padding: '0px' }}
+                    aria-label="simple table"
+                    stickyHeader
+                >
+                    <TableHead>
+                        <TableRow>
+                            <TitleStyleCell className="table-header">Transaction Hash</TitleStyleCell>
+                            <TitleStyleCell align="right" className="table-header">
+                                USD Value
+                            </TitleStyleCell>
+                            <TitleStyleCell align="right" className="table-header">
+                                Date
+                            </TitleStyleCell>
+                            <TitleStyleCell align="right" className="table-header">
+                                Action
+                            </TitleStyleCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {txsToDisplay.map((tx, index: number) => {
+                            const date = new Date(Date.parse(tx.timestamp));
+
+                            return (
+                                <TableRow
+                                    key={`${tx.timestamp}-${index}`}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <StyledCell scope="row">
+                                        <TxHashLink txHash={tx.tx_hash} />
+                                    </StyledCell>
+                                    <StyledCell align="right">
+                                        <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "10px" }}>
+                                            <div className="value">{formatOutput(demicrofy(tx.kado_amount!, 6))} axlUSDC</div>
+                                            <i>
+                                                <TokenIcon
+                                                    token="ust"
+                                                />
+                                            </i></Box>
+                                    </StyledCell>
+                                    <StyledCell align="right">
+                                        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+                                            <Box>
+                                                {date.toLocaleDateString()}
+                                            </Box>
+                                            <Box sx={{ fontSize: "0.86em" }}>
+                                                {date.toLocaleTimeString()}
+                                            </Box>
+                                        </Box>
+                                    </StyledCell>
+                                    <StyledCell align="right">
+                                        <BorderButton sx={{ padding: "0px 20px" }} onClick={() => onSubmitDeposit(tx)}>
+                                            Deposit on Cavern
+                                        </BorderButton>
+                                    </StyledCell>
+                                </TableRow>
+                            )
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>}
+
+
+
+
+            {isVerySmall &&
+                <Grid container sx={{ padding: "16px 16px", maxHeight: "300px", marginTop: "10px", marginLeft: 0, overflowY: "scroll" }} gap={3}>
+
+                    {txsToDisplay.map((tx, index) => {
                         const date = new Date(Date.parse(tx.timestamp));
-                        return (
-                            <tr key={i}>
-                                <td>
-                                    <TxHashLink txHash={tx.tx_hash} />
-                                </td>
-                                <td >
-                                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "10px" }}>
-                                        <div className="value">{formatOutput(demicrofy(tx.kado_amount!, 6))} axlUSDC</div>
-                                        <i>
-                                            <TokenIcon
-                                                token="ust"
-                                            />
-                                        </i></Box>
-                                </td>
-                                <td>
-                                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-                                        <Box>
-                                            {date.toLocaleDateString()}
-                                        </Box>
-                                        <Box sx={{ fontSize: "0.86em" }}>
-                                            {date.toLocaleTimeString()}
-                                        </Box>
-                                    </Box>
-                                </td>
-                                <td>
-                                    <BorderButton sx={{ padding: "0px 20px" }} onClick={() => onSubmitDeposit(tx)}>
-                                        Deposit on Cavern
-                                    </BorderButton>
-                                </td>
-                            </tr>
+                        return (<Grid container spacing={2} key={index}>
+                            <Grid item xs={6}>
+                                Time
+                            </Grid>
+                            <Grid item xs={6} sx={{ fontWeight: "bold" }}>
+                                <Box>
+                                    {date.toLocaleDateString()}
+                                </Box>
+                                <Box sx={{ fontSize: "0.86em" }}>
+                                    {date.toLocaleTimeString()}
+                                </Box>
+                            </Grid>
+                            <Grid item xs={6}>
+                                USDC deposited
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "10px" }}>
+                                    <div className="value">{formatOutput(demicrofy(tx.kado_amount!, 6))} axlUSDC</div>
+                                    <i>
+                                        <TokenIcon
+                                            token="ust"
+                                        />
+                                    </i>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={6}>
+                                Transaction Hash
+                            </Grid>
+                            <Grid item xs={6} >
+                                <TxHashLink txHash={tx.tx_hash} />
+                            </Grid>
+                            <Grid item xs={12} sx={{ textAlign: "center" }}>
+                                <BorderButton sx={{ padding: "0px 20px" }} onClick={() => onSubmitDeposit(tx)}>
+                                    Deposit on Cavern
+                                </BorderButton>
+                            </Grid>
+                            <Grid item xs={12}>
+                                {index != (txsToDisplay.length - 1) && <Divider orientation="horizontal" flexItem variant="middle" sx={{ backgroundColor: "white" }} />}
+                            </Grid>
+                        </Grid>
+
                         )
                     })}
-                </tbody>
-            </HorizontalScrollTable>
+                </Grid>
+            }
 
+            You don't see your deposits after a while here ? Please contact us.
+            <br />
+            <Box sx={{ marginLeft: "15px", textAlign: "center" }}>
+                < IconButton
+                    component="a"
+                    href="https://twitter.com/CavernProtocol"
+                    target="_blank"
+                    rel="noreferrer"
+                    color="primary"
+                >
+                    <Twitter />
+                </IconButton >
+                <IconButton
+                    component="a"
+                    href="https://t.me/cavernprotocolofficial"
+                    target="_blank"
+                    color="primary"
+                    rel="noreferrer"
+                >
+                    <Telegram />
+                </IconButton>
+                <IconButton
+                    component="a"
+                    href="mailto:cavern.protocol@gmail.com"
+                    target="_blank"
+                    color="primary"
+                    rel="noreferrer"
+                >
+                    <Mail />
+                </IconButton>
+            </Box >
             {loadDialog}
             {simulateDialog}
         </DepositDialogWithButtons >
     );
 }
 
-export const TxHashLink = styled(TxHashLinkBase)`
+const TxHashLink = styled(TxHashLinkBase)`
     color: ${({ theme }) => theme.textColor};
     font-size: 0.9em
+`
+
+const StyledCell = styled(TableCell)`
+    padding: 20px 0px !important;
+    font-size: 1em !important;
+    text-align: center !important;
+`
+
+const TitleStyleCell = styled(StyledCell)`
+
+  background-color:${({ theme }) => theme.sectionBackgroundColor} !important;
 `
