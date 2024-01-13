@@ -10,7 +10,10 @@ import { ThemeProvider } from 'contexts/theme';
 import { lightTheme, darkTheme } from 'themes/terra';
 import LocalWallet from 'wallets/local';
 import { useLocalWalletDialog } from 'components/dialogs/useLocalWalletDialog';
-import { Toaster } from 'react-hot-toast';
+import { toast, Toaster, ToastBar } from 'react-hot-toast';
+import { Close } from '@mui/icons-material';
+import { Button } from '@mui/material';
+import styled from 'styled-components';
 
 export function App({ viewer_wallet, local_wallet }: { viewer_wallet: AddressViewerWallet, local_wallet: LocalWallet }): React.JSX.Element {
 
@@ -59,7 +62,32 @@ export function App({ viewer_wallet, local_wallet }: { viewer_wallet: AddressVie
         {localWalletDialog}
       </ThemeProvider>
 
-      <Toaster />
+
+
+      <Toaster>
+        {(t) => (
+          <ToastBar toast={t}>
+            {({ icon, message }) => (
+              <>
+                {icon}
+                {message}
+                {t.type !== 'loading' && (
+                  <ToastCloseButton onClick={() => toast.dismiss(t.id)}><Close /></ToastCloseButton>
+                )}
+              </>
+            )}
+          </ToastBar>
+        )}
+      </Toaster>;
     </DeploymentTargetProvider>
   );
 }
+
+const ToastCloseButton = styled(`button`)`
+  border: none;
+  background: none;
+  &:hover{
+    color: rgb(130,130,130);
+  }
+  cursor:pointer;
+`

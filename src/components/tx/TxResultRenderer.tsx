@@ -43,7 +43,7 @@ export function GuardStyled({ size, color }: { size?: number, color: string } = 
 
 export interface TxResultRendererProps {
   resultRendering: TxResultRendering;
-  onExit?: () => void;
+  onExit?: ((status: TxStreamPhase) => void);
   onMinimize?: () => void;
   minimizable?: boolean;
 }
@@ -68,7 +68,7 @@ export function TxResultRenderer({
 
   const handleMinimize = useCallback(() => {
     onMinimize?.();
-    onExit?.();
+    onExit?.(TxStreamPhase.BROADCAST);
   }, [onExit, onMinimize]);
 
   switch (phase) {
@@ -84,7 +84,7 @@ export function TxResultRenderer({
 
             <Receipts resultRendering={resultRendering} />
 
-            <SubmitButton onClick={() => onExit?.()}>Stop</SubmitButton>
+            <SubmitButton onClick={() => onExit?.(TxStreamPhase.POST)}>Stop</SubmitButton>
           </article>
         </Layout>
       );
@@ -127,7 +127,7 @@ export function TxResultRenderer({
 
             <Receipts resultRendering={resultRendering} />
 
-            <SubmitButton onClick={() => onExit?.()}>OK</SubmitButton>
+            <SubmitButton onClick={() => onExit?.(TxStreamPhase.SUCCEED)}>OK</SubmitButton>
           </article>
         </Layout>
       );
@@ -149,7 +149,7 @@ export function TxResultRenderer({
 
             <Receipts resultRendering={resultRendering} />
 
-            <SubmitButton onClick={() => onExit?.()}>OK</SubmitButton>
+            <SubmitButton onClick={() => onExit?.(TxStreamPhase.FAILED)}>OK</SubmitButton>
           </article>
         </Layout>
       );

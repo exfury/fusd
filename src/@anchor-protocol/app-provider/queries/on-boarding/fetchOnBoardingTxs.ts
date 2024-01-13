@@ -1,8 +1,8 @@
 import { UST, u } from "@libs/types"
 import { SERVER_BASE_ADDRESS } from ".";
-import { useEffect, useMemo, useState } from "react";
-import { UseQueryResult, useQuery } from "react-query";
-import { createQueryFn, createSimpleQueryFn } from "@libs/react-query-utils";
+import { useMemo, useState } from "react";
+import { useQuery } from "react-query";
+import { createSimpleQueryFn } from "@libs/react-query-utils";
 import { ANCHOR_QUERY_KEY } from "@anchor-protocol/app-provider/env";
 import toast from "react-hot-toast";
 
@@ -57,14 +57,12 @@ export async function fetchTotalTxs(walletAddress: string): Promise<number>{
 
 
 
-export function useFetchIndexHelper(address: string | undefined):{
-    totalTxs: number | undefined,
-    currentCount: UseQueryResult<number, unknown>
-    indexPromise: Promise<void> | undefined
-}{
+export function useFetchIndexHelper(address: string | undefined):Promise<void> | undefined
+{
     const [indexResolved, setIndexResolved] = useState(false);
     const [currentCount, setCurrentCount] = useState<undefined|number>()
 
+    console.log(address, indexResolved, !!address && !indexResolved);
     const indexQuery = useMemo(()=>{
         if(!address){
             return undefined
@@ -80,7 +78,7 @@ export function useFetchIndexHelper(address: string | undefined):{
     {
         enabled: !!address && !indexResolved
     })
-    const currentCountQuery = useQuery( [
+    useQuery( [
         ANCHOR_QUERY_KEY.ONBOARDING_TX_INDEX_COUNT,
         address!
     ],
@@ -89,7 +87,7 @@ export function useFetchIndexHelper(address: string | undefined):{
         enabled: !!address && !indexResolved,
         refetchInterval: 5000,
         onSuccess: (count)=>{
-            if(count != currentCount){
+            if(count !== currentCount){
                 if(totalQuery.status =="success"){
                     if(count != totalQuery.data){
                         toast.loading(`Indexing transactions (${count ?? "?"}/${totalQuery.data ?? "?"})`, {
@@ -107,9 +105,5 @@ export function useFetchIndexHelper(address: string | undefined):{
 
     })    
 
-    return {
-        totalTxs: totalQuery.data,
-        currentCount: currentCountQuery,
-        indexPromise: indexQuery
-    }
+    return indexQuery
 }

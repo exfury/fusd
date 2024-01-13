@@ -1,12 +1,13 @@
 import type { ReactNode } from 'react';
-import React, { useRef } from 'react';
+import React from 'react';
 import { useAccount } from 'contexts/account';
 import { useDialog } from '@libs/use-dialog';
 import { useBuyUstDialog } from '../useBuyUstDialog';
-import { OnBoardingTx, fetchOnBoardingTxs, useFetchIndexHelper } from '@anchor-protocol/app-provider/queries/on-boarding/fetchOnBoardingTxs';
+import { OnBoardingTx, fetchIndexWallet, fetchOnBoardingTxs, useFetchIndexHelper } from '@anchor-protocol/app-provider/queries/on-boarding/fetchOnBoardingTxs';
 import { ActOnOnboardingDialog } from './ActOnOnboardingDialog';
 import toast from 'react-hot-toast';
 import { LoadingDialogResult, useLoadingDialog } from './LoadingDialog';
+import { indicateOnboardingExecuted } from '@anchor-protocol/app-provider/queries/on-boarding/indicateExecuted';
 
 
 // We fetch every 10 seconds
@@ -33,9 +34,25 @@ export function useCreditCardDepositDialog(): [
   // );
 
   const { terraWalletAddress } = useAccount();
-  const { totalTxs, currentCount, indexPromise } = useFetchIndexHelper(terraWalletAddress);
-  console.log(totalTxs, currentCount)
-  const outsideVariableRef = useRef(currentCount);
+  const indexPromise = useFetchIndexHelper(terraWalletAddress);
+
+  const actOnTransaction = async (txs: OnBoardingTx[] | Promise<OnBoardingTx[]>, terraWalletAddress: string, beforeDeposit: boolean) => {
+    const actOnTransaction = await openActOnTransactionDialog({
+      txs,
+      beforeDeposit
+    });
+    console.log(actOnTransaction)
+    if (actOnTransaction) {
+      // We indicate to the server that the tx hash was executed correctly
+      await indicateOnboardingExecuted({
+        address: terraWalletAddress,
+        txhash: actOnTransaction.tx_hash
+      });
+      return true;
+    }
+    return false;
+  }
+
 
   const creditCardDepositFlow = async () => {
 
@@ -58,12 +75,8 @@ export function useCreditCardDepositDialog(): [
     const filteredTxs = txs.filter((tx) => !!tx.kado_amount);
     // If there are some new transactions that the user didn't act upon, we open the dialog for the user to choose what to deposit
     if (filteredTxs.length != 0) {
-      const actOnTransaction = await openActOnTransactionDialog({
-        txs: filteredTxs,
-        beforeDeposit: true
-      });
-      console.log(actOnTransaction)
-      if (actOnTransaction) {
+      const transactionExecuted = await actOnTransaction(filteredTxs, terraWalletAddress, true)
+      if (transactionExecuted) {
         return
       }
     }
@@ -82,7 +95,7 @@ export function useCreditCardDepositDialog(): [
 
       const fetchFunction = async (resolve: (_: OnBoardingTx[]) => void) => {
         // We fetch the nex txs
-        fetchOnBoardingTxs(terraWalletAddress).then((txs) => {
+        fetchIndexWallet(terraWalletAddress).then(() => fetchOnBoardingTxs(terraWalletAddress)).then((txs) => {
           // If there is new transactions, we ONLY return the new transactions
           if (txs.length > currentTxs.length) {
             const returnTxs = txs.filter(({ tx_hash }) => !currentTxs.some((tx) => {
@@ -99,7 +112,7 @@ export function useCreditCardDepositDialog(): [
           currentTxFetchTimeout = setTimeout(() => fetchFunction(resolve), FETCH_TX_TIMEOUT);
         })
 
-      }
+      };
       fetchFunction(resolve)
     });
 
@@ -109,14 +122,19 @@ export function useCreditCardDepositDialog(): [
       success: "You successfully onboarded Terra, you can close the Kado dialog",
       error: "Error when communicating with Cavern Protocol. You can initialize the deposit and come back later to finalize."
     }, {
-      duration: 6000
+      loading: {
+        duration: 6000 // stays 6 seconds just to inform
+      },
+      error: {
+        duration: 24 * 3600 * 1000 // Stays very long, so that users can see it
+      },
+      success: {
+        duration: 24 * 3600 * 1000  // Stays very long, so that users can see it
+      }
     })
 
     // If kado resolves (user closes the dialog), we open the act on transaction dialog when it resolves
-    await kadoPromise.then(() => openActOnTransactionDialog({
-      txs: newTxsPromise,
-      beforeDeposit: false
-    }));
+    await kadoPromise.then(() => actOnTransaction(newTxsPromise, terraWalletAddress, false))
 
     if (currentTxFetchTimeout) {
       clearTimeout(currentTxFetchTimeout)

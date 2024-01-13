@@ -165,7 +165,7 @@ function AbortMissionDialogBase(props: AbortMissionDialogProps) {
     return (
       <TxResultRenderer
         resultRendering={(abortMissionTxResult as BroadcastTxStreamResult).value}
-        onExit={closeDialog}
+        onExit={() => closeDialog()}
       />
     );
   }, [renderBroadcastTxResult, closeDialog, abortMissionTxResult]);

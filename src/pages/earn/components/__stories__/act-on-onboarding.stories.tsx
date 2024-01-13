@@ -31,6 +31,6 @@ export const Basic = () => {
         executed: false,
     }];
     return (
-        <ActOnOnboardingDialog txs={tx} closeDialog={(tx: OnBoardingTx | null) => console.log("Chosen tx")} beforeDeposit={false} />
+        <ActOnOnboardingDialog txs={tx} closeDialog={() => { return }} beforeDeposit={false} />
     );
 };

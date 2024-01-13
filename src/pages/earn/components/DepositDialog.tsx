@@ -71,7 +71,7 @@ function DepositDialogBase(props: DepositDialogProps) {
     return (
       <TxResultRenderer
         resultRendering={(txResult as BroadcastTxStreamResult).value}
-        onExit={closeDialog}
+        onExit={() => closeDialog()}
       />
     );
   }, [renderBroadcastTxResult, closeDialog, txResult]);

@@ -277,7 +277,7 @@ function BorrowDialogBase(props: BorrowDialogProps) {
           ) : (
             <TxResultRenderer
               resultRendering={txResult.value}
-              onExit={closeDialog}
+              onExit={() => closeDialog()}
             />
           )}
         </Dialog>

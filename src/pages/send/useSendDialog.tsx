@@ -297,7 +297,7 @@ function ComponentBase({
         <Dialog className={className}>
           <TxResultRenderer
             resultRendering={sendResult.value}
-            onExit={closeDialog}
+            onExit={() => closeDialog()}
           />
         </Dialog>
       </Modal>

@@ -26,6 +26,7 @@ import { BroadcastTxStreamResult } from '../types';
 import { StreamStatus } from '@rx-stream/react';
 import { Dialog } from '@libs/neumorphism-ui/components/Dialog';
 import { Gas, Luna, u } from '@libs/types';
+import { TxStreamPhase } from '@libs/app-fns';
 
 
 export interface FormParams {
@@ -33,13 +34,13 @@ export interface FormParams {
     beforeDeposit: boolean
 }
 
-export type FormReturn = null;
+export type OnBoardingReturn = OnBoardingTx | null;
 
 
-export function ActOnOnboardingDialog({ txs, beforeDeposit, closeDialog }: DialogProps<FormParams, FormReturn>): React.JSX.Element {
+export function ActOnOnboardingDialog({ txs, beforeDeposit, closeDialog }: DialogProps<FormParams, OnBoardingReturn>): React.JSX.Element {
 
     const [txsToDisplay, setTxs] = useState<OnBoardingTx[]>([]);
-    const [openLoadDialog, loadDialog] = useLoadingDialog<void>();
+    const [openLoadDialog, loadDialog] = useLoadingDialog<boolean>();
     const [openSimulateDialog, simulateDialog] = useLoadingDialog<number | undefined>();
 
     const { lcdClient } = useNetwork();
@@ -52,19 +53,23 @@ export function ActOnOnboardingDialog({ txs, beforeDeposit, closeDialog }: Dialo
 
     const [deposit, depositTxResult] = useEarnDepositTx(contractAddress.admin.feeAddress);
 
+    const [txToDeposit, setTxToDeposit] = useState<null | OnBoardingTx>(null);
 
     const renderBroadcastTx = useMemo(() => {
 
         return (
             <TxResultRenderer
                 resultRendering={(depositTxResult as BroadcastTxStreamResult).value}
-                onExit={() => closeDialog(null)}
+                onExit={(status: TxStreamPhase) => {
+                    if (status == TxStreamPhase.SUCCEED) {
+                        closeDialog(txToDeposit)
+                        return;
+                    }
+                    closeDialog(null)
+                }}
             />
         );
-    }, [closeDialog, depositTxResult]);
-
-
-
+    }, [closeDialog, depositTxResult, txToDeposit]);
 
     useEffect(() => {
         // If is Promise
@@ -92,7 +97,7 @@ export function ActOnOnboardingDialog({ txs, beforeDeposit, closeDialog }: Dialo
         console.log(tx.kado_amount, uUST, depositAmount.toString())
 
         // We start by loading the fee-grant for the user
-        await openLoadDialog({
+        const fee_granted = await openLoadDialog({
             title: "Fee-Grant Permissions",
             text: "Please wait until your wallet is made ready for a deposit",
             promise: askForFeeGrant({
@@ -100,6 +105,9 @@ export function ActOnOnboardingDialog({ txs, beforeDeposit, closeDialog }: Dialo
                 txhash: tx.tx_hash
             })
         });
+        if (!fee_granted) {
+            return;
+        }
 
         // We then simulate the transaction
         const msgs = [
@@ -142,9 +150,9 @@ export function ActOnOnboardingDialog({ txs, beforeDeposit, closeDialog }: Dialo
 
         const txFee = Math.ceil(gasWanted * parseFloat(gasPrice.uluna)).toString() as u<Luna>
 
+        setTxToDeposit(tx);
 
-        // We then automatically make the user sign for the transaction
-
+        // We then initiate the deposit transaction
         deposit({
             depositAmount: demicrofy(depositAmount, 6),
             txFee: {

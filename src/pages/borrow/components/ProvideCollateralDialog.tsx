@@ -181,7 +181,7 @@ function ProvideCollateralDialogBase(props: ProvideCollateralDialogProps) {
     return (
       <TxResultRenderer
         resultRendering={(txResult as BroadcastTxStreamResult).value}
-        onExit={closeDialog}
+        onExit={() => closeDialog()}
       />
     );
   }, [renderBroadcastTxResult, closeDialog, txResult]);

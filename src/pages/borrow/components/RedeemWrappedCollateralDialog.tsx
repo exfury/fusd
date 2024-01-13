@@ -1,7 +1,6 @@
 import { ANCHOR_SAFE_RATIO } from '@anchor-protocol/app-fns';
 import {
   useAnchorWebapp,
-  useBorrowRedeemCollateralForm,
   useBorrowRedeemWrappedCollateralForm,
 } from '@anchor-protocol/app-provider';
 import {
@@ -37,7 +36,6 @@ import {
   formatOutput,
   demicrofy,
   useFormatters,
-  microfy,
 } from '@anchor-protocol/formatter';
 import { BroadcastTxStreamResult } from 'pages/earn/components/types';
 import big from 'big.js';
@@ -185,7 +183,7 @@ function RedeemWrappedCollateralDialogBase(props: RedeemCollateralDialogProps) {
     return (
       <TxResultRenderer
         resultRendering={(txResult as BroadcastTxStreamResult).value}
-        onExit={closeDialog}
+        onExit={() => closeDialog()}
       />
     );
   }, [renderBroadcastTxResult, closeDialog, txResult]);
