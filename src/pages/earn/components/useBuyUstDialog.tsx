@@ -26,8 +26,8 @@ export interface KadoDialogProps {
 function KadoDialogBase(props: DialogProps<KadoDialogProps, void>) {
 
 
-  //https://app.kado.money/
-  let kadoURL = "https://sandbox--kado.netlify.app/";
+  // let kadoURL = "https://sandbox--kado.netlify.app/";
+  let kadoURL = "https://app.kado.money/";
   kadoURL += "?onPayCurrency=USD&theme=dark"
   kadoURL += "&onRevCurrency=USDC&cryptoList=USDC"
   kadoURL += "&network=TERRA&networkList=TERRA"
