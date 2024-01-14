@@ -2,15 +2,14 @@ import { useDialog } from '@libs/use-dialog';
 import React, {
   ReactNode, useMemo,
 } from 'react';
-import { AccountCreationTitle, useMnemonicDialog } from 'wallets/local-wallet-dialog/mnemonic';
+import { AccountCreationTitle } from 'wallets/local-wallet-dialog/mnemonic';
 import { PasswordForm } from 'wallets/local-wallet-dialog/passwordForm';
 import { Wallet, utils } from 'ethers';
 import { ConditionsForm } from 'wallets/local-wallet-dialog/conditionsForm';
-import { useVerifyConditionsDialog } from 'wallets/local-wallet-dialog/verify-conditions';
-import { useVerifyMnemonicDialog } from 'wallets/local-wallet-dialog/verify-mnemonic';
 import { FinalLocalWalletCreationDialog } from 'wallets/local-wallet-dialog/final-dialog';
 import { deleteMnemonic, getMnemonic, hasMnemonic } from 'wallets/logic/storage';
 import { LocalWalletConnectionDialog } from 'wallets/local-wallet-dialog/connection';
+import { useMnemonicDialog, useVerifyConditionsDialog, useVerifyMnemonicDialog } from 'wallets/local-wallet-dialog/hooks';
 
 export type LocalWalletResult = {
   create: {

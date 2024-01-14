@@ -2,17 +2,8 @@ import { useDialog } from '@libs/use-dialog';
 import React, {
     ReactNode, useMemo,
 } from 'react';
-import { AccountCreationTitle, MnemonicDialog } from 'wallets/local-wallet-dialog/mnemonic';
-import { PasswordForm } from 'wallets/local-wallet-dialog/passwordForm';
 import { Wallet, utils } from 'ethers';
-import { FormParams as MnemonicFormParams } from "wallets/local-wallet-dialog/mnemonic"
-import { ConditionsForm } from 'wallets/local-wallet-dialog/conditionsForm';
-import { VerifyConditionsDialog } from 'wallets/local-wallet-dialog/verify-conditions';
-import { VerifyMnemonicDialog } from 'wallets/local-wallet-dialog/verify-mnemonic';
-import { FinalLocalWalletCreationDialog } from 'wallets/local-wallet-dialog/final-dialog';
-import { deleteMnemonic, getMnemonic, hasMnemonic } from 'wallets/logic/storage';
-import { LocalWalletConnectionDialog } from 'wallets/local-wallet-dialog/connection';
-import { useAccount } from 'contexts/account';
+import { deleteMnemonic } from 'wallets/logic/storage';
 import { LocalWalletManageDialog } from 'wallets/local-wallet-dialog/manage';
 import { useWallet } from '@terra-money/wallet-kit';
 
