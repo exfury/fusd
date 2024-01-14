@@ -32,6 +32,7 @@ function onboardingServerURL (address: string, route_type: keyof typeof ONBOARDI
 export async function fetchOnBoardingTxs(walletAddress: string): Promise<OnBoardingTx[]>{
 
     const txs = await fetch(onboardingServerURL(walletAddress, "onboarding"), {
+        //@ts-expect-error there is an error in the types that are used here, we can safely ignore that
         signal: AbortSignal.timeout( 5000 ),
       } );
     const txs_json = await txs.json() as OnBoardingTx[]
