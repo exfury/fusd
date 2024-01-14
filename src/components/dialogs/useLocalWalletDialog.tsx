@@ -2,13 +2,12 @@ import { useDialog } from '@libs/use-dialog';
 import React, {
   ReactNode, useMemo,
 } from 'react';
-import { AccountCreationTitle, MnemonicDialog } from 'wallets/local-wallet-dialog/mnemonic';
+import { AccountCreationTitle, useMnemonicDialog } from 'wallets/local-wallet-dialog/mnemonic';
 import { PasswordForm } from 'wallets/local-wallet-dialog/passwordForm';
 import { Wallet, utils } from 'ethers';
-import { FormParams as MnemonicFormParams } from "wallets/local-wallet-dialog/mnemonic"
 import { ConditionsForm } from 'wallets/local-wallet-dialog/conditionsForm';
-import { VerifyConditionsDialog } from 'wallets/local-wallet-dialog/verify-conditions';
-import { VerifyMnemonicDialog } from 'wallets/local-wallet-dialog/verify-mnemonic';
+import { useVerifyConditionsDialog } from 'wallets/local-wallet-dialog/verify-conditions';
+import { useVerifyMnemonicDialog } from 'wallets/local-wallet-dialog/verify-mnemonic';
 import { FinalLocalWalletCreationDialog } from 'wallets/local-wallet-dialog/final-dialog';
 import { deleteMnemonic, getMnemonic, hasMnemonic } from 'wallets/logic/storage';
 import { LocalWalletConnectionDialog } from 'wallets/local-wallet-dialog/connection';
@@ -42,9 +41,9 @@ export function useLocalWalletDialog(): [
     return mnemonic.split(' ')
   }, []) // must be memoized and stay the same across renders
 
-  const [openMnemonicDialog, mnemonicDialog] = useDialog<MnemonicFormParams<null, string>, string | null>(MnemonicDialog);
-  const [openVerifyMnemonicDialog, verifyMnemonicDialog] = useDialog(VerifyMnemonicDialog);
-  const [openVerifyConditionsDialog, verifyConditionsDialog] = useDialog(VerifyConditionsDialog);
+  const [openMnemonicDialog, mnemonicDialog] = useMnemonicDialog<null, string>();
+  const [openVerifyMnemonicDialog, verifyMnemonicDialog] = useVerifyMnemonicDialog();
+  const [openVerifyConditionsDialog, verifyConditionsDialog] = useVerifyConditionsDialog();
   const [openFinalDialog, finalDialog] = useDialog(FinalLocalWalletCreationDialog);
   const [openConnectionDialog, connectionDialog] = useDialog(LocalWalletConnectionDialog);
 
@@ -105,7 +104,7 @@ export function useLocalWalletDialog(): [
       throw "Mnemonic not correcly verified"
     }
 
-    const verifiedConditions = await openVerifyConditionsDialog();
+    const verifiedConditions = await openVerifyConditionsDialog({});
 
     if (!verifiedConditions) {
       throw "Conditions not correcly verified"

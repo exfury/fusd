@@ -2,11 +2,6 @@ import { Meta } from "@storybook/react";
 import React from "react";
 import { AccountCreationTitle, MnemonicDialog } from "wallets/local-wallet-dialog/mnemonic"
 import { ConditionsForm } from "wallets/local-wallet-dialog/conditionsForm";
-import CircularProgress, {
-    CircularProgressProps,
-} from '@mui/material/CircularProgress';
-import { CircularProgressWithLabel } from "components/primitives/circular-progress";
-import { Box } from "@mui/material";
 
 export default {
     title: "Cavern/DepositDialog/Conditions",
@@ -14,10 +9,10 @@ export default {
 
 export const Basic = () => {
     return <MnemonicDialog
-        words={["I", "want", "to", "start", "an", "army"]}
+        words={["erosion", "pilot", "cluster", "aisle", "cabbage", "impulse", "struggle", "system", "nasty", "advice", "expect", "regular", "gate", "property", "garment", "mystery", "coin", "chimney", "seat", "clarify", "charge", "plug", "exact", "rebel"]}
         title={<AccountCreationTitle progress={0} />}
         formDialog={ConditionsForm}
-        closeDialog={(_: boolean | null) => { _; }}
+        closeDialog={(_: unknown) => { _; }}
         formDialogProps={{}}
     />
 };

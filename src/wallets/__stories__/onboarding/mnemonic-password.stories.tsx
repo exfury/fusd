@@ -1,24 +1,24 @@
 import { Meta } from "@storybook/react";
-import React, { useEffect, useMemo } from "react";
-import { useDialog } from "@libs/use-dialog";
-import { AccountCreationTitle, MnemonicDialog, FormParams as MnemonicFormParams } from "wallets/local-wallet-dialog/mnemonic"
+import React, { useEffect } from "react";
+import { AccountCreationTitle, useMnemonicDialog } from "wallets/local-wallet-dialog/mnemonic"
 import { PasswordForm } from "wallets/local-wallet-dialog/passwordForm";
 
 export default {
     title: "Cavern/DepositDialog/Mnemonic",
 } as Meta;
 
+
 export const Basic = () => {
 
-    const [openDialog, mnemonicDialog] = useDialog<MnemonicFormParams<null, string>, string | null>(MnemonicDialog);
+    const [openDialog, mnemonicDialog] = useMnemonicDialog<void, string>();
 
     useEffect(() => {
 
         openDialog({
             formDialog: PasswordForm,
             title: <AccountCreationTitle progress={25} />,
-            words: ["I", "want", "to", "start", "an", "army"],
-            formDialogProps: null
+            words: ["erosion", "pilot", "cluster", "aisle", "cabbage", "impulse", "struggle", "system", "nasty", "advice", "expect", "regular", "gate", "property", "garment", "mystery", "coin", "chimney", "seat", "clarify", "charge", "plug", "exact", "rebel"],
+            formDialogProps: undefined
         });
 
     }, [openDialog]);

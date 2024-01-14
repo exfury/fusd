@@ -44,11 +44,20 @@ const Title = styled("h1")`
   font-weight: 300;
 
   margin-bottom: 50px;
-  margin-top: 50px;
 `
 
 export const DepositDialogWithButtons = styled(ComponentBase) <DialogWithButtonProps>`
 width: 720px;
+@media (min-width: 700px) {
+    .dialog-content{
+        margin-top: 24px !important;
+        margin-bottom: 24px !important;
+    }
+}
+.dialog-content{
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
 `
 
 export const PaddingActionButton = styled(ActionButton)`

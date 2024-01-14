@@ -1,8 +1,8 @@
-import React, { ReactNode } from "react";
+import React, { ComponentType, ReactNode } from "react";
 import { DepositDialogWithButtons } from "@libs/neumorphism-ui/components/DialogWithButtons";
-import { Box, Button, Divider, Grid } from "@mui/material";
+import { Box, Button, Divider, Grid, styled } from "@mui/material";
 import { TextInput } from "@libs/neumorphism-ui/components/TextInput";
-import { DialogProps } from "@libs/use-dialog";
+import { DialogProps, useDialog } from "@libs/use-dialog";
 import { CircularProgressWithLabel } from "components/primitives/circular-progress";
 
 
@@ -11,6 +11,7 @@ export interface FormParams<P, T> {
     title: ReactNode,
     formDialog: (_: DialogProps<P, T | null>) => React.JSX.Element,
     formDialogProps: P,
+    className?: string | undefined
 }
 
 export function copyWords(words: string[]) {
@@ -25,10 +26,10 @@ export function AccountCreationTitle({ progress }: { progress: number }) {
     )
 }
 
-export function MnemonicDialog<P, T>({ words, formDialog, formDialogProps, closeDialog, title }: DialogProps<FormParams<P, T>, T | null>) {
+export function MnemonicDialogBase<P, T>({ words, formDialog, formDialogProps, closeDialog, title, className }: DialogProps<FormParams<P, T>, T | null>) {
 
     return (
-        <DepositDialogWithButtons title={title} spacing={3} closeDialog={() => {
+        <DepositDialogWithButtons className={className} title={title} spacing={3} closeDialog={() => {
             closeDialog(null)
         }}>
             <Grid item xs={12}>
@@ -46,7 +47,7 @@ export function MnemonicDialog<P, T>({ words, formDialog, formDialogProps, close
                 <Grid container spacing={2} sx={{ padding: 1 }}>
                     {words.map(function (word, i) {
                         return (
-                            <Grid item xs={3} key={`${word} - ${i}`}>
+                            <Grid item xs={4} sm={3} key={`${word} - ${i}`}>
                                 <TextInput
                                     label={`Word ${i + 1}`}
                                     defaultValue={word}
@@ -80,4 +81,23 @@ export function MnemonicDialog<P, T>({ words, formDialog, formDialogProps, close
             </Grid>
         </DepositDialogWithButtons >
     );
+}
+
+
+export const MnemonicDialog = styled(MnemonicDialogBase)`
+
+    @media (max-width: 700px) {
+        .dialog-content{
+            margin-left: 10px !important;
+            margin-right: 10px !important;
+        }
+        .MuiGrid-item{
+            padding-left:3px !important;
+        }
+    }
+
+`
+
+export function useMnemonicDialog<P, T>() {
+    return useDialog<FormParams<P, T>, T | null>(MnemonicDialog as unknown as ComponentType<DialogProps<FormParams<P, T>, T | null>>)
 }

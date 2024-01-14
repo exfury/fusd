@@ -37,7 +37,10 @@ export function PasswordForm({ closeDialog }: DialogProps<void, FormReturn>) {
 
     return (
         <form onSubmit={formik.handleSubmit} className="form-element">
-            <Grid container gap={2} sx={{ justifyContent: "center", alignItems: "center" }}>
+            <Grid container gap={3} sx={{ justifyContent: "center", alignItems: "center", textAlign: "center" }}>
+                <Grid item >
+                    This password secures your account from malicious software and websites.
+                </Grid>
                 <Grid item xs={12} sm={5}>
                     <TextInput
                         label={

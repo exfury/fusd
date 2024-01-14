@@ -5,13 +5,14 @@ import {
     FormControlLabel,
     FormGroup,
     Grid,
+    styled,
 } from '@mui/material'
 import { useFormik } from 'formik'
 import React, { useEffect } from 'react'
 import * as yup from 'yup'
 import toast from 'react-hot-toast'
 import { DepositDialogWithButtons } from '@libs/neumorphism-ui/components/DialogWithButtons'
-import { DialogProps } from '@libs/use-dialog'
+import { DialogProps, useDialog } from '@libs/use-dialog'
 import { AccountCreationTitle } from './mnemonic'
 
 const validationSchema = yup.object({
@@ -23,7 +24,11 @@ const validationSchema = yup.object({
         ),
 })
 
-export function VerifyConditionsDialog({ closeDialog }: DialogProps<void, boolean>) {
+interface VerifyParams {
+    className?: string | undefined
+}
+
+function VerifyConditionsDialogBase({ closeDialog, className }: DialogProps<VerifyParams, boolean>) {
 
     const formik = useFormik({
         initialValues: {
@@ -46,7 +51,7 @@ export function VerifyConditionsDialog({ closeDialog }: DialogProps<void, boolea
 
     return (
 
-        <DepositDialogWithButtons spacing={3} title={<AccountCreationTitle progress={75} />} closeDialog={() => closeDialog(false)}>
+        <DepositDialogWithButtons className={className} spacing={3} title={<AccountCreationTitle progress={75} />} closeDialog={() => closeDialog(false)}>
             <>
             </>
             <Grid item sx={{ width: "100%", margin: "auto" }}>
@@ -90,3 +95,17 @@ export function VerifyConditionsDialog({ closeDialog }: DialogProps<void, boolea
 
     )
 }
+
+export const VerifyConditionsDialog = styled(VerifyConditionsDialogBase)`
+@media (max-width: 700px) {
+    .dialog-content{
+        margin-left: 10px !important;
+        margin-right: 10px !important;
+    }
+}
+`
+
+export function useVerifyConditionsDialog() {
+    return useDialog<VerifyParams, boolean>(VerifyConditionsDialog)
+}
+

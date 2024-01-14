@@ -1,7 +1,6 @@
 import { Meta } from "@storybook/react";
 import { useEffect } from "react";
-import { useDialog } from "@libs/use-dialog";
-import { VerifyMnemonicDialog } from "wallets/local-wallet-dialog/verify-mnemonic";
+import { useVerifyMnemonicDialog } from "wallets/local-wallet-dialog/verify-mnemonic";
 
 export default {
     title: "Cavern/DepositDialog/VerifyMnemonic",
@@ -10,10 +9,10 @@ export default {
 
 export const Basic = () => {
 
-    const [openVerifyMnemonic, conditionsForm] = useDialog(VerifyMnemonicDialog);
+    const [openVerifyMnemonic, conditionsForm] = useVerifyMnemonicDialog();
     useEffect(() => {
         openVerifyMnemonic({
-            words: ["I", "want", "to", "start", "an", "army"]
+            words: ["erosion", "pilot", "cluster", "aisle", "cabbage", "impulse", "struggle", "system", "nasty", "advice", "expect", "regular", "gate", "property", "garment", "mystery", "coin", "chimney", "seat", "clarify", "charge", "plug", "exact", "rebel"]
         })
 
     }, [openVerifyMnemonic]);

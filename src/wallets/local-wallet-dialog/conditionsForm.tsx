@@ -49,9 +49,9 @@ export function ConditionsForm({ closeDialog }: DialogProps<Record<never, string
     }, [formik, formik.isValid, formik.submitForm])
 
     return (
-        <form onSubmit={formik.handleSubmit} className="form-element" style={{ gap: "20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+        <form onSubmit={formik.handleSubmit} className="form-element" style={{ gap: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <FormControl
-                sx={{ width: '100%', padding: '0px 20px', gap: 2 }}
+                sx={{ width: '100%', padding: '0px', gap: 1 }}
             >
                 By checking the following boxes, I understand that :{' '}
                 <FormGroup>
@@ -63,7 +63,8 @@ export function ConditionsForm({ closeDialog }: DialogProps<Record<never, string
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         color="primary"
-                        label="This mnemonic is the only way of recovering your account. If you loose it, you will never be able to recover your account in case you loose your password."
+                        label="This mnemonic is the only way of recovering your account. 
+                            If you loose it and your password, you will NEVER be able to recover your account."
                     />
                     <span style={{ color: 'red', fontSize: '0.9em' }}>
                         {formik.touched.recover && formik.errors.recover}

@@ -58,7 +58,7 @@ export function LocalWalletConnectionDialog({ closeDialog }: DialogProps<void, F
             <br />
             Here are some wallet examples :
 
-            <Box sx={{ display: "flex", flexDirection: "row", gap: "50px", flexWrap: "wrap" }}>
+            <Box sx={{ display: "flex", flexDirection: "row", gap: "50px", flexWrap: "wrap", justifyContent: "center" }}>
                 <Button sx={{ display: "flex", flexDirection: "row", gap: "10px" }} variant="text" href="https://docs.terra.money/learn/station/download/station-desktop">
                     <img alt="Station Wallet" src="https://station.terra.money/static/media/favicon.6ba850f5.svg" width="50" />
                     Terra Station
