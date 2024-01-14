@@ -43,9 +43,6 @@ function VerifyConditionsDialogBase({ closeDialog, className }: DialogProps<Veri
     useEffect(() => {
         if (formik.isValid && formik.dirty) {
             formik.submitForm()
-            toast.success(
-                'You have now understood the sensitivity of a mnemonic'
-            )
         }
     }, [formik, formik.dirty, formik.isValid, formik.submitForm])
 

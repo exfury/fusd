@@ -46,7 +46,6 @@ function VerifyMnemonicDialogBase(
     useEffect(() => {
         if (formik.isValid && formik.dirty) {
             formik.submitForm()
-            toast.success('Mnemonic Verified Successfully')
         }
     }, [formik.dirty, formik.isValid, formik.submitForm, formik])
 

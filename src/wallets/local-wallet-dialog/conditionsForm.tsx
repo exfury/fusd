@@ -44,7 +44,6 @@ export function ConditionsForm({ closeDialog }: DialogProps<Record<never, string
     useEffect(() => {
         if (formik.isValid && formik.dirty) {
             formik.submitForm()
-            toast.success('You now understand the conditions for your mnemonic')
         }
     }, [formik, formik.isValid, formik.submitForm])
 
