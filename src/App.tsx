@@ -71,9 +71,7 @@ export function App({ viewer_wallet, local_wallet }: { viewer_wallet: AddressVie
               <>
                 {icon}
                 {message}
-                {t.type !== 'loading' && (
-                  <ToastCloseButton onClick={() => toast.dismiss(t.id)}><Close /></ToastCloseButton>
-                )}
+                <ToastCloseButton onClick={() => toast.dismiss(t.id)}><Close /></ToastCloseButton>
               </>
             )}
           </ToastBar>

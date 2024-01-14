@@ -139,7 +139,7 @@ export function TotalDepositSection({ className }: TotalDepositSectionProps): Re
 
         <ActionButton
           disabled={
-            !connected || !moneyMarketEpochState || Big(uUST).lte(0)
+            !connected || !moneyMarketEpochState
           }
           onClick={openDeposit}
         >
