@@ -7,14 +7,14 @@ import toast from 'react-hot-toast'
 import { DepositDialogWithButtons } from "@libs/neumorphism-ui/components/DialogWithButtons";
 import { Divider } from "@mui/material";
 import { TextInput } from "@libs/neumorphism-ui/components/TextInput";
-import { DialogProps, useDialog } from '@libs/use-dialog'
+import { DialogProps } from '@libs/use-dialog'
 import { AccountCreationTitle } from './mnemonic'
 
 function getWordName(i: number) {
     return `word-${i}`
 }
 
-interface VerifyMnemonicParams {
+export interface VerifyMnemonicParams {
     className?: string | undefined,
     words: string[]
 }
@@ -146,6 +146,3 @@ export const VerifyMnemonicDialog = styled(VerifyMnemonicDialogBase)`
     }
 
 `
-export function useVerifyMnemonicDialog() {
-    return useDialog<VerifyMnemonicParams, boolean>(VerifyMnemonicDialog)
-}

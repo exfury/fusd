@@ -1,21 +1,18 @@
-import React, { ComponentType, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import { DepositDialogWithButtons } from "@libs/neumorphism-ui/components/DialogWithButtons";
 import { Box, Button, Divider, Grid, styled } from "@mui/material";
 import { TextInput } from "@libs/neumorphism-ui/components/TextInput";
-import { DialogProps, useDialog } from "@libs/use-dialog";
+import { DialogProps } from "@libs/use-dialog";
 import { CircularProgressWithLabel } from "components/primitives/circular-progress";
+import { copyWords } from "./helpers";
 
 
-export interface FormParams<P, T> {
+export interface MnemonicFormParams<P, T> {
     words: string[],
     title: ReactNode,
     formDialog: (_: DialogProps<P, T | null>) => React.JSX.Element,
     formDialogProps: P,
     className?: string | undefined
-}
-
-export function copyWords(words: string[]) {
-    navigator.clipboard.writeText(words.join(' '))
 }
 
 export function AccountCreationTitle({ progress }: { progress: number }) {
@@ -26,7 +23,7 @@ export function AccountCreationTitle({ progress }: { progress: number }) {
     )
 }
 
-export function MnemonicDialogBase<P, T>({ words, formDialog, formDialogProps, closeDialog, title, className }: DialogProps<FormParams<P, T>, T | null>) {
+export function MnemonicDialogBase<P, T>({ words, formDialog, formDialogProps, closeDialog, title, className }: DialogProps<MnemonicFormParams<P, T>, T | null>) {
 
     return (
         <DepositDialogWithButtons className={className} title={title} spacing={3} closeDialog={() => {
@@ -97,7 +94,3 @@ export const MnemonicDialog = styled(MnemonicDialogBase)`
     }
 
 `
-
-export function useMnemonicDialog<P, T>() {
-    return useDialog<FormParams<P, T>, T | null>(MnemonicDialog as unknown as ComponentType<DialogProps<FormParams<P, T>, T | null>>)
-}

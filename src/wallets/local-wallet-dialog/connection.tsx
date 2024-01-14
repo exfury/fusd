@@ -1,27 +1,15 @@
 
-import { HelpOutline, Title } from '@mui/icons-material'
 import {
     Box,
     Button,
     Divider,
-    Grid,
-    Link,
-    Tooltip,
-    Typography,
 } from '@mui/material'
 
-import { ButtonOwnProps } from '@mui/material/Button'
-import { FormikContextType, FormikValues, useFormik } from 'formik'
+import { useFormik } from 'formik'
 import React from 'react'
-import * as yup from 'yup'
-import { TextInput } from '@libs/neumorphism-ui/components/TextInput'
 import { DialogProps } from '@libs/use-dialog'
-import { getMnemonic } from 'wallets/logic/storage'
 import { DepositDialogWithButtons } from '@libs/neumorphism-ui/components/DialogWithButtons'
-import { useConfirm } from '@libs/neumorphism-ui/components/useConfirm'
-import { useAlert } from '@libs/neumorphism-ui/components/useAlert'
-import { copyWords } from './mnemonic'
-import { passwordForm, passwordValidationSchema } from './manage'
+import { passwordForm, passwordValidationSchema } from './helpers'
 
 export type FormReturn = {
     password: string,

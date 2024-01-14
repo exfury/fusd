@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/react";
 import { useEffect } from "react";
-import { useVerifyMnemonicDialog } from "wallets/local-wallet-dialog/verify-mnemonic";
+import { useVerifyMnemonicDialog } from "wallets/local-wallet-dialog/hooks";
 
 export default {
     title: "Cavern/DepositDialog/VerifyMnemonic",

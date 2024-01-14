@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/react";
 import { useEffect } from "react";
-import { useVerifyConditionsDialog } from "wallets/local-wallet-dialog/verify-conditions";
+import { useVerifyConditionsDialog } from "wallets/local-wallet-dialog/hooks";
 
 export default {
     title: "Cavern/DepositDialog/VerifyConditions",

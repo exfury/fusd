@@ -1,6 +1,7 @@
 import { Meta } from "@storybook/react";
 import React, { useEffect } from "react";
-import { AccountCreationTitle, useMnemonicDialog } from "wallets/local-wallet-dialog/mnemonic"
+import { useMnemonicDialog } from "wallets/local-wallet-dialog/hooks";
+import { AccountCreationTitle } from "wallets/local-wallet-dialog/mnemonic"
 import { PasswordForm } from "wallets/local-wallet-dialog/passwordForm";
 
 export default {

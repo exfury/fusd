@@ -12,7 +12,7 @@ import React, { useEffect } from 'react'
 import * as yup from 'yup'
 import toast from 'react-hot-toast'
 import { DepositDialogWithButtons } from '@libs/neumorphism-ui/components/DialogWithButtons'
-import { DialogProps, useDialog } from '@libs/use-dialog'
+import { DialogProps } from '@libs/use-dialog'
 import { AccountCreationTitle } from './mnemonic'
 
 const validationSchema = yup.object({
@@ -24,11 +24,11 @@ const validationSchema = yup.object({
         ),
 })
 
-interface VerifyParams {
+export interface VerifyConditionsParams {
     className?: string | undefined
 }
 
-function VerifyConditionsDialogBase({ closeDialog, className }: DialogProps<VerifyParams, boolean>) {
+function VerifyConditionsDialogBase({ closeDialog, className }: DialogProps<VerifyConditionsParams, boolean>) {
 
     const formik = useFormik({
         initialValues: {
@@ -104,8 +104,3 @@ export const VerifyConditionsDialog = styled(VerifyConditionsDialogBase)`
     }
 }
 `
-
-export function useVerifyConditionsDialog() {
-    return useDialog<VerifyParams, boolean>(VerifyConditionsDialog)
-}
-
