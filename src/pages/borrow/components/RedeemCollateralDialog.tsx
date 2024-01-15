@@ -40,7 +40,7 @@ import {
 } from '@anchor-protocol/formatter';
 import { BroadcastTxStreamResult } from 'pages/earn/components/types';
 import big from 'big.js';
-import { EstimatedFee, useFeeEstimationFor } from '@libs/app-provider';
+import { EstimatedFee, useFeeEstimation } from '@libs/app-provider';
 import { MsgExecuteContract } from '@terra-money/feather.js';
 import { CircleSpinner } from 'utils/consts';
 
@@ -94,7 +94,7 @@ function RedeemCollateralDialogBase(props: RedeemCollateralDialogProps) {
   );
 
   const [estimatedFee, estimatedFeeError, estimateFee] =
-    useFeeEstimationFor(terraWalletAddress);
+    useFeeEstimation();
 
   useEffect(() => {
     if (!connected || !states.redeemAmount || !terraWalletAddress) {
@@ -176,7 +176,7 @@ function RedeemCollateralDialogBase(props: RedeemCollateralDialogProps) {
     return (
       <TxResultRenderer
         resultRendering={(txResult as BroadcastTxStreamResult).value}
-        onExit={closeDialog}
+        onExit={() => closeDialog()}
       />
     );
   }, [renderBroadcastTxResult, closeDialog, txResult]);

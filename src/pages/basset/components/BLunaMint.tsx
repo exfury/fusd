@@ -13,7 +13,7 @@ import {
 } from '@anchor-protocol/notation';
 import { TokenIcon } from '@anchor-protocol/token-icons';
 import { aLuna } from '@anchor-protocol/types';
-import { useFeeEstimationFor } from '@libs/app-provider';
+import { useFeeEstimation } from '@libs/app-provider';
 import { floor } from '@libs/big-math';
 import { demicrofy, MICRO } from '@libs/formatter';
 import { ActionButton } from '@libs/neumorphism-ui/components/ActionButton';
@@ -62,7 +62,7 @@ function Component({ className }: BLunaMintProps) {
   const { contractAddress, gasPrice, constants } = useAnchorWebapp();
 
   const [estimatedFee, estimatedFeeError, estimateFee] =
-    useFeeEstimationFor(terraWalletAddress);
+    useFeeEstimation();
 
   const [mint, mintResult] = useBondMintTx();
 

@@ -4,7 +4,7 @@ import {
 } from "@anchor-protocol/app-fns";
 import { useAnchorWebapp } from "@anchor-protocol/app-provider/contexts/context";
 import { UST } from "@anchor-protocol/types";
-import { useFeeEstimationFor, useUstTax } from "@libs/app-provider";
+import { useFeeEstimation, useUstTax } from "@libs/app-provider";
 import { formatTokenInput } from "@libs/formatter";
 import { useForm } from "@libs/use-form";
 import { Coin, Coins, MsgExecuteContract } from "@terra-money/feather.js";
@@ -22,7 +22,7 @@ export function useEarnDepositForm(): EarnDepositFormReturn {
   const { contractAddress } = useAnchorWebapp();
 
   const [estimatedFee, estimatedFeeError, estimateFee] =
-    useFeeEstimationFor(terraWalletAddress);
+    useFeeEstimation();
 
   const { uUST } = useBalances();
 

@@ -51,7 +51,7 @@ import { BorrowFormParams } from './types';
 import { PageDivider } from './PageDivider';
 import { WhitelistCollateral } from 'queries';
 import { useBalances } from 'contexts/balances';
-import { EstimatedFee, useFeeEstimationFor } from '@libs/app-provider';
+import { EstimatedFee, useFeeEstimation } from '@libs/app-provider';
 import { MsgExecuteContract } from '@terra-money/feather.js';
 import { CircleSpinner } from 'utils/consts';
 
@@ -117,7 +117,7 @@ function BorrowDialogBase(props: BorrowDialogProps) {
   );
 
   const [estimatedFee, estimatedFeeError, estimateFee] =
-    useFeeEstimationFor(terraWalletAddress);
+    useFeeEstimation();
 
   const onCollateralChanged = useCallback(
     (collateral: WhitelistCollateral) => {
@@ -237,7 +237,7 @@ function BorrowDialogBase(props: BorrowDialogProps) {
           ) : (
             <TxResultRenderer
               resultRendering={txResult.value}
-              onExit={closeDialog}
+              onExit={() => closeDialog()}
             />
           )}
         </Dialog>

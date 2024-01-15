@@ -69,6 +69,13 @@ export const defaultDarkTheme = {
           },
         },
       },
+      MuiCheckbox:{
+        styleOverrides:{
+          root:{
+            color:WHITE
+          }
+        }
+      },
       MuiOutlinedInput: {
         styleOverrides: {
           input: {
@@ -90,6 +97,15 @@ export const defaultDarkTheme = {
             color: WHITE,
           },
         },
+      },
+      MuiDivider:{
+        styleOverrides:{
+          root:{
+            borderBottomWidth: "2px", 
+            borderColor: "white" ,
+            width: "100%"
+          }
+        }
       },
       MuiDialog: {
         styleOverrides: {

@@ -47,8 +47,9 @@ const ContentBase = (props: ContentProps) => {
     <WalletContent
       className={className}
       walletAddress={terraWalletAddress || "Error"}
-      connectionName={connection?.name || "Terra Station"}
-      connectionIcon={connection?.icon || "https://station.terra.money/static/media/favicon.6ba850f5.svg"}
+      connectionName={connection?.name || "Error"}
+      connectionIcon={connection?.icon || "Error"}
+      connectionId={connection?.id || "Error"}
       readonly={connection ? connection.type === ConnectType.READONLY : false}
       onDisconnectWallet={onDisconnectWallet}
     >

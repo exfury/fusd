@@ -3,6 +3,7 @@ import { UIElementProps } from '@libs/ui';
 import {
   ConnectResponse,
   PostResponse,
+  WalletResponse,
   useConnectedWallet,
   useWallet,
 } from '@terra-money/wallet-kit';
@@ -75,7 +76,7 @@ const TerraAccountProvider = ({ children }: UIElementProps): React.JSX.Element =
   const { network } = useNetwork();
 
   // Wallet-KIT
-  const wallet = useWallet();
+  const wallet = useWallet() as Omit<WalletResponse, "connect"> & { connect: (id?: string) => Promise<void> };
   const connectedWallet: (ConnectResponse & { id?: string } | undefined) = useConnectedWallet();
 
   // Cosmos Kit
@@ -88,8 +89,8 @@ const TerraAccountProvider = ({ children }: UIElementProps): React.JSX.Element =
     // This is the Wallet-kit connector
     let connection_wallet: any = {};
     if (connectedWallet) {
-      if (connectedWallet.id) {
-        // If id is not defined, it's terra station
+      if (!connectedWallet.id) {
+        // If is is not defined, it's terra station
         connection_wallet = wallet.availableWallets.filter(({ id }) => id == "station-extension")[0];
       } else {
         // Otherwise, it's ok, it's listed
@@ -156,9 +157,9 @@ const TerraAccountProvider = ({ children }: UIElementProps): React.JSX.Element =
     }
 
 
-
     return {
       connect: wallet.connect,
+      pubkey: connectedWallet?.pubkey,
       disconnect: wallet.disconnect,
       connected: !!connectedWallet as true, // Cast to "true" to fix discriminated union
       nativeWalletAddress: connectedWallet?.addresses[network.chainID] as HumanAddr,
@@ -173,7 +174,7 @@ const TerraAccountProvider = ({ children }: UIElementProps): React.JSX.Element =
       } : undefined,
       availableWallets: wallet.availableWallets
     };
-  }, [connectedWallet, wallet.connect, wallet.disconnect, wallet.status, wallet.post, wallet.availableWallets, network.chainID, cosmosKitContext]);
+  }, [connectedWallet, wallet, network.chainID, cosmosKitContext]);
 
   return (
     <AccountContext.Provider value={account}>

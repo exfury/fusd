@@ -39,7 +39,7 @@ export function ConnectWalletButton({
     return isSmallScreen ? (
       <IconOnlyWalletButton onClick={onClick} />
     ) : (
-      <NotConnectedButton onClick={onClick}>Connect Wallet</NotConnectedButton>
+      <NotConnectedButton onClick={onClick}>Your Account</NotConnectedButton>
     );
   }
 

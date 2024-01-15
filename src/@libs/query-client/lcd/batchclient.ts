@@ -1,5 +1,5 @@
 import { GasPrice } from "@cosmjs/stargate";
-import { Account, LCDClient, Msg } from "@terra-money/feather.js";
+import { Account, LCDClient, Msg, PublicKey, SimplePublicKey } from "@terra-money/feather.js";
 import {
   BatchQueryClient,
   GasInfoParams,
@@ -56,6 +56,7 @@ export async function batchSimulate({
   batchFetcher,
   address,
   gasInfo: { gasAdjustment },
+  pubkey
 }: SimulateParams): Promise<number | undefined> {
   const distantAccount = await batchFetcher?.auth.account(address);
   if (!distantAccount) {
@@ -63,9 +64,10 @@ export async function batchSimulate({
   }
 
   const account = Account.fromProto(distantAccount);
-  const public_key = account.getPublicKey();
+
+  const public_key = pubkey ? new SimplePublicKey(pubkey["330"]) : account.getPublicKey();
   if(!public_key){
-    throw "Account not found when simulating the transaction";
+    throw "Publick Key not found when simulating the transaction";
   }
   const txSimulateResponse = await batchFetcher?.tx.simulate(
     msgs.map((msg) => msg.packAny()),

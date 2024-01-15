@@ -125,7 +125,7 @@ const PHOENIX_CONTRACT_ADDRESS: Record<string, any> = {
   usd: "ibc/B3504E092456BA618CC28AC671A71FB08C6CA0FD0BE7C8A5B5A3E2DD933CC9E4",
   documentsMain:
     "terra1cx38qvyv4mj9hrn6p6m4fj7vhj726t5dg3ldpeupkkgel495ngnq5rtplq",
-  feeAddress: "terra1ytj0hhw39j88qsx4yapsr6ker83jv3aj354gmj",
+  feeAddress: "terra1x3k6zk5nfdft5thd7tje3makkmlslelq8ft5sz",
   tokenId: {
     whitePaper: "whitepaper",
   },

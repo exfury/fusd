@@ -34,21 +34,21 @@ export const MAINNET: CavernNetworkInfo = {
   chainName: "terra2",
 };
 
-const LCDClients: Record<string, LCDClient> = {
-  testnet: new LCDClient({
-    testnet: TESTNET,
+export const AllLCDClients: Record<string, LCDClient> = {
+  [TESTNET.chainID]: new LCDClient({
+    [TESTNET.chainID]: TESTNET,
   }),
-  mainnet: new LCDClient({
-    mainnet: MAINNET,
+  [MAINNET.chainID]: new LCDClient({
+    [MAINNET.chainID]: MAINNET,
   }),
-  classic: new LCDClient({
-    classic: CLASSIC,
+  [CLASSIC.chainID]: new LCDClient({
+    [CLASSIC.chainID]: CLASSIC,
   }),
 }
 
 const RPCClients: Record<string, string> = {
-  testnet: "https://pisco-rpc.erisprotocol.com/",
-  mainnet: `https://phoenix-rpc.erisprotocol.com/`,
+  [TESTNET.chainID]: "https://pisco-rpc.erisprotocol.com/",
+  [MAINNET.chainID]: `https://phoenix-rpc.erisprotocol.com/`,
 }
 
 export const NetworkContext = createContext<CavernNetworkInfo>(MAINNET);
@@ -66,8 +66,8 @@ const useNetwork = (): UseNetworkReturn => {
   }
   return {
     network: context,
-    lcdClient: LCDClients[context.name ?? 'mainnet'],
-    rpcClient: RPCClients[context.name ?? 'mainnet'],
+    lcdClient: AllLCDClients[context.chainID ?? MAINNET.chainID],
+    rpcClient: RPCClients[context.chainID ?? MAINNET.chainID],
   };
 };
 

@@ -1,5 +1,5 @@
-import { aUST, Luna, Token, u, UST } from '@anchor-protocol/types';
-import { LSDContracts, useAnchorWebapp, useEarnDepositForm } from '@anchor-protocol/app-provider';
+import { aUST, u, UST } from '@anchor-protocol/types';
+import { useAnchorWebapp } from '@anchor-protocol/app-provider';
 import { ActionButton } from '@libs/neumorphism-ui/components/ActionButton';
 import { useConfirm } from '@libs/neumorphism-ui/components/useConfirm';
 import { ViewAddressWarning } from 'components/ViewAddressWarning';
@@ -7,7 +7,7 @@ import { ReactNode, useEffect } from 'react';
 import React, { useCallback } from 'react';
 import { useAccount } from 'contexts/account';
 import { DialogProps, OpenDialog, useDialog } from '@libs/use-dialog';
-import { EstimatedFee, useFeeEstimationFor } from '@libs/app-provider';
+import { EstimatedFee, useFeeEstimation } from '@libs/app-provider';
 import {
   formatLuna,
   formatUSTWithPostfixUnits,
@@ -49,17 +49,16 @@ export type AbortMissionParams = {
 interface DepositDialogParams extends UIElementProps, AbortMissionParams { }
 
 type DepositDialogReturn = void;
-type DepositDialogProps = DialogProps<
+type AbortMissionDialogProps = DialogProps<
   DepositDialogParams,
   DepositDialogReturn
 > & {
   renderBroadcastTxResult?: JSX.Element;
 };
 
-function DepositDialogBase(props: DepositDialogProps) {
+function AbortMissionDialogBase(props: AbortMissionDialogProps) {
   const {
     className,
-    children,
     closeDialog,
     totalDeposit,
     totalAUST,
@@ -89,8 +88,6 @@ function DepositDialogBase(props: DepositDialogProps) {
   const { contractAddress } = useAnchorWebapp();
 
   const [openConfirm, confirmElement] = useConfirm();
-
-  const state = useEarnDepositForm();
 
   const [abortMission, abortMissionTxResult] = useAbortMissionTx();
 
@@ -134,7 +131,7 @@ function DepositDialogBase(props: DepositDialogProps) {
   // ---------------------------------------------
 
   const [estimatedFee, estimatedFeeError, estimateFee] =
-    useFeeEstimationFor(account?.terraWalletAddress);
+    useFeeEstimation();
 
   // We compute the transaction Fee for this operation
 
@@ -168,7 +165,7 @@ function DepositDialogBase(props: DepositDialogProps) {
     return (
       <TxResultRenderer
         resultRendering={(abortMissionTxResult as BroadcastTxStreamResult).value}
-        onExit={closeDialog}
+        onExit={() => closeDialog()}
       />
     );
   }, [renderBroadcastTxResult, closeDialog, abortMissionTxResult]);
@@ -264,7 +261,7 @@ function DepositDialogBase(props: DepositDialogProps) {
   );
 }
 
-export const AbortMissionDialog = styled(DepositDialogBase)`
+export const AbortMissionDialog = styled(AbortMissionDialogBase)`
   width: 720px;
   touch-action: none;
 

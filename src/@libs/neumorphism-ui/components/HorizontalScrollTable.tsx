@@ -62,17 +62,15 @@ function HorizontalScrollTableBase({
     const observer = new ResizeObserver((entries: ResizeObserverEntry[]) => {
       for (const { target } of entries) {
         if (target.tagName.toLowerCase() === 'thead' && headRuler.current) {
-          headRuler.current.style.top = `${
-            (target as HTMLElement).offsetTop +
+          headRuler.current.style.top = `${(target as HTMLElement).offsetTop +
             (target as HTMLElement).offsetHeight -
             headRulerWidth
-          }px`;
+            }px`;
         }
 
         if (target.tagName.toLowerCase() === 'tfoot' && footRuler.current) {
-          footRuler.current.style.top = `${
-            (target as HTMLElement).offsetTop
-          }px`;
+          footRuler.current.style.top = `${(target as HTMLElement).offsetTop
+            }px`;
         }
       }
     });
@@ -80,9 +78,8 @@ function HorizontalScrollTableBase({
     if (headRuler.current) {
       if (thead) {
         headRuler.current.style.visibility = 'visible';
-        headRuler.current.style.top = `${
-          thead.offsetTop + thead.offsetHeight - headRulerWidth
-        }px`;
+        headRuler.current.style.top = `${thead.offsetTop + thead.offsetHeight - headRulerWidth
+          }px`;
 
         observer.observe(thead);
       } else {
@@ -142,7 +139,7 @@ export const HorizontalScrollTable = styled(HorizontalScrollTableBase)`
         content: '-';
         display: block;
         line-height: ${({ headRulerWidth = defaultRulerWidth }) =>
-          headRulerWidth}px;
+    headRulerWidth}px;
         color: transparent;
       }
 
@@ -161,12 +158,12 @@ export const HorizontalScrollTable = styled(HorizontalScrollTableBase)`
 
           &:first-child {
             padding-left: ${({ startPadding = defaultStartPadding }) =>
-              startPadding}px;
+    startPadding}px;
           }
 
           &:last-child {
             padding-right: ${({ endPadding = defaultEndPadding }) =>
-              endPadding}px;
+    endPadding}px;
           }
         }
       }
@@ -182,12 +179,12 @@ export const HorizontalScrollTable = styled(HorizontalScrollTableBase)`
 
           &:first-child {
             padding-left: ${({ startPadding = defaultStartPadding }) =>
-              startPadding}px;
+    startPadding}px;
           }
 
           &:last-child {
             padding-right: ${({ endPadding = defaultEndPadding }) =>
-              endPadding}px;
+    endPadding}px;
           }
         }
 
@@ -196,16 +193,16 @@ export const HorizontalScrollTable = styled(HorizontalScrollTableBase)`
           td {
             border-top: 1px solid
               ${({ theme }) =>
-                rulerLightColor({
-                  intensity: theme.intensity,
-                  color: theme.sectionBackgroundColor,
-                })};
+    rulerLightColor({
+      intensity: theme.intensity,
+      color: theme.sectionBackgroundColor,
+    })};
             border-bottom: 1px solid
               ${({ theme }) =>
-                rulerShadowColor({
-                  intensity: theme.intensity,
-                  color: theme.sectionBackgroundColor,
-                })};
+    rulerShadowColor({
+      intensity: theme.intensity,
+      color: theme.sectionBackgroundColor,
+    })};
           }
 
           &:last-child {
@@ -239,22 +236,22 @@ export const HorizontalScrollTable = styled(HorizontalScrollTableBase)`
     position: absolute;
 
     ${({ theme }) =>
-      pressed({
-        color: theme.sectionBackgroundColor,
-        distance: 1,
-        intensity: theme.intensity,
-      })};
+    pressed({
+      color: theme.sectionBackgroundColor,
+      distance: 1,
+      intensity: theme.intensity,
+    })};
   }
 
   > .headRuler {
     border-radius: ${({ headRulerWidth = defaultRulerWidth }) =>
-      headRulerWidth / 2}px;
+    headRulerWidth / 2}px;
     height: ${({ headRulerWidth = defaultRulerWidth }) => headRulerWidth}px;
   }
 
   > .footRuler {
     border-radius: ${({ footRulerWidth = defaultRulerWidth }) =>
-      footRulerWidth / 2}px;
+    footRulerWidth / 2}px;
     height: ${({ footRulerWidth = defaultRulerWidth }) => footRulerWidth}px;
   }
 `;

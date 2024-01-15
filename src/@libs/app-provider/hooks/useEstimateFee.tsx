@@ -1,5 +1,5 @@
 import { useAnchorWebapp, useNetwork } from '@anchor-protocol/app-provider';
-import { Gas, HumanAddr, Luna, u } from '@libs/types';
+import { Gas, Luna, u } from '@libs/types';
 import { Msg } from '@terra-money/feather.js';
 import { useCallback, useMemo, useState } from 'react';
 import { useApp } from '../contexts/app';
@@ -7,6 +7,7 @@ import debounce from 'lodash.debounce';
 import { simulateFetch } from '@libs/query-client';
 import React from "react";
 import { InfoTooltip } from '@libs/neumorphism-ui/components/InfoTooltip';
+import { useAccount } from 'contexts/account';
 
 const errorMap = {
   "Not enough ibc/": "Too much axlUSDC was borrowed, you can't withdraw your funds for now",
@@ -44,24 +45,24 @@ export function defaultFee(): EstimatedFee {
   };
 }
 
-export function useEstimateFee(
-  walletAddress: HumanAddr | undefined,
-): (msgs: Msg[]) => Promise<EstimatedFee | undefined> {
+export function useEstimateFee(): (msgs: Msg[]) => Promise<EstimatedFee | undefined> {
   const { lcdClient } = useNetwork();
   const { gasPrice, constants } = useApp();
   const { queryClient } = useAnchorWebapp();
+  const { pubkey, terraWalletAddress } = useAccount();
 
   return useCallback(
     async (msgs: Msg[]) => {
-      if (!walletAddress || !queryClient) {
+      if (!terraWalletAddress || !queryClient) {
         return undefined;
       }
 
       // We first try simulating the fee with the global method
       const gasWanted = await simulateFetch({
         ...queryClient,
+        pubkey,
         msgs,
-        address: walletAddress,
+        address: terraWalletAddress,
         lcdClient,
         gasInfo: {
           gasAdjustment: constants.gasAdjustment,
@@ -78,19 +79,17 @@ export function useEstimateFee(
       };
 
     },
-    [constants.gasAdjustment, gasPrice, lcdClient, walletAddress, queryClient],
+    [terraWalletAddress, queryClient, pubkey, lcdClient, constants.gasAdjustment, gasPrice],
   );
 }
 
-export function useFeeEstimationFor(
-  walletAddress: HumanAddr | undefined,
-): [
-    EstimatedFee | undefined,
-    string | JSX.Element | undefined,
-    (msgs: Msg[] | null) => void,
-    boolean
-  ] {
-  const estimateFee = useEstimateFee(walletAddress);
+export function useFeeEstimation(): [
+  EstimatedFee | undefined,
+  string | JSX.Element | undefined,
+  (msgs: Msg[] | null) => void,
+  boolean
+] {
+  const estimateFee = useEstimateFee();
   const [estimatedFeeError, setEstimatedFeeError] = useState<
     string | JSX.Element | undefined
   >();

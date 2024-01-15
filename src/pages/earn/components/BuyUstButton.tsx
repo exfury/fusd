@@ -4,13 +4,18 @@ import { BorderButton } from '@libs/neumorphism-ui/components/BorderButton';
 import { useBuyUstDialog } from 'pages/earn/components/useBuyUstDialog';
 import React from 'react';
 import styled from 'styled-components';
+import { useAccount } from 'contexts/account';
 
 export function BuyUstButton(buttonProps: ButtonBaseProps) {
   const [openBuyUst, buyUstElement] = useBuyUstDialog();
+  const { terraWalletAddress } = useAccount();
 
   return (
     <>
-      <Button {...buttonProps} onClick={() => openBuyUst({})}>
+      <Button {...buttonProps} onClick={() => openBuyUst({
+        address: terraWalletAddress,
+        depositAmount: "100"
+      })}>
         <DollarCoin /> Buy axlUSDC
       </Button>
       {buyUstElement}

@@ -1,6 +1,7 @@
+import { Luna, u } from "@libs/types";
 import { GasPrice } from "../models/gasPrice";
 
-let cache: GasPrice | null = null;
+let cache: any = null;
 
 export async function gasPriceQuery(
   gasPriceEndpoint: string

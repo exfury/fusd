@@ -57,7 +57,7 @@ import { ConvertSymbols, ConvertSymbolsContainer } from '../ConvertSymbols';
 import { BurnComponent } from './types';
 import styled, { useTheme } from 'styled-components';
 
-import { useFeeEstimationFor } from '@libs/app-provider';
+import { useFeeEstimation } from '@libs/app-provider';
 import { useAlert } from '@libs/neumorphism-ui/components/useAlert';
 import { floor } from '@libs/big-math';
 import { MsgExecuteContract } from '@terra-money/feather.js';
@@ -92,7 +92,7 @@ export function Component({
   } = useAnchorWebapp();
 
   const [estimatedFee, estimatedFeeError, estimateFee] =
-    useFeeEstimationFor(terraWalletAddress);
+    useFeeEstimation();
 
   const [swap, swapResult] = useBondSwapTx();
 
