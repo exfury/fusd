@@ -25,9 +25,18 @@ export function TerraMobileHeader() {
         }),
       });
     } else if (status === WalletStatus.Disconnected) {
-      connect("terra-station-mobile");
+      /// We need to open a wallet display dialog here instead of this
+      /// Either Sign IN/UP
+      /// Or connect a wallet
+
+      openWalletDialog({
+        openSend: () => openSendDialog({}),
+        openBuyUst: () => openBuyUstDialog({
+          address: terraWalletAddress
+        }),
+      });
     }
-  }, [connect, openBuyUstDialog, openSendDialog, openWalletDialog, status, terraWalletAddress]);
+  }, [openBuyUstDialog, openSendDialog, openWalletDialog, status, terraWalletAddress]);
 
   const [vestingClaimNotificationElement] = useVestingClaimNotification();
 
