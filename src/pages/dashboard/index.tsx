@@ -39,6 +39,7 @@ import { CollateralMarket } from './components/CollateralMarket';
 import { useDepositApy } from 'hooks/useDepositApy';
 import { useBorrowOverviewData } from 'pages/borrow/logics/useBorrowOverviewData';
 import { useWrappedTokenDetails } from '@anchor-protocol/app-provider/queries/basset/wrappedLSDTokenDetails';
+import { Box } from '@mui/material';
 
 export interface DashboardProps {
   className?: string;
@@ -217,34 +218,35 @@ function DashboardBase({ className }: DashboardProps) {
               </section>
 
               <hr />
+              <Box>
+                <section className="reserves">
+                  <h2>YIELD RESERVE</h2>
+                  <p className="amount">
+                    <AnimateNumber
+                      format={formatUTokenIntegerWithoutPostfixUnits}
+                    >
+                      {totalValueLocked
+                        ? totalValueLocked.yieldReserve
+                        : (0 as u<UST<number>>)}
+                    </AnimateNumber>
+                    <span>axlUSDC</span>
+                  </p>
+                </section>
 
-              <section className="reserves">
-                <h2>YIELD RESERVE</h2>
-                <p className="amount">
-                  <AnimateNumber
-                    format={formatUTokenIntegerWithoutPostfixUnits}
-                  >
-                    {totalValueLocked
-                      ? totalValueLocked.yieldReserve
-                      : (0 as u<UST<number>>)}
-                  </AnimateNumber>
-                  <span>axlUSDC</span>
-                </p>
-              </section>
-
-              <section className='reserves'>
-                <h2>BORROW INCENTIVES RESERVE</h2>
-                <p className="amount">
-                  <AnimateNumber
-                    format={formatUTokenIntegerWithoutPostfixUnits}
-                  >
-                    {totalValueLocked
-                      ? totalValueLocked.borrowReserve
-                      : (0 as u<UST<number>>)}
-                  </AnimateNumber>
-                  <span>axlUSDC</span>
-                </p>
-              </section>
+                <section className='reserves'>
+                  <h2>BORROW INCENTIVES RESERVE</h2>
+                  <p className="amount">
+                    <AnimateNumber
+                      format={formatUTokenIntegerWithoutPostfixUnits}
+                    >
+                      {totalValueLocked
+                        ? totalValueLocked.borrowReserve
+                        : (0 as u<UST<number>>)}
+                    </AnimateNumber>
+                    <span>axlUSDC</span>
+                  </p>
+                </section>
+              </Box>
             </Section>
             <CollateralMarket className="collaterals" />
           </div>
