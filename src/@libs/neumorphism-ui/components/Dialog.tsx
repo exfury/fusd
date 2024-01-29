@@ -110,7 +110,7 @@ export const Dialog = styled(DialogBase)`
 
   .dialog-close-button {
     position: absolute;
-    top: 24px;
+    top: 32px;
     right: 24px;
 
     width: 18px;

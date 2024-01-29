@@ -19,21 +19,24 @@ export interface VerifyMnemonicParams {
     words: string[]
 }
 
+const VERIFY_WORDS = [1, 6, 9, 16, 21, 22];
+
 function VerifyMnemonicDialogBase(
     { closeDialog, words, className }: DialogProps<VerifyMnemonicParams, boolean>
 ) {
 
+
     const formik = useFormik({
-        initialValues: words.reduce((obj, _current, index) => {
-            obj[getWordName(index)] = ''
+        initialValues: VERIFY_WORDS.reduce((obj, current) => {
+            obj[getWordName(current)] = ''
             return obj
         }, {} as Record<string, string>),
         validationSchema: yup.object(
-            words.reduce((obj, current, index) => {
-                obj[getWordName(index)] = yup
+            VERIFY_WORDS.reduce((obj, current) => {
+                obj[getWordName(current)] = yup
                     .string()
                     .required('Required')
-                    .oneOf([current], 'Wrong')
+                    .oneOf([words[current]], 'Wrong')
                 return obj
             }, {} as Record<string, yup.StringSchema>)
         ),
@@ -49,17 +52,6 @@ function VerifyMnemonicDialogBase(
         }
     }, [formik.dirty, formik.isValid, formik.submitForm, formik])
 
-    function handlePaste(event: React.ClipboardEvent) {
-        const words: string[] = event.clipboardData.getData('text').split(' ')
-        formik.setValues(
-            words.reduce((obj, current, index) => {
-                obj[getWordName(index)] = current
-                return obj
-            }, {} as Record<string, string>)
-        )
-        event.preventDefault()
-    }
-
     return (
 
         <form onSubmit={formik.handleSubmit} className="form-element">
@@ -69,6 +61,7 @@ function VerifyMnemonicDialogBase(
                 <Grid item xs={12}>
                     We just want to verify here that your mnemonic is safely stored.
                     <br />
+                    We are only asking for some of the words, because that would be tiring to type the whole thing.
                     After this step, this platform will <strong>NEVER</strong> ask for
                     this mnemonic again !
                 </Grid>
@@ -79,40 +72,39 @@ function VerifyMnemonicDialogBase(
                         sx={{ width: '100%', padding: '0px', gap: 2, display: "flex", justifyContent: "center", alignItems: "center", marginLeft: "8px" }}
                     >
                         <Grid container spacing={3} sx={{ padding: 1 }}>
-                            {words.map((_, i) => {
+                            {VERIFY_WORDS.map((word_index) => {
                                 return (
                                     <Grid
                                         item
                                         xs={4}
                                         sm={4}
-                                        key={`verify-mnemonic-word - ${i}`}
+                                        key={`verify-mnemonic-word - ${word_index}`}
                                     >
                                         <TextInput
-                                            label={`Word ${i + 1}`}
+                                            label={`Word ${word_index + 1}`}
                                             size="small"
                                             InputProps={{
                                                 style: {
                                                     padding: 0,
                                                 },
                                             }}
-                                            id={getWordName(i)}
+                                            id={getWordName(word_index)}
                                             type="text"
-                                            name={getWordName(i)}
-                                            value={formik.values[getWordName(i)]}
+                                            name={getWordName(word_index)}
+                                            value={formik.values[getWordName(word_index)]}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             error={
-                                                formik.touched[getWordName(i)] &&
+                                                formik.touched[getWordName(word_index)] &&
                                                 Boolean(
-                                                    formik.errors[getWordName(i)]
+                                                    formik.errors[getWordName(word_index)]
                                                 )
                                             }
-                                            onPaste={handlePaste}
                                             helperText={
-                                                (formik.touched[getWordName(i)] as
+                                                (formik.touched[getWordName(word_index)] as
                                                     | boolean
                                                     | undefined) &&
-                                                (formik.errors[getWordName(i)] as
+                                                (formik.errors[getWordName(word_index)] as
                                                     | string
                                                     | undefined)
                                             }

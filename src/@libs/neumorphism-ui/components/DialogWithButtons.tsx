@@ -48,15 +48,10 @@ const Title = styled("h1")`
 
 export const DepositDialogWithButtons = styled(ComponentBase) <DialogWithButtonProps>`
 width: 720px;
-@media (min-width: 700px) {
-    .dialog-content{
-        margin-top: 24px !important;
-        margin-bottom: 24px !important;
-    }
-}
+
 .dialog-content{
-    margin-top: 60px;
-    margin-bottom: 60px;
+    margin-top: 24px;
+    margin-bottom: 24px;
 }
 `
 
