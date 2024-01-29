@@ -25,9 +25,6 @@ export function TerraMobileHeader() {
         }),
       });
     } else if (status === WalletStatus.Disconnected) {
-      /// We need to open a wallet display dialog here instead of this
-      /// Either Sign IN/UP
-      /// Or connect a wallet
 
       openWalletDialog({
         openSend: () => openSendDialog({}),
