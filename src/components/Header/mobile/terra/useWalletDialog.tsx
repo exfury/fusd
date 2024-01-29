@@ -88,6 +88,35 @@ function ComponentBase(props: DialogProps<FormParams, FormReturn>) {
                   </FlatButton>
                 ))
             }
+            {availableWallets
+              .filter(({ isInstalled }) => isInstalled)
+              .filter(({ id }) => {
+                return "terra-station-mobile" == id
+              })
+              .map(({ id, icon, name }) => (
+                <FlatButton
+                  key={'connection' + id}
+                  className="connect"
+                  onClick={() => {
+                    connect(id);
+                    closeDialog()
+                  }}
+                >
+                  <IconSpan>
+                    {name}
+                    <img
+                      src={
+                        icon ===
+                          'https://assets.terra.dev/icon/station-extension/icon.png'
+                          ? 'https://assets.terra.dev/icon/wallet-provider/station.svg'
+                          : icon
+                      }
+                      alt={name}
+                    />
+                  </IconSpan>
+                </FlatButton>
+              ))}
+
 
             <BorderButton
               className="connect" type="button" onClick={() => {
