@@ -79,30 +79,30 @@ export enum RegisteredLSDs {
 }
 
 const PHOENIX_CONTRACT_ADDRESS: Record<string, any> = {
-  aLunaHub: "terra1c4x3x5ptxw4yy436rvz5u9cru6868ksxr95gsyya55ycgll0xdas0g7htx",
+  aLunaHub: "furya1aden0qgmsg256zd300wgjmg40jhknvc0pa5vvtctfthp4rxv3dqqyp987m",
   aLunaReward:
-    "terra1w7ssgvtetdzczyl98pdxvs79nw9g6rjejt0urxegm30dukddyesqy0g95n",
+    "furya1pvensf0yvh4qpxlur8kdgd2ft8d64s9gstzwa7mtdx07ztakvs8slsuvld",
   aLunaToken:
-    "terra170e8mepwmndwfgs5897almdewrt6phnkksktlf958s90eh055xvsrndvku",
+    "furya1rtepy8uchg2fh4huaktzw8x972s7cfqxm6rfe88zr567qrgpuwts89ha4h",
   aLunaValidatorsRegistry:
-    "terra1ftwj8jk5k5hfg0ypaj54k8ha4kzjfnrrlpgd2xsmpsalgsud957qv6q367",
-  mmMarket: "terra1zqlcp3aty4p4rjv96h6qdascdn953v6crhwedu5vddxjnp349upscluex6",
-  mmOracle: "terra1gp3a4cz9magxuvj6n0x8ra8jqc79zqvquw85xrn0suwvml2cqs4q4l7ss7",
+    "furya1mj4wr7u4zdlq9el98ldwk0ng7aa7gd5djk5hda2pczng3hc2phksat8au0",
+  mmMarket: "furya1288n2fwmfd6dtls2vrl6q0m8lz2gl4ncv0farytlyqck6zuxl2hquh6x3d",
+  mmOracle: "furya1a2r4qcdvw8zgpzyvpvvlxp7f2y3wqq8wcaljf7zkzw0xxc2z8usq5hk00s",
   mmOverseer:
-    "terra1l6rq7905263uqmayurtulzc09sfcgxdedsfen7m0y6wf28s49tvqdkwau9",
+    "furya1a7fjv2yta02td2y07gwqen4jc9s4c7vlfv3nqh9tgq4dvyppu34qeuk0ha",
 
-  mmCustody: "terra1ly8gd96kc8rwhjhpvx64jr9qd3nkn8yrm0gflplk5vhyff0fllxqc43w3k",
+  mmCustody: "furya120dn2cr7tqnvup0p6qv2gft5zyjuh8nqhjdzyytc0xapcm08hmzsuz33r9",
 
   mmLiquidationQueue:
-    "terra12p4rhaywjdm8wtyrkdj6z2ley53sl8dkc38mv3p4jvnjqp4we7pqd0526w",
-  aUSDC: "terra1gwdxyqtu75es0x5l6cd9flqhh87zjtj7qdankayyr0vtt7s9w4ssm7ds8m",
+    "furya10ry7xja9jlyd324f35nua3yq06c5dkt6vsj5swuqhx9zd2fc39zs7uz3rj",
+  aUSDC: "furya1062jkn73ew8gzmrhyr4dc7nhl4q2na4y5d2s720szfdlzzj344dqu67e3g",
   mmInterestModel:
-    "terra12m5q4cs22dj9sz5k56cdnwr48mzjqqf7w8sxsg35vxmk2gdtf2fssgduva",
+    "furya1sljac9htlm2adhpzkdvuahgtxery6fyat5dlmrpyj8e8he03d36qds34nj",
   mmDistributionModel:
-    "terra175xavlptc4fhgtvzmq95z6s7wnt4larh5xp6nufz6xwwec7gygpsjw08v6",
+    "furya1hmkqtjl64qa6eg4flqm8a8adql70sldhr50dyuy9crjqep6m9sasqtqkg8",
 
   stableDenom:
-    "ibc/B3504E092456BA618CC28AC671A71FB08C6CA0FD0BE7C8A5B5A3E2DD933CC9E4",
+    "ibc/093231535A38351AD2FEEFF897D23CF8FE43A44F6EAA3611F55F4B3D62C45014",
 
   aLunaLunaPair: "",
   aLunaLunaLPToken: "",
@@ -122,40 +122,16 @@ const PHOENIX_CONTRACT_ADDRESS: Record<string, any> = {
   astroportGenerator: "",
   vesting: "",
   astroUstPair: "",
-  usd: "ibc/B3504E092456BA618CC28AC671A71FB08C6CA0FD0BE7C8A5B5A3E2DD933CC9E4",
+  usd: "ibc/093231535A38351AD2FEEFF897D23CF8FE43A44F6EAA3611F55F4B3D62C45014",
   documentsMain:
     "terra1cx38qvyv4mj9hrn6p6m4fj7vhj726t5dg3ldpeupkkgel495ngnq5rtplq",
-  feeAddress: "terra1x3k6zk5nfdft5thd7tje3makkmlslelq8ft5sz",
+  feeAddress: "furya1f9eh8dh7j4nqe8nfq0lhpnr2elh5jr2w4nngt2",
   tokenId: {
     whitePaper: "whitepaper",
   },
   nameservice:
     "terra16a6qkmxpqzeyez8gh3w7qhrk7x3xe3arlv9nwfg944y8vzg9smrqntark3",
   LSDs: {
-    ampLuna: {
-      info: {
-        cw20: {
-          tokenAddress:
-            "terra1ecgazyd0waaj3g7l9cmy5gulhxkps2gmxu9ghducvuypjq68mq2s5lvsct",
-          hubAddress:
-            "terra10788fkzah89xrdm27zkj5yvhj9x3494lxawzm5qq3vvxcqz2yzaqyd3enk",
-        },
-        protocol: "Eris Protocol",
-        symbol: "ampLuna",
-        name: "Eris Amplified Luna",
-        icon: "https://www.erisprotocol.com/assets/ampLuna100.png",
-        link: "https://www.erisprotocol.com/terra/amplifier",
-        underlyingToken: "uluna",
-        underlyingName: "luna",
-      },
-      type: "luna",
-      hub: "terra1neq7ds3cd2rx0ht0fycgqkf26fed2v73g7wrp5xav5dfas0fwcqqy47t5n",
-      reward:
-        "terra1zrgzj7luyw9mtqcwqdtn6p8gwy262upx3p7wa3v3cj07us7j9ztsa8r4n5",
-      token: "terra173z5ggu6k6slyumrrf59rd3ywmpu6hdfftwpqlkc7fp549yk9fmqzqyepj",
-      custody:
-        "terra1tlascrgjzlut6j2g4jlgv54zg3aw3c3whcjusudk24j0d3k5aucswpwzrz",
-    },
     bLuna: {
       info: {
         cw20: {
